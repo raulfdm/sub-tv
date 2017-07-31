@@ -1,78 +1,77 @@
-const {
-  JSDOM
-} = require('jsdom')
-const fetch = require('node-fetch')
-const program = require('commander')
-const inquirer = require('inquirer')
+#!/usr/bin/env node
 
-const {
-  fetchSeries
-} = require('./service/Serie')
-const {
-  fetchSeasons,
-  seasonPrompt,
-} = require('./service/Season')
-const {
-  fetchEpisodes,
-  episodePrompt,
-} = require('./service/Episode')
+const { JSDOM } = require("jsdom");
+const fetch = require("node-fetch");
+const program = require("commander");
+const inquirer = require("inquirer");
+
+const { fetchSeasons, seasonPrompt } = require("./service/Season");
+const { fetchEpisodes, episodePrompt } = require("./service/Episode");
 const {
   fetchSubtitles,
   subtitlePromp,
-  subtitleLanguagePrompt,
-} = require('./service/Subtitle')
+  subtitleLanguagePrompt
+} = require("./service/Subtitle");
+const download = require("./service/Download");
 
-const download = require('./service/Download')
+const path = require("path");
+const packageJsonRoot = path.join(__dirname, "../package.json");
+const currentVersion = fs.readJsonSync(packageJsonRoot).version;
 
-
-program.version('0.0.1')
+program.version(currentVersion);
 
 const initialQuestion = () => {
-  let series = []
-  return inquirer.prompt([{
-    type: 'autocomplete',
-    name: 'chosen',
-    message: 'Digite e selecione o nome da série',
-    source: async function (answersSoFar, input) {
-      series = await fetchSeries(input)
-      return series.map(serie => serie.label)
-    },
-    filter: function (answer) {
-      return series.find(serie => serie.label === answer)
+  let series = [];
+  return inquirer.prompt([
+    {
+      type: "autocomplete",
+      name: "chosen",
+      message: "Digite e selecione o nome da série",
+      source: async function(answersSoFar, input) {
+        series = await fetchSeries(input);
+        return series.map(serie => serie.label);
+      },
+      filter: function(answer) {
+        return series.find(serie => serie.label === answer);
+      }
     }
-  }])
-}
-
+  ]);
+};
 
 async function bootstrap() {
-  inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
+  inquirer.registerPrompt(
+    "autocomplete",
+    require("inquirer-autocomplete-prompt")
+  );
 
   try {
-    const serie = await initialQuestion()
+    const serie = await initialQuestion();
 
-    const listOfSeasons = await fetchSeasons(serie.chosen.value)
-    const seasonChosen = await seasonPrompt(listOfSeasons)
+    const listOfSeasons = await fetchSeasons(serie.chosen.value);
+    const seasonChosen = await seasonPrompt(listOfSeasons);
 
-    const listOfEpisodes = await fetchEpisodes(seasonChosen.season.href)
-    const episodeChosen = await episodePrompt(listOfEpisodes)
+    const listOfEpisodes = await fetchEpisodes(seasonChosen.season.href);
+    const episodeChosen = await episodePrompt(listOfEpisodes);
 
-    const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link)
-    const languageChosen = await subtitleLanguagePrompt(listOfSubtitles.languagesAvailable)
-    const subtitlesByLanguage = listOfSubtitles.getByLanguage(languageChosen.language)
-    const subtitleChosen = await subtitlePromp(subtitlesByLanguage)
-    const result = await download(subtitleChosen.choose)
+    const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link);
+    const languageChosen = await subtitleLanguagePrompt(
+      listOfSubtitles.languagesAvailable
+    );
+    const subtitlesByLanguage = listOfSubtitles.getByLanguage(
+      languageChosen.language
+    );
+    const subtitleChosen = await subtitlePromp(subtitlesByLanguage);
+    const result = await download(subtitleChosen.choose);
 
-    console.log(result)
-
+    console.log(result);
   } catch (error) {
-    console.trace(error)
+    console.trace(error);
   }
-
 }
 
-bootstrap()
-program.parse(process.argv)
+bootstrap();
+program.parse(process.argv);
 
 if (!process.argv.slice(1).length) {
-  program.outputHelp()
+  program.outputHelp();
 }
