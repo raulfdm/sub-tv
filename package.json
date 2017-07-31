@@ -1,0 +1,12 @@
+{
+  "name": "subtitles-scraping",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.11.0",
+    "inquirer": "^3.2.1",
+    "jsdom": "^11.1.0",
+    "node-fetch": "^1.7.1"
+  }
+}
