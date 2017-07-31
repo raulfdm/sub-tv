@@ -1,18 +1,20 @@
 const inquirer = require('inquirer')
+const fetch = require('node-fetch')
+const Serie = require('../models/Serie')
 
-const seriesPrompt = (listOfSeries) => {
-  const question = {
-    choices: [],
-    message: 'Escolha uma das opções abaixo',
-    name: 'choice',
-    type: 'list'
-  }
-  question.choices = listOfSeries.map(serie => serie.label)
+const fetchSeries = serieName => {
+  const url = `https://www.tv-subs.com/a_mov.php?reqmov=${serieName}`
+  const series = _searchSeries(url)
 
-  return inquirer.prompt(question)
+  return series
+    .then(series => series.movies.map(serie => new Serie(serie.label, serie.value)))
 }
 
+const _searchSeries = url => {
+  return fetch(url)
+    .then(res => res.json())
+}
 
 module.exports = {
-  seriesPrompt
+  fetchSeries
 }

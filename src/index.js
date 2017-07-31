@@ -7,77 +7,72 @@ const inquirer = require('inquirer')
 
 const {
   fetchSeries
-} = require('./fetchSeries')
-const {
-  fetchSeason
-} = require('./fetchSeason')
-
-const {
-  seriesPrompt
 } = require('./service/Serie')
+const {
+  fetchSeasons,
+  seasonPrompt,
+} = require('./service/Season')
+const {
+  fetchEpisodes,
+  episodePrompt,
+} = require('./service/Episode')
+const {
+  fetchSubtitles,
+  subtitlePromp,
+  subtitleLanguagePrompt,
+} = require('./service/Subtitle')
 
+const download = require('./service/Download')
 
 
 program.version('0.0.1')
 
-const questions = [{
-  message: 'Digite o nome da série',
-  name: 'name',
-  type: 'input',
-  /* validate(input) {
-    if (input.length < 3) {
-      this._logs.error('\nNome precisa ter no mínimo 3 caracteres!')
-    } else {
-      return true
+const initialQuestion = () => {
+  let series = []
+  return inquirer.prompt([{
+    type: 'autocomplete',
+    name: 'chosen',
+    message: 'Digite e selecione o nome da série',
+    source: async function (answersSoFar, input) {
+      series = await fetchSeries(input)
+      return series.map(serie => serie.label)
+    },
+    filter: function (answer) {
+      return series.find(serie => serie.label === answer)
     }
-  } ,
-  filter(projectName) {
-    return projectName
-      .toLowerCase()
-      .replace(/s/g, '-')
-  },*/
-}]
+  }])
+}
+
+
 async function bootstrap() {
+  inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
-  const serie = await inquirer.prompt(questions)
-  const listOfSeries = await fetchSeries(serie.name)
+  try {
+    const serie = await initialQuestion()
 
-  const serieChose = await seriesPrompt(listOfSeries)
+    const listOfSeasons = await fetchSeasons(serie.chosen.value)
+    const seasonChosen = await seasonPrompt(listOfSeasons)
 
+    const listOfEpisodes = await fetchEpisodes(seasonChosen.season.href)
+    const episodeChosen = await episodePrompt(listOfEpisodes)
 
-  /* .then(fetchSeries)
-  .then(serieQuestion) */
-  /* .then(fetchSeason)
-  .then(seasonQuestion)
-   */
-  /* .catch((e) => {
-    this._logs.errorTrace(e)
-    process.exit()
-  }) */
+    const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link)
+    const languageChosen = await subtitleLanguagePrompt(listOfSubtitles.languagesAvailable)
+    const subtitlesByLanguage = listOfSubtitles.getByLanguage(languageChosen.language)
+    const subtitleChosen = await subtitlePromp(subtitlesByLanguage)
+    const result = await download(subtitleChosen.choose)
 
+    console.log(result)
 
-  /*
-    const createSeasonQuestion = listOfSeason => {
-      const question = {
-        choices: [],
-        message: 'Escolha uma das opções abaixo',
-        name: 'choice',
-        type: 'list'
-      }
-      question.choices = listOfSeason.map(season => season.season)
-
-      return question
-    }
-
-    const seasonQuestion = list => inquirer.prompt(createSeasonQuestion(list))
-   */
+  } catch (error) {
+    console.trace(error)
   }
 
+}
 
+bootstrap()
+program.parse(process.argv)
 
-  bootstrap()
-  program.parse(process.argv)
-
-  if (!process.argv.slice(1).length) {
-    program.outputHelp()
-  }
+if (!process.argv.slice(1).length) {
+  program.outputHelp()
+}

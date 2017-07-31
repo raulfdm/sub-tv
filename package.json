@@ -6,7 +6,10 @@
   "dependencies": {
     "commander": "^2.11.0",
     "inquirer": "^3.2.1",
+    "inquirer-autocomplete-prompt": "^0.11.0",
     "jsdom": "^11.1.0",
-    "node-fetch": "^1.7.1"
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.7.1",
+    "unzip": "^0.1.11"
   }
 }
