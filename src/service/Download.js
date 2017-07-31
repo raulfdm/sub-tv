@@ -37,9 +37,4 @@ const _unzipDownload = outPath => {
     }))
 }
 
-download({
-  name: 'Game of Silence S01E05 720p HDTV x264-AVS',
-  link: 'https://www.tv-subs.com/subtitle/game-of-silence-season-1-episode-5-english-21073.zip'
-})
-
 module.exports = download
