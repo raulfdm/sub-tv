@@ -15,6 +15,7 @@ const {
 const download = require("./service/Download");
 
 const path = require("path");
+const fs = require("fs");
 const packageJsonRoot = path.join(__dirname, "../package.json");
 const currentVersion = fs.readJsonSync(packageJsonRoot).version;
 
