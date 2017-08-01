@@ -2,8 +2,8 @@ const _ = require('lodash')
 
 class SubtitleList {
 
-  constructor(listOfSubtitles = []) {
-    this._listOfSubtitles = listOfSubtitles
+  constructor() {
+    this._listOfSubtitles = []
     this._listOfSubtitlesByLanguage
   }
 

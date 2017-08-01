@@ -1,78 +1,96 @@
 #!/usr/bin/env node
 
-const { JSDOM } = require("jsdom");
-const fetch = require("node-fetch");
-const program = require("commander");
-const inquirer = require("inquirer");
+const { JSDOM } = require('jsdom')
+const fetch = require('node-fetch')
+const program = require('commander')
+const inquirer = require('inquirer')
+const ora = require('ora')
+const figlet = require('figlet')
 
-const { fetchSeasons, seasonPrompt } = require("./service/Season");
-const { fetchEpisodes, episodePrompt } = require("./service/Episode");
+const { fetchSeasons, seasonPrompt } = require('./service/Season')
+const { fetchEpisodes, episodePrompt } = require('./service/Episode')
+const { fetchSeries } = require('./service/Serie')
 const {
   fetchSubtitles,
   subtitlePromp,
-  subtitleLanguagePrompt
-} = require("./service/Subtitle");
-const download = require("./service/Download");
+  subtitleLanguagePrompt,
+} = require('./service/Subtitle')
+const download = require('./service/Download')
 
-const path = require("path");
-const fs = require("fs");
-const packageJsonRoot = path.join(__dirname, "../package.json");
-const currentVersion = fs.readJsonSync(packageJsonRoot).version;
+const path = require('path')
+const fs = require('fs')
+const packageJsonRoot = path.join(__dirname, '../package.json')
+const currentVersion = require(packageJsonRoot).version
 
-program.version(currentVersion);
+program.version(currentVersion)
 
 const initialQuestion = () => {
-  let series = [];
+  let series = []
   return inquirer.prompt([
     {
-      type: "autocomplete",
-      name: "chosen",
-      message: "Digite e selecione o nome da série",
+      type: 'autocomplete',
+      name: 'chosen',
+      message: 'Type serie name, then choose it',
       source: async function(answersSoFar, input) {
-        series = await fetchSeries(input);
-        return series.map(serie => serie.label);
+        series = await fetchSeries(input)
+        return series.map(serie => serie.label)
       },
       filter: function(answer) {
-        return series.find(serie => serie.label === answer);
-      }
-    }
-  ]);
-};
+        return series.find(serie => serie.label === answer)
+      },
+    },
+  ])
+}
 
 async function bootstrap() {
+  const spinner = ora()
+  console.log(
+    figlet.textSync('Sub - tv'),
+  )
+
   inquirer.registerPrompt(
-    "autocomplete",
-    require("inquirer-autocomplete-prompt")
-  );
+    'autocomplete',
+    require('inquirer-autocomplete-prompt'),
+  )
 
   try {
-    const serie = await initialQuestion();
+    const serie = await initialQuestion()
 
-    const listOfSeasons = await fetchSeasons(serie.chosen.value);
-    const seasonChosen = await seasonPrompt(listOfSeasons);
+    spinner.start('Fetching available seasons')
+    const listOfSeasons = await fetchSeasons(serie.chosen.value)
+    spinner.stop('well Done')
+    const seasonChosen = await seasonPrompt(listOfSeasons)
 
-    const listOfEpisodes = await fetchEpisodes(seasonChosen.season.href);
-    const episodeChosen = await episodePrompt(listOfEpisodes);
+    spinner.start('Fetching available Episodes')
+    const listOfEpisodes = await fetchEpisodes(seasonChosen.season.link)
+    spinner.stop('well Done')
 
-    const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link);
+    const episodeChosen = await episodePrompt(listOfEpisodes)
+
+    spinner.start('Fetching available subtitles')
+    const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link)
+    spinner.stop('well Done')
+
     const languageChosen = await subtitleLanguagePrompt(
-      listOfSubtitles.languagesAvailable
-    );
+      listOfSubtitles.languagesAvailable,
+    )
     const subtitlesByLanguage = listOfSubtitles.getByLanguage(
-      languageChosen.language
-    );
-    const subtitleChosen = await subtitlePromp(subtitlesByLanguage);
-    const result = await download(subtitleChosen.choose);
+      languageChosen.language,
+    )
+    const subtitleChosen = await subtitlePromp(subtitlesByLanguage)
 
-    console.log(result);
+    spinner.start('Fetching your subtitle! It could take a while!')
+    const result = await download(subtitleChosen.choose)
+    spinner.succeed(result)
   } catch (error) {
-    console.trace(error);
+    spinner.fail('Sorry, It was not possible to download your subtitle')
+    console.trace(error)
   }
 }
 
-bootstrap();
-program.parse(process.argv);
+bootstrap()
+program.parse(process.argv)
 
 if (!process.argv.slice(1).length) {
-  program.outputHelp();
+  program.outputHelp()
 }

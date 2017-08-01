@@ -38,7 +38,7 @@ const _mountEpisodeListFromLi = li => {
 const episodePrompt = listOfEpisodes => {
   const question = {
     choices: [],
-    message: 'Escolha o episódio',
+    message: 'Choose the episode',
     name: 'episode',
     type: 'list',
     filter: function (answer) {

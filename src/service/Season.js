@@ -15,7 +15,6 @@ const fetchSeasons = serieName => {
 }
 
 const _searchSeason = url => {
-  console.log(url)
   return fetch(url)
     .then(res => res.text())
 }
@@ -45,7 +44,7 @@ const _mountSeasonFromLi = li => {
 const seasonPrompt = listOfSeason => {
   const question = {
     choices: [],
-    message: 'Escolha a temporada',
+    message: 'Choose the season',
     name: 'season',
     type: 'list',
     filter: function (answer) {

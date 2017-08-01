@@ -45,7 +45,7 @@ const _mountSubtitleListFromTr = tr => {
 const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
   const question = {
     choices: listOfSubtitleByLanguage,
-    message: 'Escolha o idioma',
+    message: 'Choose the language',
     name: 'language',
     type: 'list'
   }
@@ -56,7 +56,7 @@ const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
 const subtitlePromp = listOfSubtitles => {
   const question = {
     choices: [],
-    message: 'Escolha a Legenda',
+    message: 'Choose the subtitle',
     name: 'choose',
     type: 'list',
     filter: function (answer) {

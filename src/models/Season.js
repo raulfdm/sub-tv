@@ -1,14 +1,14 @@
 class Season{
-  constructor(season,href){
+  constructor(season,link){
     this._name = season
-    this._href = `https://www.tv-subs.com/${href}`
+    this._link = `https://www.tv-subs.com${link}`
   }
 
   get name(){
     return this._name
   }
-  get href(){
-    return this._href
+  get link(){
+    return this._link
   }
 }
 
