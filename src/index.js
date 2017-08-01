@@ -45,7 +45,7 @@ const initialQuestion = () => {
 async function bootstrap() {
   const spinner = ora()
   console.log(
-    figlet.textSync('Sub - tv'),
+    figlet.textSync('Sub - TV'),
   )
 
   inquirer.registerPrompt(
