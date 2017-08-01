@@ -3,13 +3,15 @@
 
 <p align="center">
   <img src="http://i.imgur.com/66TO4jx.png" height="100" width="100" alt="Logo">
+  <br>
+  <img src="https://travis-ci.org/raulfdm/sub-tv.svg?branch=master" alt="bagde">
 </p>
 
 ## Motivation
 Search subtitles is an easy task, but not so cool. We have to access our favorite subtitle website, fill fields, click on links, buttons. No longer. Look bellow how to easy could be:
 
 <p align="center">
-  <img src="https://media.giphy.com/media/3oEhn1cQjHnYxoTv5C/giphy.gif" alt="Animated Gif">
+  <img src="http://gph.to/2vfGyHj" alt="Animated Gif">
 </p>
 
 ## Provider
