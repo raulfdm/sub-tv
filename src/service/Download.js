@@ -13,7 +13,8 @@ const download = subtitle => {
     })
 
     const subtitleFile = fs.createWriteStream(outPath)
-    const request = https.get(subtitle.link, response => {
+
+    https.get(subtitle.link, response => {
       response.pipe(subtitleFile)
 
       subtitleFile
@@ -35,7 +36,7 @@ const _unzipDownload = outPath => {
   fs.createReadStream(outPath).pipe(
     unzip.Extract({
       path: process.cwd(),
-    }),
+    })
   )
 }
 

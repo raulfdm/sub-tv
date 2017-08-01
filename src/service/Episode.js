@@ -1,8 +1,6 @@
 const fetch = require('node-fetch')
 const inquirer = require('inquirer')
-const {
-  JSDOM
-} = require('jsdom')
+const { JSDOM, } = require('jsdom')
 const Episode = require('../models/Episode')
 
 const fetchEpisodes = seasonURL => {
@@ -15,13 +13,14 @@ const fetchEpisodes = seasonURL => {
 }
 
 const _searchEpisodes = url => {
-  return fetch(url)
-    .then(res => res.text())
+  return fetch(url).then(res => res.text())
 }
 
 const _handleHTML = html => {
   const dom = new JSDOM(html)
-  const listOfElements = dom.window.document.querySelectorAll('.episode-list li')
+  const listOfElements = dom.window.document.querySelectorAll(
+    '.episode-list li'
+  )
   const listOfEpisodes = []
   listOfElements.forEach(li => {
     listOfEpisodes.push(_mountEpisodeListFromLi(li))
@@ -41,9 +40,9 @@ const episodePrompt = listOfEpisodes => {
     message: 'Choose the episode',
     name: 'episode',
     type: 'list',
-    filter: function (answer) {
+    filter: function(answer) {
       return listOfEpisodes.find(episode => episode.name === answer)
-    }
+    },
   }
   question.choices = listOfEpisodes.map(episode => episode.name)
 

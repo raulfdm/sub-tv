@@ -1,8 +1,6 @@
 const fetch = require('node-fetch')
 const inquirer = require('inquirer')
-const {
-  JSDOM
-} = require('jsdom')
+const { JSDOM, } = require('jsdom')
 const Subtitle = require('../models/Subtitle')
 const SubtitleList = require('../models/SubtitleList')
 
@@ -16,13 +14,14 @@ const fetchSubtitles = seasonURL => {
 }
 
 const _searchSubtitles = url => {
-  return fetch(url)
-    .then(res => res.text())
+  return fetch(url).then(res => res.text())
 }
 
 const _handleHTML = html => {
   const dom = new JSDOM(html)
-  const listOfElements = dom.window.document.querySelectorAll('.tb-subtitle-list tbody tr')
+  const listOfElements = dom.window.document.querySelectorAll(
+    '.tb-subtitle-list tbody tr'
+  )
 
   const listOfSubtitles = new SubtitleList()
 
@@ -47,7 +46,7 @@ const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
     choices: listOfSubtitleByLanguage,
     message: 'Choose the language',
     name: 'language',
-    type: 'list'
+    type: 'list',
   }
 
   return inquirer.prompt(question)
@@ -59,14 +58,17 @@ const subtitlePromp = listOfSubtitles => {
     message: 'Choose the subtitle',
     name: 'choose',
     type: 'list',
-    filter: function (answer) {
+    filter: function(answer) {
       return listOfSubtitles.find(
-        subtitle => answer.replace(/Rating:\s\d\s\|\sName:\s/g, '') === subtitle.name
+        subtitle =>
+          answer.replace(/Rating:\s\d\s\|\sName:\s/g, '') === subtitle.name
       )
-    }
+    },
   }
 
-  question.choices = listOfSubtitles.map(subtitle => `Rating: ${subtitle.rating} | Name: ${subtitle.name}`)
+  question.choices = listOfSubtitles.map(
+    subtitle => `Rating: ${subtitle.rating} | Name: ${subtitle.name}`
+  )
 
   return inquirer.prompt(question)
 }
@@ -74,5 +76,5 @@ const subtitlePromp = listOfSubtitles => {
 module.exports = {
   fetchSubtitles,
   subtitleLanguagePrompt,
-  subtitlePromp
+  subtitlePromp,
 }
