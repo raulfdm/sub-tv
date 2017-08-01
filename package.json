@@ -1,10 +1,15 @@
 {
   "name": "sub-tv",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "./src/index.js",
   "license": "MIT",
   "bin": {
     "subtv": "./src/index.js"
+  },
+  "author": "Raul F. de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raulfdm/sub-tv/"
   },
   "scripts": {
     "test": "yarn eslint src/ && jest"
@@ -28,7 +33,5 @@
   "jest": {
     "verbose": true
   },
-  "eslintIgnore": [
-    "**/*.test.*"
-  ]
+  "eslintIgnore": ["**/*.test.*"]
 }
