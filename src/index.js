@@ -1,15 +1,13 @@
 #!/usr/bin/env node
 
-const { JSDOM } = require('jsdom')
-const fetch = require('node-fetch')
 const program = require('commander')
 const inquirer = require('inquirer')
 const ora = require('ora')
 const figlet = require('figlet')
 
-const { fetchSeasons, seasonPrompt } = require('./service/Season')
-const { fetchEpisodes, episodePrompt } = require('./service/Episode')
-const { fetchSeries } = require('./service/Serie')
+const { fetchSeasons, seasonPrompt, } = require('./service/Season')
+const { fetchEpisodes, episodePrompt, } = require('./service/Episode')
+const { fetchSeries, } = require('./service/Serie')
 const {
   fetchSubtitles,
   subtitlePromp,
@@ -18,7 +16,6 @@ const {
 const download = require('./service/Download')
 
 const path = require('path')
-const fs = require('fs')
 const packageJsonRoot = path.join(__dirname, '../package.json')
 const currentVersion = require(packageJsonRoot).version
 
@@ -44,13 +41,12 @@ const initialQuestion = () => {
 
 async function bootstrap() {
   const spinner = ora()
-  console.log(
-    figlet.textSync('Sub - TV'),
-  )
-
+  /* eslint-disable */
+  console.log(figlet.textSync('Sub - TV'))
+  /* eslint-enable */
   inquirer.registerPrompt(
     'autocomplete',
-    require('inquirer-autocomplete-prompt'),
+    require('inquirer-autocomplete-prompt')
   )
 
   try {
@@ -72,10 +68,10 @@ async function bootstrap() {
     spinner.stop('well Done')
 
     const languageChosen = await subtitleLanguagePrompt(
-      listOfSubtitles.languagesAvailable,
+      listOfSubtitles.languagesAvailable
     )
     const subtitlesByLanguage = listOfSubtitles.getByLanguage(
-      languageChosen.language,
+      languageChosen.language
     )
     const subtitleChosen = await subtitlePromp(subtitlesByLanguage)
 
@@ -84,7 +80,9 @@ async function bootstrap() {
     spinner.succeed(result)
   } catch (error) {
     spinner.fail('Sorry, It was not possible to download your subtitle')
+    /* eslint-disable */
     console.trace(error)
+    /* eslint-enable */
   }
 }
 

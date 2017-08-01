@@ -1,7 +1,5 @@
 const fetch = require('node-fetch')
-const {
-  JSDOM
-} = require('jsdom')
+const { JSDOM, } = require('jsdom')
 const Season = require('../models/Season')
 const inquirer = require('inquirer')
 
@@ -11,12 +9,12 @@ const fetchSeasons = serieName => {
     _searchSeason(url)
       .then(_handleHTML)
       .then(listOfSeasons => resolve(listOfSeasons))
+      .catch(err => reject(err))
   })
 }
 
 const _searchSeason = url => {
-  return fetch(url)
-    .then(res => res.text())
+  return fetch(url).then(res => res.text())
 }
 
 const _handleHTML = html => {
@@ -28,8 +26,7 @@ const _handleHTML = html => {
   listOfElements.forEach(li => {
     season = _mountSeasonFromLi(li)
 
-    if (season.name.toLowerCase() !== 'other')
-      listOfSeasons.push(season)
+    if (season.name.toLowerCase() !== 'other') listOfSeasons.push(season)
   })
 
   return listOfSeasons
@@ -47,9 +44,9 @@ const seasonPrompt = listOfSeason => {
     message: 'Choose the season',
     name: 'season',
     type: 'list',
-    filter: function (answer) {
+    filter: function(answer) {
       return listOfSeason.find(season => season.name === answer)
-    }
+    },
   }
   question.choices = listOfSeason.map(serie => serie.name)
 
@@ -58,5 +55,5 @@ const seasonPrompt = listOfSeason => {
 
 module.exports = {
   fetchSeasons,
-  seasonPrompt
+  seasonPrompt,
 }

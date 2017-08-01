@@ -3,8 +3,10 @@
 
 <p align="center">
   <img src="http://i.imgur.com/66TO4jx.png" height="100" width="100" alt="Logo">
-  <br>
-  <img src="https://travis-ci.org/raulfdm/sub-tv.svg?branch=master" alt="bagde">
+  <p align="center">
+    <img src="https://travis-ci.org/raulfdm/sub-tv.svg?branch=master" alt="Build bagde">
+    <a href="https://david-dm.org/raulfdm/sub-tv" title="dependencies status"><img src="https://david-dm.org/raulfdm/sub-tv/status.svg"/></a>
+  </p>
 </p>
 
 ## Motivation

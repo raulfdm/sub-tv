@@ -7,7 +7,7 @@
     "subtv": "./src/index.js"
   },
   "scripts": {
-    "test": "jest"
+    "test": "yarn eslint src/ && jest"
   },
   "dependencies": {
     "commander": "^2.11.0",
@@ -21,9 +21,14 @@
     "unzip": "^0.1.11"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.3.0",
     "jest": "^20.0.4"
   },
   "jest": {
     "verbose": true
-  }
+  },
+  "eslintIgnore": [
+    "**/*.test.*"
+  ]
 }
