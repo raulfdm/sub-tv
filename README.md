@@ -1,4 +1,4 @@
-# Subtv
+# Sub - TV
 > Download your subtitles via terminal
 
 <p align="center">
