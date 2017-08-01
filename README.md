@@ -13,7 +13,7 @@
 Search subtitles is an easy task, but not so cool. We have to access our favorite subtitle website, fill fields, click on links, buttons. No longer. Look bellow how to easy could be:
 
 <p align="center">
-  <img src="http://gph.to/2vfGyHj" alt="Animated Gif">
+  <img src="https://media.giphy.com/media/3o6vXKXVYC1kx6pWO4/giphy.gif" alt="Animated Gif">
 </p>
 
 ## Provider
