@@ -45,6 +45,7 @@ You can check the progress of this project [here](https://github.com/raulfdm/sub
 
 ## Know Issues
 - [Do not found subtitle](https://github.com/raulfdm/subtv/issues/1)
+- [Cannot read property name from undefined](https://github.com/raulfdm/subtv/issues/1)
 
 ## License
 [MIT License](https://github.com/afonsopacifer/open-source-boilerplate/blob/master/LICENSE.md) © [Raul Melo](https://rauldemelo.com.br)
