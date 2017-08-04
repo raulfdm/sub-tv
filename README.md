@@ -10,7 +10,7 @@
 </p>
 
 ## Motivation
-Search subtitles may be an easy task, but it can be better. We are used to access our favorite subtitles website, fill fields, click on links, buttons, etc... But wait! Look below how easy it can be:
+Search subtitles may be a easy task, but it can be better. We are used to access our favorite subtitles website, fill fields, click on links, buttons, etc... But wait! Look below how easy it can be:
 
 <p align="center">
   <img src="https://media.giphy.com/media/3o6vXKXVYC1kx6pWO4/giphy.gif" alt="Animated Gif">
