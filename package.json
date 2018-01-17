@@ -12,6 +12,7 @@
     "url": "https://github.com/raulfdm/sub-tv/"
   },
   "scripts": {
+    "start": "node src/index.js",
     "test": "yarn eslint src/ && jest"
   },
   "dependencies": {
@@ -33,5 +34,7 @@
   "jest": {
     "verbose": true
   },
-  "eslintIgnore": ["**/*.test.*"]
+  "eslintIgnore": [
+    "**/*.test.*"
+  ]
 }
