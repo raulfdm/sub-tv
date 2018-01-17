@@ -1,16 +1,13 @@
 const fetch = require('node-fetch')
 const inquirer = require('inquirer')
-const { JSDOM, } = require('jsdom')
+const { JSDOM } = require('jsdom')
 const Subtitle = require('../models/Subtitle')
 const SubtitleList = require('../models/SubtitleList')
 
 const fetchSubtitles = seasonURL => {
-  return new Promise((resolve, reject) => {
-    _searchSubtitles(seasonURL)
-      .then(_handleHTML)
-      .then(listOfSubtitles => resolve(listOfSubtitles))
-      .catch(err => reject(err))
-  })
+  return _searchSubtitles(seasonURL)
+    .then(_handleHTML)
+    .catch(err => err)
 }
 
 const _searchSubtitles = url => {
@@ -20,7 +17,7 @@ const _searchSubtitles = url => {
 const _handleHTML = html => {
   const dom = new JSDOM(html)
   const listOfElements = dom.window.document.querySelectorAll(
-    '.tb-subtitle-list tbody tr'
+    'body > div:nth-child(5) > div:nth-child(7) > div > table > tbody tr',
   )
 
   const listOfSubtitles = new SubtitleList()
@@ -33,12 +30,12 @@ const _handleHTML = html => {
 }
 
 const _mountSubtitleListFromTr = tr => {
-  const rating = tr.childNodes[0].textContent
-  const language = tr.childNodes[2].textContent
-  const link = tr.childNodes[2].firstElementChild.href
-  const name = tr.childNodes[3].textContent
+  const rating = tr.querySelector('.rating-cell').textContent
+  const language = tr.querySelector('.flag-cell .sub-lang').textContent
+  const releaseName = tr.childNodes[2].textContent.replace(/subtitle/gi, '').trim()
+  const link = tr.querySelector('.download-cell a').href.replace('subtitles', 'subtitle')
 
-  return new Subtitle(rating, language, name, link)
+  return new Subtitle(rating, language, releaseName, link)
 }
 
 const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
@@ -54,21 +51,15 @@ const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
 
 const subtitlePromp = listOfSubtitles => {
   const question = {
-    choices: [],
+    choices: listOfSubtitles.map((subtitle, index) => ({
+      name: `Rating: ${subtitle.rating} | Release: ${subtitle.releaseName}`,
+      value: index,
+    })),
     message: 'Choose the subtitle',
     name: 'choose',
     type: 'list',
-    filter: function(answer) {
-      return listOfSubtitles.find(
-        subtitle =>
-          answer.replace(/Rating:\s\d\s\|\sName:\s/g, '') === subtitle.name
-      )
-    },
+    filter: indexSelected => listOfSubtitles[indexSelected],
   }
-
-  question.choices = listOfSubtitles.map(
-    subtitle => `Rating: ${subtitle.rating} | Name: ${subtitle.name}`
-  )
 
   return inquirer.prompt(question)
 }
@@ -78,3 +69,5 @@ module.exports = {
   subtitleLanguagePrompt,
   subtitlePromp,
 }
+
+fetchSubtitles('https://www.tv-subs.com/tv/game-of-thrones/season-1/episode-5/') /* ? */
