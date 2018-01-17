@@ -13,7 +13,9 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "test": "yarn eslint src/ && jest"
+    "lint": "eslint src/",
+    "test": "jest src/",
+    "prepush": "npm-run-all lint test"
   },
   "dependencies": {
     "commander": "^2.11.0",
@@ -29,7 +31,9 @@
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "eslint": "^4.3.0",
-    "jest": "^20.0.4"
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "npm-run-all": "^4.1.2"
   },
   "jest": {
     "verbose": true
