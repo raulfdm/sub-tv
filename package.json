@@ -1,6 +1,6 @@
 {
   "name": "sub-tv",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "main": "./src/index.js",
   "license": "MIT",
   "bin": {
@@ -12,13 +12,16 @@
     "url": "https://github.com/raulfdm/sub-tv/"
   },
   "scripts": {
-    "test": "yarn eslint src/ && jest"
+    "start": "node src/index.js",
+    "lint": "eslint src/",
+    "test": "jest src/",
+    "prepush": "npm-run-all lint test"
   },
   "dependencies": {
     "commander": "^2.11.0",
     "figlet": "^1.2.0",
-    "inquirer": "^3.2.1",
-    "inquirer-autocomplete-prompt": "^0.11.0",
+    "inquirer": "^5.0.0",
+    "inquirer-autocomplete-prompt": "^0.12.1",
     "jsdom": "^11.1.0",
     "lodash": "^4.17.4",
     "node-fetch": "^1.7.1",
@@ -26,12 +29,16 @@
     "unzip": "^0.1.11"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "babel-eslint": "^8.2.1",
     "eslint": "^4.3.0",
-    "jest": "^20.0.4"
+    "husky": "^0.14.3",
+    "jest": "^22.1.2",
+    "npm-run-all": "^4.1.2"
   },
   "jest": {
     "verbose": true
   },
-  "eslintIgnore": ["**/*.test.*"]
+  "eslintIgnore": [
+    "**/*.test.*"
+  ]
 }

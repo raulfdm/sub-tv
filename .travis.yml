@@ -5,3 +5,4 @@ before_script:
 - yarn install
 scripts:
 - yarn test
+- yarn lint

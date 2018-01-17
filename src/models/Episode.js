@@ -5,7 +5,7 @@ class Episode {
   }
 
   get name() {
-    return this._name
+    return `Episode ${this._name}`
   }
 
   get link() {

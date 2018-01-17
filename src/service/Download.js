@@ -8,7 +8,7 @@ const download = subtitle => {
     const rootPath = process.cwd()
     const outPath = path.format({
       dir: rootPath,
-      name: subtitle.name,
+      name: new Date().getTime(),
       ext: '.zip',
     })
 
@@ -36,7 +36,7 @@ const _unzipDownload = outPath => {
   fs.createReadStream(outPath).pipe(
     unzip.Extract({
       path: process.cwd(),
-    })
+    }),
   )
 }
 

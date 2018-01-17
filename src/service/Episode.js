@@ -1,15 +1,12 @@
 const fetch = require('node-fetch')
 const inquirer = require('inquirer')
-const { JSDOM, } = require('jsdom')
+const { JSDOM } = require('jsdom')
 const Episode = require('../models/Episode')
 
 const fetchEpisodes = seasonURL => {
-  return new Promise((resolve, reject) => {
-    _searchEpisodes(seasonURL)
-      .then(_handleHTML)
-      .then(listOfEpisodes => resolve(listOfEpisodes))
-      .catch(err => reject(err))
-  })
+  return _searchEpisodes(seasonURL)
+    .then(_handleHTML)
+    .catch(err => err)
 }
 
 const _searchEpisodes = url => {
@@ -19,18 +16,15 @@ const _searchEpisodes = url => {
 const _handleHTML = html => {
   const dom = new JSDOM(html)
   const listOfElements = dom.window.document.querySelectorAll(
-    '.episode-list li'
+    'body > div:nth-child(5) > div:nth-child(5) > div a',
   )
-  const listOfEpisodes = []
-  listOfElements.forEach(li => {
-    listOfEpisodes.push(_mountEpisodeListFromLi(li))
-  })
-  return listOfEpisodes
+
+  return Array.from(listOfElements).map(episodeElement => _mountEpisodeListFromLi(episodeElement))
 }
 
-const _mountEpisodeListFromLi = li => {
-  const name = li.textContent
-  const link = li.firstElementChild.href
+const _mountEpisodeListFromLi = episodeElement => {
+  const name = episodeElement.textContent
+  const link = episodeElement.href
   return new Episode(name, link)
 }
 
@@ -52,3 +46,4 @@ module.exports = {
   episodePrompt,
   fetchEpisodes,
 }
+

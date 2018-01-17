@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const { JSDOM, } = require('jsdom')
+const { JSDOM } = require('jsdom')
 const Season = require('../models/Season')
 const inquirer = require('inquirer')
 
@@ -19,22 +19,24 @@ const _searchSeason = url => {
 
 const _handleHTML = html => {
   const dom = new JSDOM(html)
-  const listOfElements = dom.window.document.querySelectorAll('.season-list li')
+  const listOfElements = dom.window.document.querySelectorAll(
+    'body > div:nth-child(5) > div.row.text-center > div a',
+  )
+
   const listOfSeasons = []
   let season = {}
 
-  listOfElements.forEach(li => {
-    season = _mountSeasonFromLi(li)
-
-    if (season.name.toLowerCase() !== 'other') listOfSeasons.push(season)
+  listOfElements.forEach(serieElement => {
+    season = _mountSeasonFromLi(serieElement)
+    if (!/other/gi.test(season.name)) listOfSeasons.push(season)
   })
 
   return listOfSeasons
 }
 
-const _mountSeasonFromLi = li => {
-  const name = li.textContent
-  const link = li.firstElementChild.href
+const _mountSeasonFromLi = serieElement => {
+  const name = serieElement.textContent
+  const link = serieElement.href
   return new Season(name, link)
 }
 
@@ -57,3 +59,5 @@ module.exports = {
   fetchSeasons,
   seasonPrompt,
 }
+
+fetchSeasons('game-of-silence') /* ? */

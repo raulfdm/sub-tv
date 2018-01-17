@@ -1,13 +1,13 @@
 class Subtitle {
-  constructor(rating, language, name, link) {
+  constructor(rating, language, release, link) {
     this._rating = rating
     this._language = language
-    this._name = name
-    this._link = `https://www.tv-subs.com${link.replace('subtitles','subtitle')}.zip`
+    this._link = `https://www.tv-subs.com${link}.zip`
+    this._release = release
   }
 
-  get name() {
-    return this._name
+  get releaseName() {
+    return this._release
   }
   get language() {
     return this._language
