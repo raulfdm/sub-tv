@@ -5,14 +5,10 @@ const inquirer = require('inquirer')
 const ora = require('ora')
 const figlet = require('figlet')
 
-const { fetchSeasons, seasonPrompt, } = require('./service/Season')
-const { fetchEpisodes, episodePrompt, } = require('./service/Episode')
-const { fetchSeries, } = require('./service/Serie')
-const {
-  fetchSubtitles,
-  subtitlePromp,
-  subtitleLanguagePrompt,
-} = require('./service/Subtitle')
+const { fetchSeasons, seasonPrompt } = require('./service/Season')
+const { fetchEpisodes, episodePrompt } = require('./service/Episode')
+const { fetchSeries } = require('./service/Serie')
+const { fetchSubtitles, subtitlePromp, subtitleLanguagePrompt } = require('./service/Subtitle')
 const download = require('./service/Download')
 
 const path = require('path')
@@ -44,10 +40,7 @@ async function bootstrap() {
   /* eslint-disable */
   console.log(figlet.textSync('Sub - TV'))
   /* eslint-enable */
-  inquirer.registerPrompt(
-    'autocomplete',
-    require('inquirer-autocomplete-prompt')
-  )
+  inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
   try {
     const serie = await initialQuestion()
@@ -67,12 +60,8 @@ async function bootstrap() {
     const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link)
     spinner.stop('well Done')
 
-    const languageChosen = await subtitleLanguagePrompt(
-      listOfSubtitles.languagesAvailable
-    )
-    const subtitlesByLanguage = listOfSubtitles.getByLanguage(
-      languageChosen.language
-    )
+    const languageChosen = await subtitleLanguagePrompt(listOfSubtitles.languagesAvailable)
+    const subtitlesByLanguage = listOfSubtitles.getByLanguage(languageChosen.language)
     const subtitleChosen = await subtitlePromp(subtitlesByLanguage)
 
     spinner.start('Fetching your subtitle! It could take a while!')

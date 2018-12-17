@@ -1,13 +1,13 @@
-class Season{
-  constructor(seasonNumber,link){
+class Season {
+  constructor(seasonNumber, link) {
     this._name = seasonNumber
     this._link = `https://www.tv-subs.com${link}`
   }
 
-  get name(){
+  get name() {
     return `Season ${this._name}`
   }
-  get link(){
+  get link() {
     return this._link
   }
 }

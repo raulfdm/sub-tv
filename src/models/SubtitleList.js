@@ -1,7 +1,6 @@
 const _ = require('lodash')
 
 class SubtitleList {
-
   constructor() {
     this._listOfSubtitles = []
     this._listOfSubtitlesByLanguage
@@ -16,9 +15,13 @@ class SubtitleList {
   }
 
   get languagesAvailable() {
-    return _.reduce(this._listOfSubtitlesByLanguage, (result, value, key) => {
-      return result.concat(key)
-    }, [])
+    return _.reduce(
+      this._listOfSubtitlesByLanguage,
+      (result, value, key) => {
+        return result.concat(key)
+      },
+      [],
+    )
   }
 
   _sortByLanguage() {
