@@ -1,8 +1,6 @@
 {
   "printWidth": 100,
-  "parser": "babylon",
   "trailingComma": "all",
   "singleQuote": true,
-  "eslintIntegration": true,
-  "semi": false
+  "semi": true
 }
