@@ -1,6 +1,6 @@
 {
   "name": "sub-tv",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "./src/index.js",
   "license": "MIT",
   "bin": {
@@ -36,7 +36,8 @@
     "npm-run-all": "^4.1.2"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "testURL": "http://localhost/"
   },
   "eslintIgnore": [
     "**/*.test.*"
