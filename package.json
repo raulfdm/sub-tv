@@ -13,9 +13,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "lint": "eslint src/",
-    "test": "jest src/",
-    "prepush": "npm-run-all lint test"
+    "test": "jest src/"
   },
   "dependencies": {
     "commander": "^2.19.0",
