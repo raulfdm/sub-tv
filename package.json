@@ -23,7 +23,8 @@
     "inquirer": "^5.0.0",
     "inquirer-autocomplete-prompt": "^0.12.1",
     "jsdom": "^11.1.0",
-    "lodash": "^4.17.4",
+    "lodash.groupby": "^4.6.0",
+    "lodash.reduce": "^4.6.0",
     "node-fetch": "^1.7.1",
     "ora": "^1.3.0",
     "unzip": "^0.1.11"
