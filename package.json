@@ -14,7 +14,7 @@
     "dist/subtv.js"
   ],
   "scripts": {
-    "start": "babel-node src/index.js --presets=@babel/preset-env",
+    "start": "babel-node --presets=@babel/preset-env src/index.js ",
     "build": "rollup -c",
     "test:build": "yarn build && node dist/subtv.js",
     "test": "jest src/"
