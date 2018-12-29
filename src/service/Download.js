@@ -1,7 +1,7 @@
 const https = require('https')
 const fs = require('fs')
 const path = require('path')
-const unzip = require('unzip')
+const decompress = require('decompress')
 
 const download = subtitle => {
   return new Promise((resolve, reject) => {
@@ -20,9 +20,10 @@ const download = subtitle => {
       subtitleFile
         .on('finish', () => {
           subtitleFile.close()
-          _unzipDownload(outPath)
-          fs.unlinkSync(outPath)
-          resolve(`Subtitle download successfully!\nCheck it in ${rootPath}`)
+          _unzipDownload(outPath).then(() => {
+            fs.unlinkSync(outPath)
+            resolve(`Subtitle download successfully!\nCheck it in ${rootPath}`)
+          })
         })
         .on('error', err => {
           fs.unlink(subtitle.name)
@@ -33,11 +34,7 @@ const download = subtitle => {
 }
 
 const _unzipDownload = outPath => {
-  fs.createReadStream(outPath).pipe(
-    unzip.Extract({
-      path: process.cwd(),
-    }),
-  )
+  return decompress(outPath, process.cwd())
 }
 
 module.exports = download
