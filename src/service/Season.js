@@ -26,17 +26,17 @@ const _handleHTML = html => {
   const listOfSeasons = []
   let season = {}
 
-  listOfElements.forEach(serieElement => {
-    season = _mountSeasonFromLi(serieElement)
+  listOfElements.forEach(seriesElement => {
+    season = _mountSeasonFromLi(seriesElement)
     if (!/other/gi.test(season.name)) listOfSeasons.push(season)
   })
 
   return listOfSeasons
 }
 
-const _mountSeasonFromLi = serieElement => {
-  const name = serieElement.textContent
-  const link = serieElement.href
+const _mountSeasonFromLi = seriesElement => {
+  const name = seriesElement.textContent
+  const link = seriesElement.href
   return new Season(name, link)
 }
 
@@ -50,7 +50,7 @@ const seasonPrompt = listOfSeason => {
       return listOfSeason.find(season => season.name === answer)
     },
   }
-  question.choices = listOfSeason.map(serie => serie.name)
+  question.choices = listOfSeason.map(series => series.name)
 
   return inquirer.prompt(question)
 }
@@ -59,5 +59,3 @@ module.exports = {
   fetchSeasons,
   seasonPrompt,
 }
-
-fetchSeasons('game-of-silence') /* ? */
