@@ -30,8 +30,8 @@ npm i -g sub-tv
 ```
 
 - Open your favorite terminal, type `subtv` and **Enter**
-- Type the name of the serie, wait for appear the options and select one
-- Select whitch season you'd like to get it
+- Type the name of the series, wait for appear the options and select one
+- Select witch season you'd like to get it
 - Select the Episode;
 - Select the language;
 - Select the release;
