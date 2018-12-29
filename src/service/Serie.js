@@ -1,12 +1,12 @@
 const fetch = require('node-fetch')
-const Serie = require('../models/Serie')
+const Series = require('../models/Series')
 
-const fetchSeries = (serieName = '""') => {
-  const url = `https://www.tv-subs.com/ajax_search.php?mov=${serieName}`
+const fetchSeries = (seriesName = '""') => {
+  const url = `https://www.tv-subs.com/ajax_search.php?mov=${seriesName}`
   const series = _searchSeries(url)
 
   return series.then(series => {
-    return series.map(serie => new Serie(serie.tv, serie.slug))
+    return series.map(s => new Series(s.tv, s.slug))
   })
 }
 
