@@ -1,9 +1,8 @@
-import commonjs from 'rollup-plugin-commonjs'
-import nodeResolve from 'rollup-plugin-node-resolve'
-import json from 'rollup-plugin-json'
-import builtins from 'rollup-plugin-node-builtins'
+import commonjs from 'rollup-plugin-commonjs';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import json from 'rollup-plugin-json';
 
-import packageJson from './package.json'
+import packageJson from './package.json';
 
 export default {
   input: 'src/index.js',
@@ -12,9 +11,8 @@ export default {
     banner: '#!/usr/bin/env node',
     format: 'cjs',
   },
-  external: Object.keys(packageJson.dependencies),
+  external: ['path', 'https', 'fs'].concat(Object.keys(packageJson.dependencies)),
   plugins: [
-    builtins(),
     nodeResolve({
       jsnext: true,
       main: true,
@@ -25,4 +23,4 @@ export default {
     }),
     json(),
   ],
-}
+};
