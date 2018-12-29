@@ -1,16 +1,16 @@
 {
   "name": "sub-tv",
   "version": "0.0.5",
-  "main": "./src/index.js",
   "license": "MIT",
   "bin": {
-    "subtv": "./src/index.js"
+    "subtv": "./dist/subtv.js"
   },
   "author": "Raul F. de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
   "repository": {
     "type": "git",
     "url": "https://github.com/raulfdm/sub-tv/"
   },
+  "files": ["dist/subtv.js"],
   "scripts": {
     "start": "node src/index.js",
     "build": "rollup -c",
