@@ -14,12 +14,15 @@
     "dist/subtv.js"
   ],
   "scripts": {
-    "start": "babel-node --presets=@babel/preset-env src/index.js ",
+    "start": "babel-node src/index.js --config-file=./babel.config.js",
     "build": "rollup -c",
     "test:build": "yarn build && node dist/subtv.js",
-    "test": "jest src/"
+    "test": "jest src/",
+    "test:tdd": "npm run test -- --watch"
   },
   "dependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
     "commander": "^2.19.0",
     "decompress": "^4.2.0",
     "figlet": "^1.2.1",
@@ -43,8 +46,5 @@
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^4.0.0"
-  },
-  "jest": {
-    "verbose": true
   }
 }
