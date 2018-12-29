@@ -57,17 +57,17 @@ const _handleHTML = html => {
   const listOfSeasons = [];
   let season = {};
 
-  listOfElements.forEach(serieElement => {
-    season = _mountSeasonFromLi(serieElement);
+  listOfElements.forEach(seriesElement => {
+    season = _mountSeasonFromLi(seriesElement);
     if (!/other/gi.test(season.name)) listOfSeasons.push(season);
   });
 
   return listOfSeasons
 };
 
-const _mountSeasonFromLi = serieElement => {
-  const name = serieElement.textContent;
-  const link = serieElement.href;
+const _mountSeasonFromLi = seriesElement => {
+  const name = seriesElement.textContent;
+  const link = seriesElement.href;
   return new Season_1(name, link)
 };
 
@@ -81,7 +81,7 @@ const seasonPrompt = listOfSeason => {
       return listOfSeason.find(season => season.name === answer)
     },
   };
-  question.choices = listOfSeason.map(serie => serie.name);
+  question.choices = listOfSeason.map(series => series.name);
 
   return inquirer.prompt(question)
 };
@@ -90,8 +90,6 @@ var Season_1$1 = {
   fetchSeasons,
   seasonPrompt,
 };
-
-fetchSeasons('game-of-silence'); /* ? */
 
 class Episode {
   constructor(name, link) {
@@ -157,28 +155,28 @@ var Episode_1$1 = {
   fetchEpisodes,
 };
 
-class Serie{
-  constructor(label,value){
+class Series {
+  constructor(label, value) {
     this._label = label;
     this._value = value;
   }
 
-  get label(){
+  get label() {
     return this._label
   }
-  get value(){
+  get value() {
     return this._value
   }
 }
 
-var Serie_1 = Serie;
+var Series_1 = Series;
 
-const fetchSeries = (serieName = '""') => {
-  const url = `https://www.tv-subs.com/ajax_search.php?mov=${serieName}`;
+const fetchSeries = (seriesName = '""') => {
+  const url = `https://www.tv-subs.com/ajax_search.php?mov=${seriesName}`;
   const series = _searchSeries(url);
 
   return series.then(series => {
-    return series.map(serie => new Serie_1(serie.tv, serie.slug))
+    return series.map(s => new Series_1(s.tv, s.slug))
   })
 };
 
@@ -186,7 +184,7 @@ const _searchSeries = url => {
   return nodeFetch(url).then(res => res.json())
 };
 
-var Serie_1$1 = {
+var Serie = {
   fetchSeries,
 };
 
@@ -7502,7 +7500,7 @@ var Download = download;
 
 const { fetchSeasons: fetchSeasons$1, seasonPrompt: seasonPrompt$1 } = Season_1$1;
 const { fetchEpisodes: fetchEpisodes$1, episodePrompt: episodePrompt$1 } = Episode_1$1;
-const { fetchSeries: fetchSeries$1 } = Serie_1$1;
+const { fetchSeries: fetchSeries$1 } = Serie;
 const { fetchSubtitles: fetchSubtitles$1, subtitlePromp: subtitlePromp$1, subtitleLanguagePrompt: subtitleLanguagePrompt$1 } = Subtitle_1$1;
 
 
