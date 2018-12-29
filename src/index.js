@@ -35,9 +35,7 @@ const initialQuestion = () => {
 
 async function bootstrap() {
   const spinner = ora()
-  /* eslint-disable */
   console.log(figlet.textSync('Sub - TV'))
-  /* eslint-enable */
   inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 
   try {
@@ -67,9 +65,8 @@ async function bootstrap() {
     spinner.succeed(result)
   } catch (error) {
     spinner.fail('Sorry, It was not possible to download your subtitle')
-    /* eslint-disable */
+
     console.trace(error)
-    /* eslint-enable */
   }
 }
 

@@ -3,6 +3,5 @@
   "parser": "babylon",
   "trailingComma": "all",
   "singleQuote": true,
-  "eslintIntegration": true,
   "semi": false
 }

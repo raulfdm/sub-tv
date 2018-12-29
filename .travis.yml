@@ -10,5 +10,4 @@ before_script:
 
 scripts:
   - yarn test
-  - yarn lint
   - yarn build
