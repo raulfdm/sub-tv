@@ -1,8 +1,13 @@
 dist: precise
 language: node_js
-node_js: 8
+
+cache:
+  yarn: true
+
 before_script:
-- yarn install
+  - yarn install
+
 scripts:
-- yarn test
-- yarn lint
+  - yarn test
+  - yarn lint
+  - yarn build
