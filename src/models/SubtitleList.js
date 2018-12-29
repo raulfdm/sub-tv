@@ -1,7 +1,7 @@
-const _ = require('lodash')
+const groupBy = require('lodash.groupby')
+const reduce = require('lodash.reduce')
 
 class SubtitleList {
-
   constructor() {
     this._listOfSubtitles = []
     this._listOfSubtitlesByLanguage
@@ -16,13 +16,17 @@ class SubtitleList {
   }
 
   get languagesAvailable() {
-    return _.reduce(this._listOfSubtitlesByLanguage, (result, value, key) => {
-      return result.concat(key)
-    }, [])
+    return reduce(
+      this._listOfSubtitlesByLanguage,
+      (result, value, key) => {
+        return result.concat(key)
+      },
+      [],
+    )
   }
 
   _sortByLanguage() {
-    this._listOfSubtitlesByLanguage = _.groupBy(this._listOfSubtitles, 'language')
+    this._listOfSubtitlesByLanguage = groupBy(this._listOfSubtitles, 'language')
   }
 
   getByLanguage(language) {
