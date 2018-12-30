@@ -24,7 +24,7 @@ describe('fn: fetchSeriesByUserInput', () => {
       let result = undefined;
 
       beforeAll(async () => {
-        mockedSeriesService.default.fetch.mockImplementationOnce(() => data);
+        mockedSeriesService.fetch.mockImplementationOnce(() => data);
         result = await fetchSeriesByUserInput();
       });
 

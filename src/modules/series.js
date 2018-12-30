@@ -1,5 +1,5 @@
 import inquirer from '../config/inquirer';
-import SeriesService from '../service/Series';
+import { SeriesService } from '../service';
 
 let seriesList = [];
 
