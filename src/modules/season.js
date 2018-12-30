@@ -1,40 +1,29 @@
-// import inquirer from '../config/inquirer';
-// import SeriesService from '../service/Series';
+import inquirer from '../config/inquirer';
 
-// let seriesList = [];
+import { SeasonService } from '../service';
 
-// export const fetchSeriesByUserInput = async (_, input) => {
-//   seriesList = await SeriesService.fetch(input);
-//   return seriesList.map(series => series.label);
-// };
+let seasonList = [];
 
-// export const filterUserAnswer = (answer, seriesToFilter = seriesList) =>
-//   seriesToFilter.find(series => series.label === answer);
+export const fetchSeasonByUserInput = async input => {
+  seasonList = await SeasonService.fetch(input);
+  return seasonList.map(series => series.name);
+};
 
-// const seasonPrompt = () =>
-//   inquirer.prompt([
-//     {
-//       type: 'autocomplete',
-//       name: 'chosen',
-//       message: 'Type series name, then choose it',
-//       source: fetchSeriesByUserInput,
-//       filter: filterUserAnswer,
-//     },
-//   ]);
+export const filterUserAnswer = (answer, seasonsToFilter = seasonList) =>
+  seasonsToFilter.find(season => season.name === answer);
 
-// export default seasonPrompt;
+const seasonPrompt = async chosenSeason => {
+  const options = await fetchSeasonByUserInput(chosenSeason.value);
 
-//   // const seasonPrompt = listOfSeason => {
-//   //   const question = {
-//   //     choices: [],
-//   //     message: 'Choose the season',
-//   //     name: 'season',
-//   //     type: 'list',
-//   //     filter: function(answer) {
-//   //       return listOfSeason.find(season => season.name === answer);
-//   //     },
-//   //   };
-//   //   question.choices = listOfSeason.map(series => series.name);
+  return inquirer.prompt([
+    {
+      choices: options,
+      message: 'Choose the season',
+      name: 'season',
+      type: 'list',
+      filter: filterUserAnswer,
+    },
+  ]);
+};
 
-//   //   return inquirer.prompt(question);
-//   // };
+export default seasonPrompt;
