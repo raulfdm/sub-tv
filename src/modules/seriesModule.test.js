@@ -1,9 +1,11 @@
-import { fetchSeriesByUserInput, filterUserAnswer } from './series';
-import SeriesModel from '../models/Series';
 import random from 'lodash.random';
 
-jest.mock('../service/Series');
-const mockedSeriesService = require('../service/Series');
+import { fetchSeriesByUserInput, filterUserAnswer } from './series';
+import { SeriesModel } from '../models';
+
+jest.mock('../service');
+const { SeriesService: mockedSeriesService } = require('../service');
+
 const mockData = [
   [new SeriesModel('game of throes', 'got')],
   [
