@@ -1,6 +1,7 @@
 module.exports = {
-  verbose: true,
   testEnvironment: 'node',
+  verbose: true,
+  collectCoverageFrom: 'src/**/*.js',
   transform: {
     '^.+\\.js?$': 'babel-jest',
   },
