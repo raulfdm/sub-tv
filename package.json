@@ -18,7 +18,7 @@
     "build": "rollup -c",
     "test:build": "yarn build && node dist/subtv.js",
     "test": "jest src/",
-    "test:tdd": "npm run test -- --watch",
+    "test:tdd": "npm run test -- --watch --updateSnapshot",
     "test:coverage": "npm run test -- --coverage --collectCoverageFrom=src/**/*.js"
   },
   "dependencies": {
