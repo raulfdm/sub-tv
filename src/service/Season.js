@@ -1,59 +1,46 @@
-const fetch = require('node-fetch');
-const { JSDOM } = require('jsdom');
-const Season = require('../models/Season');
-const inquirer = require('inquirer');
+import axios from 'axios';
+import { JSDOM } from 'jsdom';
 
-const fetchSeasons = serieName => {
-  const url = `https://www.tv-subs.com/tv/${serieName}`;
-  return new Promise((resolve, reject) => {
-    _searchSeason(url)
-      .then(_handleHTML)
-      .then(listOfSeasons => resolve(listOfSeasons))
-      .catch(err => reject(err));
+import { SeasonModel } from '../models';
+
+const SEASON_END_POINT = 'https://www.tv-subs.com/tv/';
+
+export const fetchSeasonPage = chosenSeriesName => {
+  const url = SEASON_END_POINT + chosenSeriesName;
+  return axios.get(url).then(res => res.data);
+};
+
+/* Todo: test */
+export const filterElements = $el => {
+  const TV_REGEX = /\/tv\//;
+  const NUMBER_REGEX = /\d/;
+  const outerHTML = $el.outerHTML;
+  const innerText = $el.textContent;
+
+  return TV_REGEX.test(outerHTML) && NUMBER_REGEX.test(innerText);
+};
+
+export const createSeasonFromNodeElement = (seasonElements = []) => {
+  return seasonElements.map(({ text, href }) => new SeasonModel(text, href));
+};
+
+export const handleHTML = markup => {
+  const dom = JSDOM.fragment(markup);
+  const listOfLinks = Array.from(dom.querySelectorAll('a'));
+  const filterSeasons = listOfLinks.filter(filterElements);
+
+  return filterSeasons.map($el => {
+    return {
+      href: $el.href,
+      text: $el.textContent,
+    };
   });
 };
 
-const _searchSeason = url => {
-  return fetch(url).then(res => res.text());
-};
-
-const _handleHTML = html => {
-  const dom = new JSDOM(html);
-  const listOfElements = dom.window.document.querySelectorAll('body > div:nth-child(5) > div.row.text-center > div a');
-
-  const listOfSeasons = [];
-  let season = {};
-
-  listOfElements.forEach(seriesElement => {
-    season = _mountSeasonFromLi(seriesElement);
-    if (!/other/gi.test(season.name)) listOfSeasons.push(season);
-  });
-
-  return listOfSeasons;
-};
-
-const _mountSeasonFromLi = seriesElement => {
-  const name = seriesElement.textContent;
-  const link = seriesElement.href;
-  return new Season(name, link);
-};
-
-const seasonPrompt = listOfSeason => {
-  const question = {
-    choices: [],
-    message: 'Choose the season',
-    name: 'season',
-    type: 'list',
-    filter: function(answer) {
-      return listOfSeason.find(season => season.name === answer);
-    },
-  };
-  question.choices = listOfSeason.map(series => series.name);
-
-  return inquirer.prompt(question);
-};
-
-module.exports = {
-  fetchSeasons,
-  seasonPrompt,
+export default {
+  fetch: chosenSeriesName => {
+    return fetchSeasonPage(chosenSeriesName)
+      .then(handleHTML)
+      .then(createSeasonFromNodeElement);
+  },
 };

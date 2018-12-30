@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fn: fetchSeasonPage should match snapshot: 
+  <div>
+    <ul>
+      <li>hue</li>
+      < li>ahsuas</li>
+      <li>br</li>
+      <li>oi</li>
+    </ul>
+  </div>
+   1`] = `
+<div>
+  
+    
+  <ul>
+    
+      
+    <li>
+      hue
+    </li>
+    
+      &lt; li&gt;ahsuas
+      
+    <li>
+      br
+    </li>
+    
+      
+    <li>
+      oi
+    </li>
+    
+    
+  </ul>
+  
+  
+</div>
+`;
