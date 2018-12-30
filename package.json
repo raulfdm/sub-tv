@@ -21,6 +21,7 @@
     "test:tdd": "npm run test -- --watch"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "commander": "^2.19.0",
@@ -31,7 +32,6 @@
     "jsdom": "^13.1.0",
     "lodash.groupby": "^4.6.0",
     "lodash.reduce": "^4.6.0",
-    "node-fetch": "^2.3.0",
     "ora": "^3.0.0"
   },
   "devDependencies": {
