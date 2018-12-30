@@ -38,9 +38,8 @@ export const handleHTML = markup => {
 };
 
 export default {
-  fetch: chosenSeriesName => {
-    return fetchSeasonPage(chosenSeriesName)
+  fetch: chosenSeriesName =>
+    fetchSeasonPage(chosenSeriesName)
       .then(handleHTML)
-      .then(createSeasonFromNodeElement);
-  },
+      .then(createSeasonFromNodeElement),
 };
