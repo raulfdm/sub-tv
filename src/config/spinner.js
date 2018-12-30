@@ -1,5 +1,3 @@
 import ora from 'ora';
 
-export default {
-  spinner: ora(),
-};
+export default ora();
