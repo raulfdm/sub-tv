@@ -1,6 +1,6 @@
-class Episode {
-  constructor(name, link) {
-    this._name = name;
+export class EpisodeModel {
+  private _link: string;
+  constructor(private _name: string, link: string) {
     this._link = `https://www.tv-subs.com${link}`;
   }
 
@@ -12,5 +12,3 @@ class Episode {
     return this._link;
   }
 }
-
-module.exports = Episode;

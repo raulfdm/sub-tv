@@ -1,6 +1,10 @@
-class Season {
-  constructor(seasonNumber, link) {
+export class SeasonModel {
+  private _name: string;
+  private _link: string;
+
+  constructor(seasonNumber: string, link: string) {
     this._name = seasonNumber;
+
     this._link = `https://www.tv-subs.com${link}`;
   }
 
@@ -11,5 +15,3 @@ class Season {
     return this._link;
   }
 }
-
-module.exports = Season;
