@@ -7,7 +7,7 @@ import builtins from 'rollup-plugin-node-builtins';
 import pkg from './package.json';
 
 export default {
-  input: './src/index.js',
+  input: './src/index.ts',
   output: {
     file: 'dist/sub-tv.js',
     format: 'cjs',

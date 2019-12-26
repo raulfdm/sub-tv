@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Season {
   constructor(seasonNumber, link) {
     this._name = seasonNumber;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Subtitle {
   constructor(rating, language, release, link) {
     this._rating = rating;

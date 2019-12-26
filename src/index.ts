@@ -22,10 +22,10 @@ const initialQuestion = () => {
       message: 'Type serie name, then choose it',
       source: async function(answersSoFar, input) {
         series = await fetchSeries(input);
-        return series.map(serie => serie.label);
+        return series.map((serie: any) => serie.label);
       },
       filter: function(answer) {
-        return series.find(serie => serie.label === answer);
+        return series.find((serie: any) => serie.label === answer);
       },
     },
   ]);
@@ -43,18 +43,18 @@ async function bootstrap() {
 
     spinner.start('Fetching available seasons');
     const listOfSeasons = await fetchSeasons(serie.chosen.value);
-    spinner.stop('well Done');
+    spinner.stop();
     const seasonChosen = await seasonPrompt(listOfSeasons);
 
     spinner.start('Fetching available Episodes');
     const listOfEpisodes = await fetchEpisodes(seasonChosen.season.link);
-    spinner.stop('well Done');
+    spinner.stop();
 
     const episodeChosen = await episodePrompt(listOfEpisodes);
 
     spinner.start('Fetching available subtitles');
     const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link);
-    spinner.stop('well Done');
+    spinner.stop();
 
     const languageChosen = await subtitleLanguagePrompt(listOfSubtitles.languagesAvailable);
     const subtitlesByLanguage = listOfSubtitles.getByLanguage(languageChosen.language);
@@ -62,6 +62,7 @@ async function bootstrap() {
 
     spinner.start('Fetching your subtitle! It could take a while!');
     const result = await download(subtitleChosen.choose);
+    // @ts-ignore
     spinner.succeed(result);
   } catch (error) {
     spinner.fail('Sorry, It was not possible to download your subtitle');

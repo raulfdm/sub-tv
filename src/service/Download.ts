@@ -8,12 +8,14 @@ export const download = subtitle => {
     const rootPath = process.cwd();
     const outPath = path.format({
       dir: rootPath,
+      // @ts-ignore
       name: new Date().getTime(),
       ext: '.zip',
     });
 
     const subtitleFile = fs.createWriteStream(outPath);
 
+    // @ts-ignore
     axios.get(subtitle.link, response => {
       response.pipe(subtitleFile);
 
@@ -25,6 +27,7 @@ export const download = subtitle => {
           resolve(`Subtitle download successfully!\nCheck it in ${rootPath}`);
         })
         .on('error', err => {
+          // @ts-ignore
           fs.unlink(subtitle.name);
           reject(err);
         });

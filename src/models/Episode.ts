@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Episode {
   constructor(name, link) {
     this._name = name;

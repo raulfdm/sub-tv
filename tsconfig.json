@@ -24,7 +24,7 @@
     "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
     /* Strict Type-Checking Options */
     "strict": true /* Enable all strict type-checking options. */,
-    // "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+    "noImplicitAny": false /* Raise error on expressions and declarations with an implied 'any' type. */,
     // "strictNullChecks": true,              /* Enable strict null checks. */
     // "strictFunctionTypes": true,           /* Enable strict checking of function types. */
     // "strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
@@ -56,7 +56,8 @@
     // "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
     // "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
     /* Advanced Options */
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

@@ -46,6 +46,7 @@ export const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
     type: 'list',
   };
 
+  // @ts-ignore
   return inquirer.prompt(question);
 };
 
@@ -61,5 +62,6 @@ export const subtitlePromp = listOfSubtitles => {
     filter: indexSelected => listOfSubtitles[indexSelected],
   };
 
+  // @ts-ignore
   return inquirer.prompt(question);
 };

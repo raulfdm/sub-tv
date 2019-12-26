@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Serie {
   constructor(label, value) {
     this._label = label;

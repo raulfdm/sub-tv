@@ -24,10 +24,11 @@ const _handleHTML = html => {
   );
 
   const listOfSeasons = [];
-  let season = {};
+  let season: any = {};
 
   listOfElements.forEach(serieElement => {
     season = _mountSeasonFromLi(serieElement);
+    //@ts-ignore
     if (!/other/gi.test(season.name)) listOfSeasons.push(season);
   });
 
@@ -52,5 +53,6 @@ export const seasonPrompt = listOfSeason => {
   };
   question.choices = listOfSeason.map(serie => serie.name);
 
+  // @ts-ignore
   return inquirer.prompt(question);
 };

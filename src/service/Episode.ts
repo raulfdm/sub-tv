@@ -40,5 +40,6 @@ export const episodePrompt = listOfEpisodes => {
   };
   question.choices = listOfEpisodes.map(episode => episode.name);
 
+  // @ts-ignore
   return inquirer.prompt(question);
 };
