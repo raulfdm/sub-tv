@@ -1,10 +1,9 @@
 {
   "name": "sub-tv",
   "version": "0.0.7",
-  "main": "./src/index.js",
   "license": "MIT",
   "bin": {
-    "subtv": "./src/index.js"
+    "subtv": "./dist/sub-tv.js"
   },
   "author": "Raul F. de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
   "repository": {
@@ -12,6 +11,8 @@
     "url": "https://github.com/raulfdm/sub-tv/"
   },
   "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "rollup -c",
     "start": "node src/index.js",
     "test": "jest src/"
   },
@@ -27,11 +28,20 @@
     "unzip": "^0.1.11"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.0",
+    "@rollup/plugin-json": "^4.0.1",
+    "@rollup/plugin-node-resolve": "^6.0.0",
     "husky": "^1.2.1",
     "jest": "^23.6.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.15.3",
-    "pretty-quick": "^1.8.0"
+    "pretty-quick": "^1.8.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.14",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
   },
   "jest": {
     "verbose": true,
