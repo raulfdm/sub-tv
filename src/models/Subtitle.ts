@@ -2,7 +2,7 @@ export class SubtitleModel {
   private _link: string;
 
   constructor(private _rating: string, private _language: string, private _release: string, link) {
-    this._link = `https://www.tv-subs.com${link}.zip`;
+    this._link = `https://www.tv-subs.com${link}`;
   }
 
   get releaseName() {
