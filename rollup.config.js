@@ -16,5 +16,13 @@ export default {
 
   external: [].concat(Object.keys(pkg.dependencies)),
 
-  plugins: [typescript(), json(), resolve(), commonjs({ exclude: ['node_modules'] }), builtins()],
+  plugins: [
+    typescript(),
+    json(),
+    resolve({
+      preferBuiltins: true,
+    }),
+    commonjs({ exclude: ['node_modules'] }),
+    builtins(),
+  ],
 };
