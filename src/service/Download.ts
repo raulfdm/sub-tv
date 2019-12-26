@@ -4,7 +4,8 @@ import unzipper from 'unzipper';
 import { SubtitleModel } from '../models';
 
 const rootPath = process.cwd();
-type DownloadReturn = {
+
+export type DownloadReturn = {
   subtitle: SubtitleModel;
   outDir: string;
 };

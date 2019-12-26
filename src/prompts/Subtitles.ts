@@ -1,11 +1,14 @@
-import { inquirer } from '../instances';
+import { inquirer, spinner } from '../instances';
 
 import { EpisodeModel } from '../models/';
 import { SubtitleService } from '../service/Subtitle';
 import { LanguagePrompt } from './LanguagePrompt';
 
 export async function SubtitlesPrompt({ episode }: { episode: EpisodeModel }) {
+  spinner.start('Fetching available subtitles');
   const subtitleList = await SubtitleService.fetch(episode.link);
+  spinner.stop();
+
   const { language } = await LanguagePrompt(subtitleList.availableLanguages);
 
   const filteredSubtitle = subtitleList.getSubtitlesByLanguage(language);

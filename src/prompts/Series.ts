@@ -2,8 +2,9 @@ import { inquirer } from '../instances';
 import { Series } from '../models/Series';
 import { SeriesService } from '../service/Series';
 
-export function SeriesPrompt() {
+export async function SeriesPrompt() {
   let series = [];
+
   return inquirer.prompt([
     {
       type: 'autocomplete',
