@@ -9,11 +9,9 @@ import { fetchSeries } from './service/Serie';
 import { fetchSubtitles, subtitlePromp, subtitleLanguagePrompt } from './service/Subtitle';
 import { download } from './service/Download';
 
-import path from 'path';
-const packageJsonRoot = path.join(__dirname, '../package.json');
-const currentVersion = require(packageJsonRoot).version;
+import pkg from '../package.json';
 
-program.version(currentVersion);
+program.version(pkg.version);
 
 const initialQuestion = () => {
   let series = [];
