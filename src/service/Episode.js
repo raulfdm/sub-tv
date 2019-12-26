@@ -1,9 +1,9 @@
-const fetch = require('node-fetch');
-const inquirer = require('inquirer');
-const { JSDOM } = require('jsdom');
-const Episode = require('../models/Episode');
+import fetch from 'node-fetch';
+import inquirer from 'inquirer';
+import { JSDOM } from 'jsdom';
+import { Episode } from '../models/Episode';
 
-const fetchEpisodes = seasonURL => {
+export const fetchEpisodes = seasonURL => {
   return _searchEpisodes(seasonURL)
     .then(_handleHTML)
     .catch(err => err);
@@ -28,7 +28,7 @@ const _mountEpisodeListFromLi = episodeElement => {
   return new Episode(name, link);
 };
 
-const episodePrompt = listOfEpisodes => {
+export const episodePrompt = listOfEpisodes => {
   const question = {
     choices: [],
     message: 'Choose the episode',
@@ -41,8 +41,4 @@ const episodePrompt = listOfEpisodes => {
   question.choices = listOfEpisodes.map(episode => episode.name);
 
   return inquirer.prompt(question);
-};
-module.exports = {
-  episodePrompt,
-  fetchEpisodes,
 };

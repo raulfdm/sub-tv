@@ -1,4 +1,4 @@
-class Subtitle {
+export class Subtitle {
   constructor(rating, language, release, link) {
     this._rating = rating;
     this._language = language;
@@ -19,5 +19,3 @@ class Subtitle {
     return this._link;
   }
 }
-
-module.exports = Subtitle;

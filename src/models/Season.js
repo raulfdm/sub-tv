@@ -1,4 +1,4 @@
-class Season {
+export class Season {
   constructor(seasonNumber, link) {
     this._name = seasonNumber;
     this._link = `https://www.tv-subs.com${link}`;
@@ -11,5 +11,3 @@ class Season {
     return this._link;
   }
 }
-
-module.exports = Season;

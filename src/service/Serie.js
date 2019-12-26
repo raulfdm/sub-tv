@@ -1,7 +1,7 @@
-const fetch = require('node-fetch');
-const Serie = require('../models/Serie');
+import fetch from 'node-fetch';
+import { Serie } from '../models/Serie';
 
-const fetchSeries = (serieName = '""') => {
+export const fetchSeries = (serieName = '""') => {
   const url = `https://www.tv-subs.com/ajax_search.php?mov=${serieName}`;
   const series = _searchSeries(url);
 
@@ -12,8 +12,4 @@ const fetchSeries = (serieName = '""') => {
 
 const _searchSeries = url => {
   return fetch(url).then(res => res.json());
-};
-
-module.exports = {
-  fetchSeries,
 };

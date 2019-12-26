@@ -1,9 +1,9 @@
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
-const unzip = require('unzip');
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import unzip from 'unzip';
 
-const download = subtitle => {
+export const download = subtitle => {
   return new Promise((resolve, reject) => {
     const rootPath = process.cwd();
     const outPath = path.format({
@@ -39,5 +39,3 @@ const _unzipDownload = outPath => {
     }),
   );
 };
-
-module.exports = download;

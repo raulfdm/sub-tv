@@ -1,6 +1,6 @@
-const _ = require('lodash');
+import _ from 'lodash';
 
-class SubtitleList {
+export class SubtitleList {
   constructor() {
     this._listOfSubtitles = [];
     this._listOfSubtitlesByLanguage;
@@ -32,5 +32,3 @@ class SubtitleList {
     return [].concat(this._listOfSubtitlesByLanguage[language]);
   }
 }
-
-module.exports = SubtitleList;

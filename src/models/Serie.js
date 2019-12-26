@@ -1,4 +1,4 @@
-class Serie {
+export class Serie {
   constructor(label, value) {
     this._label = label;
     this._value = value;
@@ -11,5 +11,3 @@ class Serie {
     return this._value;
   }
 }
-
-module.exports = Serie;

@@ -1,9 +1,9 @@
-const fetch = require('node-fetch');
-const { JSDOM } = require('jsdom');
-const Season = require('../models/Season');
-const inquirer = require('inquirer');
+import fetch from 'node-fetch';
+import { JSDOM } from 'jsdom';
+import { Season } from '../models/Season';
+import inquirer from 'inquirer';
 
-const fetchSeasons = serieName => {
+export const fetchSeasons = serieName => {
   const url = `https://www.tv-subs.com/tv/${serieName}`;
   return new Promise((resolve, reject) => {
     _searchSeason(url)
@@ -40,7 +40,7 @@ const _mountSeasonFromLi = serieElement => {
   return new Season(name, link);
 };
 
-const seasonPrompt = listOfSeason => {
+export const seasonPrompt = listOfSeason => {
   const question = {
     choices: [],
     message: 'Choose the season',
@@ -54,10 +54,3 @@ const seasonPrompt = listOfSeason => {
 
   return inquirer.prompt(question);
 };
-
-module.exports = {
-  fetchSeasons,
-  seasonPrompt,
-};
-
-fetchSeasons('game-of-silence'); /* ? */

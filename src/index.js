@@ -1,17 +1,15 @@
-#!/usr/bin/env node
+import program from 'commander';
+import inquirer from 'inquirer';
+import ora from 'ora';
+import figlet from 'figlet';
 
-const program = require('commander');
-const inquirer = require('inquirer');
-const ora = require('ora');
-const figlet = require('figlet');
+import { fetchSeasons, seasonPrompt } from './service/Season';
+import { fetchEpisodes, episodePrompt } from './service/Episode';
+import { fetchSeries } from './service/Serie';
+import { fetchSubtitles, subtitlePromp, subtitleLanguagePrompt } from './service/Subtitle';
+import { download } from './service/Download';
 
-const { fetchSeasons, seasonPrompt } = require('./service/Season');
-const { fetchEpisodes, episodePrompt } = require('./service/Episode');
-const { fetchSeries } = require('./service/Serie');
-const { fetchSubtitles, subtitlePromp, subtitleLanguagePrompt } = require('./service/Subtitle');
-const download = require('./service/Download');
-
-const path = require('path');
+import path from 'path';
 const packageJsonRoot = path.join(__dirname, '../package.json');
 const currentVersion = require(packageJsonRoot).version;
 

@@ -1,10 +1,10 @@
-const fetch = require('node-fetch');
-const inquirer = require('inquirer');
-const { JSDOM } = require('jsdom');
-const Subtitle = require('../models/Subtitle');
-const SubtitleList = require('../models/SubtitleList');
+import fetch from 'node-fetch';
+import inquirer from 'inquirer';
+import { JSDOM } from 'jsdom';
+import { Subtitle } from '../models/Subtitle';
+import { SubtitleList } from '../models/SubtitleList';
 
-const fetchSubtitles = seasonURL => {
+export const fetchSubtitles = seasonURL => {
   return _searchSubtitles(seasonURL)
     .then(_handleHTML)
     .catch(err => err);
@@ -38,7 +38,7 @@ const _mountSubtitleListFromTr = tr => {
   return new Subtitle(rating, language, releaseName, link);
 };
 
-const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
+export const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
   const question = {
     choices: listOfSubtitleByLanguage,
     message: 'Choose the language',
@@ -49,7 +49,7 @@ const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
   return inquirer.prompt(question);
 };
 
-const subtitlePromp = listOfSubtitles => {
+export const subtitlePromp = listOfSubtitles => {
   const question = {
     choices: listOfSubtitles.map((subtitle, index) => ({
       name: `Rating: ${subtitle.rating} | Release: ${subtitle.releaseName}`,
@@ -63,11 +63,3 @@ const subtitlePromp = listOfSubtitles => {
 
   return inquirer.prompt(question);
 };
-
-module.exports = {
-  fetchSubtitles,
-  subtitleLanguagePrompt,
-  subtitlePromp,
-};
-
-fetchSubtitles('https://www.tv-subs.com/tv/game-of-thrones/season-1/episode-5/'); /* ? */
