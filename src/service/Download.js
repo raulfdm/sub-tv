@@ -1,7 +1,7 @@
-import https from 'https';
+import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
-import unzip from 'unzip';
+import unzip from 'unzipper';
 
 export const download = subtitle => {
   return new Promise((resolve, reject) => {
@@ -14,7 +14,7 @@ export const download = subtitle => {
 
     const subtitleFile = fs.createWriteStream(outPath);
 
-    https.get(subtitle.link, response => {
+    axios.get(subtitle.link, response => {
       response.pipe(subtitleFile);
 
       subtitleFile
