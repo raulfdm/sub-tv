@@ -1,11 +1,12 @@
 {
   "name": "sub-tv",
   "version": "0.0.7",
+  "description": "Download subtitle for your favorite series via terminal",
   "license": "MIT",
   "bin": {
     "subtv": "./dist/sub-tv.js"
   },
-  "author": "Raul F. de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
+  "author": "Raul de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
   "repository": {
     "type": "git",
     "url": "https://github.com/raulfdm/sub-tv/"
@@ -13,8 +14,7 @@
   "scripts": {
     "prebuild": "rimraf dist/",
     "build": "rollup -c",
-    "start": "node src/index.js",
-    "test": "jest src/"
+    "start": "yarn build --watch"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -37,7 +37,6 @@
     "@types/lodash": "^4.14.149",
     "@types/unzipper": "^0.10.1",
     "husky": "^3.1.0",
-    "jest": "^24.9.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
@@ -47,10 +46,6 @@
     "rollup-plugin-typescript2": "^0.25.3",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.4"
-  },
-  "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/"
   },
   "husky": {
     "hooks": {

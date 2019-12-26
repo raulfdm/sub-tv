@@ -107,5 +107,4 @@ dist
 .vscode-test
 
 # macOS
-
 .DS_Store
