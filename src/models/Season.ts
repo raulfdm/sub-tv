@@ -1,6 +1,8 @@
-// @ts-nocheck
-export class Season {
-  constructor(seasonNumber, link) {
+export class SeasonModel {
+  _name: string;
+  _link: string;
+
+  constructor(seasonNumber: string, link: string) {
     this._name = seasonNumber;
     this._link = `https://www.tv-subs.com${link}`;
   }
