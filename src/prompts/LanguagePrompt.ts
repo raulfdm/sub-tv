@@ -1,6 +1,6 @@
 import { inquirer } from '../instances';
 
-export function LanguagePrompt(languagesAvailable) {
+export function LanguagePrompt(languagesAvailable: string[]) {
   const question = {
     choices: languagesAvailable,
     message: 'Choose the language',

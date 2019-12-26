@@ -12,7 +12,7 @@ export async function EpisodesPrompt({ season }: { season: SeasonModel }) {
     message: 'Choose the episode',
     name: 'episode',
     type: 'list',
-    filter: function(answer) {
+    filter: function(answer: string) {
       return episodes.find(episode => episode.name === answer);
     },
   };

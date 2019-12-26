@@ -1,9 +1,9 @@
 import { inquirer, spinner } from '../instances';
 
 import { SeasonService } from '../service/Season';
-import { Series } from '../models';
+import { SeriesModel } from '../models';
 
-export async function SeasonPrompt({ series }: { series: Series }) {
+export async function SeasonPrompt({ series }: { series: SeriesModel }) {
   spinner.start('Fetching available seasons');
   const seasons = await SeasonService.fetch(series.value);
   spinner.stop();
@@ -13,7 +13,7 @@ export async function SeasonPrompt({ series }: { series: Series }) {
     message: 'Choose the season',
     name: 'season',
     type: 'list',
-    filter: function(answer) {
+    filter: function(answer: string) {
       const result = seasons.find(season => season.name === answer);
       return result;
     },

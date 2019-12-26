@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import unzipper from 'unzipper';
 
 import { SubtitleModel } from '../models';
@@ -10,7 +10,7 @@ export type DownloadReturn = {
   outDir: string;
 };
 
-function extractFile(response) {
+function extractFile(response: AxiosResponse) {
   response.data.pipe(
     unzipper.Extract({
       path: rootPath,

@@ -1,4 +1,4 @@
-export class Series {
+export class SeriesModel {
   constructor(private _label: string, private _value: string) {}
 
   get label() {

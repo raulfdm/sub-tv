@@ -20,7 +20,7 @@ function convertHtmlToEpisodes(elementList: Node[]) {
   });
 }
 
-function fetch(seasonLink) {
+function fetch(seasonLink: string) {
   return axios
     .get(seasonLink)
     .then(r => r.data)

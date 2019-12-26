@@ -1,7 +1,12 @@
 export class SubtitleModel {
   private _link: string;
 
-  constructor(private _rating: string, private _language: string, private _release: string, link) {
+  constructor(
+    private _rating: string,
+    private _language: string,
+    private _release: string,
+    link: string,
+  ) {
     const composedLink = `https://www.tv-subs.com${link}`;
     this._link = composedLink.includes('.zip') ? composedLink : `${composedLink}.zip`;
   }

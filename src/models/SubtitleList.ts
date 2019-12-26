@@ -14,7 +14,7 @@ export class SubtitleListModel {
     return uniq(languages);
   }
 
-  getSubtitlesByLanguage(language) {
+  getSubtitlesByLanguage(language: string) {
     return this._subtitles.filter(sub => sub.language === language);
   }
 }

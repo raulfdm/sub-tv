@@ -21,7 +21,7 @@ export async function SubtitlesPrompt({ episode }: { episode: EpisodeModel }) {
     message: 'Choose the subtitle',
     name: 'subtitle',
     type: 'list',
-    filter: indexSelected => filteredSubtitle[indexSelected],
+    filter: (indexSelected: number) => filteredSubtitle[indexSelected],
   };
 
   // @ts-ignore
