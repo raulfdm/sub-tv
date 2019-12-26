@@ -2,7 +2,7 @@ import program from 'commander';
 
 import { showAppTitle } from './helpers';
 import { inquirer, spinner } from './instances';
-import { SeriesPrompt, SeasonPrompt, EpisodesPrompt } from './prompts';
+import { SeriesPrompt, SeasonPrompt, EpisodesPrompt, SubtitlesPrompt } from './prompts';
 // import { fetchSeasons, seasonPrompt } from './service/Season';
 // import { fetchEpisodes, episodePrompt } from './service/Episode';
 // import { fetchSeries } from './service/Serie';
@@ -10,7 +10,7 @@ import { SeriesPrompt, SeasonPrompt, EpisodesPrompt } from './prompts';
 // import { download } from './service/Download';
 
 import pkg from '../package.json';
-import { SeasonModel } from './models';
+import { EpisodeModel } from './models';
 
 program.version(pkg.version);
 
@@ -20,8 +20,10 @@ async function bootstrap() {
   Promise.resolve()
     // .then(SeriesPrompt)
     // .then(SeasonPrompt)
-    .then(() => new SeasonModel('1', '/tv/game-of-silence/season-1/'))
-    .then(EpisodesPrompt)
+    // .then(() => new SeasonModel('1', '/tv/game-of-silence/season-1/'))
+    // .then(EpisodesPrompt)
+    .then(() => new EpisodeModel('1', '/tv/game-of-silence/season-1/episode-1/'))
+    .then(SubtitlesPrompt)
     .then(console.log)
     .catch(console.error);
 
@@ -32,10 +34,10 @@ async function bootstrap() {
   //   spinner.stop();
   //   const seasonChosen = await seasonPrompt(listOfSeasons);
   //   spinner.start('Fetching available Episodes');
-
   //   const listOfEpisodes = await fetchEpisodes(seasonChosen.season.link);
   //   spinner.stop();
   //   const episodeChosen = await episodePrompt(listOfEpisodes);
+
   //   spinner.start('Fetching available subtitles');
   //   const listOfSubtitles = await fetchSubtitles(episodeChosen.episode.link);
   //   spinner.stop();

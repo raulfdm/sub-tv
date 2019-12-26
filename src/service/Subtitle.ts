@@ -1,67 +1,42 @@
-import fetch from 'node-fetch';
-import inquirer from 'inquirer';
+import axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { Subtitle } from '../models/Subtitle';
-import { SubtitleList } from '../models/SubtitleList';
+import { SubtitleModel, SubtitleListModel } from '../models';
 
-export const fetchSubtitles = seasonURL => {
-  return _searchSubtitles(seasonURL)
-    .then(_handleHTML)
-    .catch(err => err);
-};
-
-const _searchSubtitles = url => {
-  return fetch(url).then(res => res.text());
-};
-
-const _handleHTML = html => {
-  const dom = new JSDOM(html);
-  const listOfElements = dom.window.document.querySelectorAll(
-    'body > div:nth-child(5) > div:nth-child(7) > div > table > tbody tr',
+function getSeasonHtmlElements(htmlText: string): HTMLTableRowElement[] {
+  const dom = new JSDOM(htmlText);
+  const elements = dom.window.document.querySelectorAll(
+    '[href*="subtitles"]:not(.subtitle-download)',
   );
 
-  const listOfSubtitles = new SubtitleList();
+  /* All subtitles are based on a table and each has a bunch of useful info */
+  return Array.from(elements).map(e => e.closest('tr')!);
+}
 
-  listOfElements.forEach(tr => {
-    listOfSubtitles.add = _mountSubtitleListFromTr(tr);
+function convertHtmlToSubtitle(elementList: HTMLTableRowElement[]) {
+  return elementList.map(subtitleTr => {
+    const rating = subtitleTr.querySelector('.rating-cell')!.textContent;
+    const language = subtitleTr.querySelector('.flag-cell .sub-lang')!.textContent;
+    const releaseName = subtitleTr.childNodes[2].textContent!.replace(/subtitle/gi, '').trim();
+    const link = subtitleTr
+      .querySelector('.download-cell a')!
+      // @ts-ignore
+      .href.replace('subtitles', 'subtitle');
+
+    /* TODO: validate here */
+    // @ts-ignore
+    return new SubtitleModel(rating, language, releaseName, link);
   });
+}
 
-  return listOfSubtitles;
-};
+function fetch(episodeLink: string) {
+  return axios
+    .get(episodeLink)
+    .then(r => r.data)
+    .then(getSeasonHtmlElements)
+    .then(convertHtmlToSubtitle)
+    .then(subtitles => new SubtitleListModel(subtitles));
+}
 
-const _mountSubtitleListFromTr = tr => {
-  const rating = tr.querySelector('.rating-cell').textContent;
-  const language = tr.querySelector('.flag-cell .sub-lang').textContent;
-  const releaseName = tr.childNodes[2].textContent.replace(/subtitle/gi, '').trim();
-  const link = tr.querySelector('.download-cell a').href.replace('subtitles', 'subtitle');
-
-  return new Subtitle(rating, language, releaseName, link);
-};
-
-export const subtitleLanguagePrompt = listOfSubtitleByLanguage => {
-  const question = {
-    choices: listOfSubtitleByLanguage,
-    message: 'Choose the language',
-    name: 'language',
-    type: 'list',
-  };
-
-  // @ts-ignore
-  return inquirer.prompt(question);
-};
-
-export const subtitlePromp = listOfSubtitles => {
-  const question = {
-    choices: listOfSubtitles.map((subtitle, index) => ({
-      name: `Rating: ${subtitle.rating} | Release: ${subtitle.releaseName}`,
-      value: index,
-    })),
-    message: 'Choose the subtitle',
-    name: 'choose',
-    type: 'list',
-    filter: indexSelected => listOfSubtitles[indexSelected],
-  };
-
-  // @ts-ignore
-  return inquirer.prompt(question);
+export const SubtitleService = {
+  fetch,
 };

@@ -1,10 +1,8 @@
-// @ts-nocheck
-export class Subtitle {
-  constructor(rating, language, release, link) {
-    this._rating = rating;
-    this._language = language;
+export class SubtitleModel {
+  private _link: string;
+
+  constructor(private _rating: string, private _language: string, private _release: string, link) {
     this._link = `https://www.tv-subs.com${link}.zip`;
-    this._release = release;
   }
 
   get releaseName() {

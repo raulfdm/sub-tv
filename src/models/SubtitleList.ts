@@ -1,35 +1,20 @@
-// @ts-nocheck
-import _ from 'lodash';
+import uniq from 'lodash/uniq';
 
-export class SubtitleList {
-  constructor() {
-    this._listOfSubtitles = [];
-    this._listOfSubtitlesByLanguage;
-  }
+import { SubtitleModel } from '.';
+
+export class SubtitleListModel {
+  constructor(private _subtitles: SubtitleModel[]) {}
 
   get all() {
-    return [].concat(this._listOfSubtitles);
-  }
-  set add(subtitle) {
-    this._listOfSubtitles.push(subtitle);
-    this._sortByLanguage();
+    return [...this._subtitles];
   }
 
-  get languagesAvailable() {
-    return _.reduce(
-      this._listOfSubtitlesByLanguage,
-      (result, value, key) => {
-        return result.concat(key);
-      },
-      [],
-    );
+  get availableLanguages() {
+    const languages = this._subtitles.map(sub => sub.language);
+    return uniq(languages);
   }
 
-  _sortByLanguage() {
-    this._listOfSubtitlesByLanguage = _.groupBy(this._listOfSubtitles, 'language');
-  }
-
-  getByLanguage(language) {
-    return [].concat(this._listOfSubtitlesByLanguage[language]);
+  getSubtitlesByLanguage(language) {
+    return this._subtitles.filter(sub => sub.language === language);
   }
 }
