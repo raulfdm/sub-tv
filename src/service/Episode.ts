@@ -1,45 +1,33 @@
-import fetch from 'node-fetch';
-import inquirer from 'inquirer';
+import axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { Episode } from '../models/Episode';
+import { EpisodeModel } from '../models';
 
-export const fetchEpisodes = seasonURL => {
-  return _searchEpisodes(seasonURL)
-    .then(_handleHTML)
-    .catch(err => err);
-};
-
-const _searchEpisodes = url => {
-  return fetch(url).then(res => res.text());
-};
-
-const _handleHTML = html => {
-  const dom = new JSDOM(html);
-  const listOfElements = dom.window.document.querySelectorAll(
-    'body > div:nth-child(5) > div:nth-child(5) > div a',
+function getSeasonHtmlElements(htmlText: string): Node[] {
+  const dom = new JSDOM(htmlText);
+  const elements = dom.window.document.querySelectorAll(
+    '.btn-group [href*="season"][href*="episode"]',
   );
 
-  return Array.from(listOfElements).map(episodeElement => _mountEpisodeListFromLi(episodeElement));
-};
+  return Array.from(elements);
+}
 
-const _mountEpisodeListFromLi = episodeElement => {
-  const name = episodeElement.textContent;
-  const link = episodeElement.href;
-  return new Episode(name, link);
-};
+function convertHtmlToEpisodes(elementList: Node[]) {
+  return elementList.map(el => {
+    const name = el.textContent!;
+    //@ts-ignore
+    const link = el.href;
+    return new EpisodeModel(name, link);
+  });
+}
 
-export const episodePrompt = listOfEpisodes => {
-  const question = {
-    choices: [],
-    message: 'Choose the episode',
-    name: 'episode',
-    type: 'list',
-    filter: function(answer) {
-      return listOfEpisodes.find(episode => episode.name === answer);
-    },
-  };
-  question.choices = listOfEpisodes.map(episode => episode.name);
+function fetch(seasonLink) {
+  return axios
+    .get(seasonLink)
+    .then(r => r.data)
+    .then(getSeasonHtmlElements)
+    .then(convertHtmlToEpisodes);
+}
 
-  // @ts-ignore
-  return inquirer.prompt(question);
+export const EpisodeService = {
+  fetch,
 };

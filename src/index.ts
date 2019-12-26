@@ -2,7 +2,7 @@ import program from 'commander';
 
 import { showAppTitle } from './helpers';
 import { inquirer, spinner } from './instances';
-import { SeriesPrompt, SeasonPrompt } from './prompts';
+import { SeriesPrompt, SeasonPrompt, EpisodesPrompt } from './prompts';
 // import { fetchSeasons, seasonPrompt } from './service/Season';
 // import { fetchEpisodes, episodePrompt } from './service/Episode';
 // import { fetchSeries } from './service/Serie';
@@ -10,6 +10,7 @@ import { SeriesPrompt, SeasonPrompt } from './prompts';
 // import { download } from './service/Download';
 
 import pkg from '../package.json';
+import { SeasonModel } from './models';
 
 program.version(pkg.version);
 
@@ -17,8 +18,10 @@ async function bootstrap() {
   showAppTitle();
 
   Promise.resolve()
-    .then(SeriesPrompt)
-    .then(SeasonPrompt)
+    // .then(SeriesPrompt)
+    // .then(SeasonPrompt)
+    .then(() => new SeasonModel('1', '/tv/game-of-silence/season-1/'))
+    .then(EpisodesPrompt)
     .then(console.log)
     .catch(console.error);
 
@@ -29,6 +32,7 @@ async function bootstrap() {
   //   spinner.stop();
   //   const seasonChosen = await seasonPrompt(listOfSeasons);
   //   spinner.start('Fetching available Episodes');
+
   //   const listOfEpisodes = await fetchEpisodes(seasonChosen.season.link);
   //   spinner.stop();
   //   const episodeChosen = await episodePrompt(listOfEpisodes);
