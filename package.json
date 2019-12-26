@@ -1,6 +1,6 @@
 {
   "name": "sub-tv",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "Download subtitle for your favorite series via terminal",
   "license": "MIT",
   "bin": {
