@@ -8,6 +8,6 @@ export function showAppTitle() {
 
 export function successMessage(result: DownloadReturn) {
   spinner.succeed(
-    `\nYour subtitle has been download successfully. You can find the file inside "${result.outDir}"`,
+    `Your subtitle has been download successfully. You can find the file inside "${result.outDir}"`,
   );
 }
