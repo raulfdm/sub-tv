@@ -1,58 +1,38 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { Season } from '../models/Season';
-import inquirer from 'inquirer';
+import { SeasonModel } from '../models/Season';
 
-export const fetchSeasons = serieName => {
-  const url = `https://www.tv-subs.com/tv/${serieName}`;
-  return new Promise((resolve, reject) => {
-    _searchSeason(url)
-      .then(_handleHTML)
-      .then(listOfSeasons => resolve(listOfSeasons))
-      .catch(err => reject(err));
-  });
-};
+function getSeasonHtmlElements(htmlText: string): Node[] {
+  const dom = new JSDOM(htmlText);
+  const elements = dom.window.document.querySelectorAll('[href*="season"]');
 
-const _searchSeason = url => {
-  return fetch(url).then(res => res.text());
-};
+  return Array.from(elements);
+}
 
-const _handleHTML = html => {
-  const dom = new JSDOM(html);
-  const listOfElements = dom.window.document.querySelectorAll(
-    'body > div:nth-child(5) > div.row.text-center > div a',
-  );
+function filterNonSeason(elementList: Node[]) {
+  return elementList.filter(e => !/other/i.test(e.textContent || ''));
+}
 
-  const listOfSeasons = [];
-  let season: any = {};
-
-  listOfElements.forEach(serieElement => {
-    season = _mountSeasonFromLi(serieElement);
+function convertHtmlToSeason(elementList: Node[]) {
+  return elementList.map(el => {
+    const name = el.textContent!;
     //@ts-ignore
-    if (!/other/gi.test(season.name)) listOfSeasons.push(season);
+    const link = el.href;
+    return new SeasonModel(name, link);
   });
+}
 
-  return listOfSeasons;
-};
+function fetch(serieName: string): Promise<SeasonModel[]> {
+  const url = `https://www.tv-subs.com/tv/${serieName}`;
 
-const _mountSeasonFromLi = serieElement => {
-  const name = serieElement.textContent;
-  const link = serieElement.href;
-  return new Season(name, link);
-};
+  return axios
+    .get(url)
+    .then(r => r.data)
+    .then(getSeasonHtmlElements)
+    .then(filterNonSeason)
+    .then(convertHtmlToSeason);
+}
 
-export const seasonPrompt = listOfSeason => {
-  const question = {
-    choices: [],
-    message: 'Choose the season',
-    name: 'season',
-    type: 'list',
-    filter: function(answer) {
-      return listOfSeason.find(season => season.name === answer);
-    },
-  };
-  question.choices = listOfSeason.map(serie => serie.name);
-
-  // @ts-ignore
-  return inquirer.prompt(question);
+export const SeasonService = {
+  fetch,
 };

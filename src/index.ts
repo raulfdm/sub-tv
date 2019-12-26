@@ -2,7 +2,7 @@ import program from 'commander';
 
 import { showAppTitle } from './helpers';
 import { inquirer, spinner } from './instances';
-import { SeriesPrompt } from './prompts/Series';
+import { SeriesPrompt, SeasonPrompt } from './prompts';
 // import { fetchSeasons, seasonPrompt } from './service/Season';
 // import { fetchEpisodes, episodePrompt } from './service/Episode';
 // import { fetchSeries } from './service/Serie';
@@ -18,6 +18,7 @@ async function bootstrap() {
 
   Promise.resolve()
     .then(SeriesPrompt)
+    .then(SeasonPrompt)
     .then(console.log)
     .catch(console.error);
 
