@@ -1,16 +1,11 @@
 import program from 'commander';
 
 import { showAppTitle } from './helpers';
-import { inquirer, spinner } from './instances';
+// import { inquirer, spinner } from './instances';
 import { SeriesPrompt, SeasonPrompt, EpisodesPrompt, SubtitlesPrompt } from './prompts';
-// import { fetchSeasons, seasonPrompt } from './service/Season';
-// import { fetchEpisodes, episodePrompt } from './service/Episode';
-// import { fetchSeries } from './service/Serie';
-// import { fetchSubtitles, subtitlePromp, subtitleLanguagePrompt } from './service/Subtitle';
-// import { download } from './service/Download';
+import { DownloadService } from './service/Download';
 
 import pkg from '../package.json';
-import { EpisodeModel } from './models';
 
 program.version(pkg.version);
 
@@ -18,13 +13,18 @@ async function bootstrap() {
   showAppTitle();
 
   Promise.resolve()
-    // .then(SeriesPrompt)
-    // .then(SeasonPrompt)
-    // .then(() => new SeasonModel('1', '/tv/game-of-silence/season-1/'))
-    // .then(EpisodesPrompt)
-    .then(() => new EpisodeModel('1', '/tv/game-of-silence/season-1/episode-1/'))
+    .then(SeriesPrompt)
+    .then(SeasonPrompt)
+    .then(EpisodesPrompt)
     .then(SubtitlesPrompt)
-    .then(console.log)
+    .then(DownloadService.download)
+    .then(result => {
+      console.log(result);
+      console.log(
+        'Your subtitle has been download successfully. You can find it at',
+        result.outDir,
+      );
+    })
     .catch(console.error);
 
   // try {
@@ -48,10 +48,6 @@ async function bootstrap() {
   //   const result = await download(subtitleChosen.choose);
   //   // @ts-ignore
   //   spinner.succeed(result);
-  // } catch (error) {
-  //   spinner.fail('Sorry, It was not possible to download your subtitle');
-  //   console.trace(error);
-  // }
 }
 
 bootstrap();

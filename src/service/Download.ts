@@ -1,44 +1,32 @@
 import axios from 'axios';
-import fs from 'fs';
-import path from 'path';
-import unzip from 'unzipper';
+import unzipper from 'unzipper';
 
-export const download = subtitle => {
-  return new Promise((resolve, reject) => {
-    const rootPath = process.cwd();
-    const outPath = path.format({
-      dir: rootPath,
-      // @ts-ignore
-      name: new Date().getTime(),
-      ext: '.zip',
-    });
+import { SubtitleModel } from '../models';
 
-    const subtitleFile = fs.createWriteStream(outPath);
-
-    // @ts-ignore
-    axios.get(subtitle.link, response => {
-      response.pipe(subtitleFile);
-
-      subtitleFile
-        .on('finish', () => {
-          subtitleFile.close();
-          _unzipDownload(outPath);
-          fs.unlinkSync(outPath);
-          resolve(`Subtitle download successfully!\nCheck it in ${rootPath}`);
-        })
-        .on('error', err => {
-          // @ts-ignore
-          fs.unlink(subtitle.name);
-          reject(err);
-        });
-    });
-  });
+const rootPath = process.cwd();
+type DownloadReturn = {
+  subtitle: SubtitleModel;
+  outDir: string;
 };
 
-const _unzipDownload = outPath => {
-  fs.createReadStream(outPath).pipe(
-    unzip.Extract({
-      path: process.cwd(),
+function extractFile(response) {
+  response.data.pipe(
+    unzipper.Extract({
+      path: rootPath,
     }),
   );
+}
+
+function download({ subtitle }: { subtitle: SubtitleModel }): Promise<DownloadReturn> {
+  return axios
+    .get(subtitle.link, { responseType: 'stream' })
+    .then(extractFile)
+    .then(() => ({
+      subtitle,
+      outDir: rootPath,
+    }));
+}
+
+export const DownloadService = {
+  download,
 };

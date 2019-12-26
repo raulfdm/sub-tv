@@ -12,7 +12,8 @@ export async function SeasonPrompt({ series }: { series: Series }) {
     name: 'season',
     type: 'list',
     filter: function(answer) {
-      return seasons.find(season => season.name === answer);
+      const result = seasons.find(season => season.name === answer);
+      return result;
     },
   };
 

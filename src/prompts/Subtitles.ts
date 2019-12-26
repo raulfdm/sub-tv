@@ -4,11 +4,11 @@ import { EpisodeModel } from '../models/';
 import { SubtitleService } from '../service/Subtitle';
 import { LanguagePrompt } from './LanguagePrompt';
 
-export async function SubtitlesPrompt(chosenEpisode: EpisodeModel) {
-  const subtitleList = await SubtitleService.fetch(chosenEpisode.link);
-  const chosenLanguage = await LanguagePrompt(subtitleList.availableLanguages);
+export async function SubtitlesPrompt({ episode }: { episode: EpisodeModel }) {
+  const subtitleList = await SubtitleService.fetch(episode.link);
+  const { language } = await LanguagePrompt(subtitleList.availableLanguages);
 
-  const filteredSubtitle = subtitleList.getSubtitlesByLanguage(chosenLanguage.language);
+  const filteredSubtitle = subtitleList.getSubtitlesByLanguage(language);
 
   const question = {
     choices: filteredSubtitle.map((subtitle, index) => ({
@@ -16,7 +16,7 @@ export async function SubtitlesPrompt(chosenEpisode: EpisodeModel) {
       value: index,
     })),
     message: 'Choose the subtitle',
-    name: 'choose',
+    name: 'subtitle',
     type: 'list',
     filter: indexSelected => filteredSubtitle[indexSelected],
   };

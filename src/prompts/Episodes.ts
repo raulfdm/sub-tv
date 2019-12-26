@@ -6,8 +6,8 @@ import { SeasonModel } from '../models';
 import { EpisodeService } from '../service/Episode';
 import { inquirer } from '../instances';
 
-export async function EpisodesPrompt(chosenSeason: SeasonModel) {
-  const episodes = await EpisodeService.fetch(chosenSeason.link);
+export async function EpisodesPrompt({ season }: { season: SeasonModel }) {
+  const episodes = await EpisodeService.fetch(season.link);
 
   const question = {
     choices: episodes.map(e => e.name),
