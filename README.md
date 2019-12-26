@@ -1,4 +1,5 @@
 # Sub - TV
+
 > Download your subtitles via terminal
 
 <p align="center">
@@ -10,42 +11,46 @@
 </p>
 
 ## Motivation
+
 Search subtitles may be a easy task, but it can be better. We are used to access our favorite subtitles website, fill fields, click on links, buttons, etc... But wait! Look below how easy it can be:
 
 <p align="center">
   <img src="https://media.giphy.com/media/3o6vXKXVYC1kx6pWO4/giphy.gif" alt="Animated Gif">
 </p>
 
-## Provider
-Actually it have just one provider: [tv-subs.com](http://www.tv-subs.com/) and consequently we can only download **tv series** subtitles. But soon we will add more providers to fetch include movies subtitles.
+## Subtitles Provider
+
+Actually it have just one provider: [tv-subs.com](http://www.tv-subs.com/) and consequently we can only download **tv series** subtitles.
 
 ## How use
->:warning: To use this, you must have Nodejs v7.6^
 
-### Steps
-- First of all, you must install this package globally:
+Firs of all, install it globally
 
-```
+```bash
+yarn global add sub-tv
+
+# Of if you're npm person
 npm i -g sub-tv
 ```
 
-- Open your favorite terminal, type `subtv` and **Enter**
-- Type the name of the tv serie, wait for the options to appear and select one
-- Select which season you'd like to get
-- Select the episode;
-- Select the language;
-- Select the release;
+Then, open your favorite terminal and call the CLI:
 
-The subtitle will be downloaded in the same folder that the terminal is opened.
+> If you already have a tab opened, be sure to run `source` or open another tab the get a refreshed global package list
 
-Enjoy!
+```bash
+subtv
+```
 
-## Roadmap
-You can check the progress of this project [here](https://github.com/raulfdm/subtv/projects/1)
+Then a prompt will ask you which series you want to look for, which episode, language and subtitle release.
 
-## Know Issues
-- [Do not found subtitle](https://github.com/raulfdm/subtv/issues/1)
+After all questions, the subtitle will download in the same folder you're running the CLI.
+
+## Known Issues
+
+- Many subtitles and series not found. That's because the provider I use does not have. Hopefully I'm gonna implement with `opensubtitle`;
+- [Do not found subtitle breaks the app](https://github.com/raulfdm/subtv/issues/1)
 - [Cannot read property name from undefined](https://github.com/raulfdm/subtv/issues/1)
 
 ## License
+
 [MIT License](https://github.com/afonsopacifer/open-source-boilerplate/blob/master/LICENSE.md) © [Raul Melo](https://rauldemelo.com.br)
