@@ -1,11 +1,14 @@
 {
   "name": "sub-tv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Download subtitle for your favorite series via terminal",
   "license": "MIT",
   "bin": {
     "subtv": "./dist/sub-tv.js"
   },
+  "files": [
+    "dist/"
+  ],
   "author": "Raul de Melo <melo.raulf@gmail.com> (https://rauldemelo.com.br)",
   "repository": {
     "type": "git",
