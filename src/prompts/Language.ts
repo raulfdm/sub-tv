@@ -18,7 +18,7 @@ export function LanguagePrompt(): Promise<unknown> {
 
   return new PromptFactory<PromptAutocompleteQuestion>({
     type: 'autocomplete',
-    message: 'Search for the language you want to find subtitles',
+    message: 'For what language?',
     filter,
     source,
     name: 'language',

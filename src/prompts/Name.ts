@@ -29,6 +29,6 @@ export async function NamePrompt(): Promise<unknown> {
     filter,
     name: 'movie_name',
     type: 'autocomplete',
-    message: 'Type series/movie name you want search for then choose one',
+    message: `What's the tv-series or movie name you're looking for? (The result can take a while, be patient)`,
   }).ask();
 }

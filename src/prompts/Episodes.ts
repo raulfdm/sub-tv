@@ -33,6 +33,6 @@ export async function EpisodesPrompt(): Promise<unknown> {
     choices,
     name: 'episode',
     filter,
-    message: 'Choose the episode',
+    message: 'Which episode?',
   }).ask();
 }

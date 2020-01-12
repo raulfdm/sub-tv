@@ -23,7 +23,7 @@ export async function SeasonPrompt(): Promise<unknown> {
   return new PromptFactory<PromptListQuestion>({
     name: 'Season',
     type: 'list',
-    message: 'Choose the season',
+    message: 'Which season?',
     filter,
     choices,
   }).ask();
