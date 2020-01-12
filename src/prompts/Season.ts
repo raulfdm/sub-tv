@@ -1,24 +1,30 @@
-import { inquirer, spinner } from '../instances';
+import { PromptFactory } from '../model/PromptFactory';
+import { state } from '../state';
+import { PromptListQuestion, ChoiceType } from '../types';
 
-import { SeasonService } from '../service/Season';
-import { SeriesModel } from '../models';
+/* TODO: fix unknown */
+export async function SeasonPrompt(): Promise<unknown> {
+  if (!state.isSeries) return;
 
-export async function SeasonPrompt({ series }: { series: SeriesModel }) {
-  spinner.start('Fetching available seasons');
-  const seasons = await SeasonService.fetch(series.value);
-  spinner.stop();
+  function filter(userInput: string): string {
+    state.saveSelectedSeason(userInput);
+    return userInput;
+  }
 
-  const question = {
-    choices: seasons.map(s => s.name),
-    message: 'Choose the season',
-    name: 'season',
+  if (!state.getMovieDetails()) {
+    throw new Error('No season details found');
+  }
+
+  const choices: ChoiceType[] = Object.keys(state.getMovieDetails()!.seasons).map(seasonNumber => ({
+    name: `Season ${seasonNumber}`,
+    value: seasonNumber,
+  }));
+
+  return new PromptFactory<PromptListQuestion>({
+    name: 'Season',
     type: 'list',
-    filter: function(answer: string) {
-      const result = seasons.find(season => season.name === answer);
-      return result;
-    },
-  };
-
-  //@ts-ignore
-  return inquirer.prompt(question);
+    message: 'Choose the season',
+    filter,
+    choices,
+  }).ask();
 }

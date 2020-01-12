@@ -1,29 +1,23 @@
-import { inquirer, spinner } from '../instances';
+import { state } from '../state';
+import { PromptFactory } from '../model/PromptFactory';
+import { SubtitleApiObject, PromptCheckboxQuestion } from '../types';
 
-import { EpisodeModel } from '../models/';
-import { SubtitleService } from '../service/Subtitle';
-import { LanguagePrompt } from './LanguagePrompt';
+export async function SubtitlesPrompt(): Promise<unknown> {
+  const choices = state.getSubtitlesByLanguage(state.selectedLanguage!).map(sub => ({
+    name: sub.fileName,
+    value: sub,
+  }));
 
-export async function SubtitlesPrompt({ episode }: { episode: EpisodeModel }) {
-  spinner.start('Fetching available subtitles');
-  const subtitleList = await SubtitleService.fetch(episode.link);
-  spinner.stop();
+  function filter(subtitles: SubtitleApiObject[]): SubtitleApiObject[] {
+    state.saveSelectSubtitltes(subtitles);
+    return subtitles;
+  }
 
-  const { language } = await LanguagePrompt(subtitleList.availableLanguages);
-
-  const filteredSubtitle = subtitleList.getSubtitlesByLanguage(language);
-
-  const question = {
-    choices: filteredSubtitle.map((subtitle, index) => ({
-      name: `Rating: ${subtitle.rating} | Release: ${subtitle.releaseName}`,
-      value: index,
-    })),
-    message: 'Choose the subtitle',
+  return new PromptFactory<PromptCheckboxQuestion>({
+    choices,
     name: 'subtitle',
-    type: 'list',
-    filter: (indexSelected: number) => filteredSubtitle[indexSelected],
-  };
-
-  // @ts-ignore
-  return inquirer.prompt(question);
+    message: 'Choose subtitles to download',
+    filter,
+    type: 'checkbox',
+  }).ask();
 }

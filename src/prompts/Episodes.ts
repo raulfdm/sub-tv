@@ -1,22 +1,38 @@
-import { inquirer, spinner } from '../instances';
-import { SeasonModel } from '../models';
-import { EpisodeService } from '../service/Episode';
+import { state } from '../state';
+import { API } from '../service/Api';
+import { PromptFactory } from '../model/PromptFactory';
+import { spinner } from '../instances';
+import { EpisodeApiObject, PromptListQuestion } from '../types';
 
-export async function EpisodesPrompt({ season }: { season: SeasonModel }) {
+export async function EpisodesPrompt(): Promise<unknown> {
+  if (!state.isSeries) return;
+
   spinner.start('Fetching available Episodes');
-  const episodes = await EpisodeService.fetch(season.link);
+
+  const episodes = await API.fetchEpisodes(state.getMovieDetails()?.id!, state.selectedSeason!);
+
   spinner.stop();
 
-  const question = {
-    choices: episodes.map(e => e.name),
-    message: 'Choose the episode',
-    name: 'episode',
-    type: 'list',
-    filter: function(answer: string) {
-      return episodes.find(episode => episode.name === answer);
-    },
-  };
+  const choices = episodes.map((e: EpisodeApiObject) => ({
+    name: `Episode ${e.epNumber}: ${e.title}`,
+    value: e,
+  }));
 
-  // @ts-ignore
-  return inquirer.prompt(question);
+  function filter(userEpisode: EpisodeApiObject): EpisodeApiObject {
+    state.saveSelectedEpisode(userEpisode);
+
+    return userEpisode;
+  }
+
+  if (!state.getMovieDetails()) {
+    throw new Error('No season details found');
+  }
+
+  return new PromptFactory<PromptListQuestion>({
+    type: 'list',
+    choices,
+    name: 'episode',
+    filter,
+    message: 'Choose the episode',
+  }).ask();
 }

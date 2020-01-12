@@ -1,11 +1,17 @@
-import axios from 'axios';
-import { SeriesModel } from '../models/Series';
+import { API } from './Api';
+import { spinner } from '../instances';
+import { state } from '../state';
 
-export class SeriesService {
-  static async fetch(serieName = '""') {
-    const url = `https://www.tv-subs.com/ajax_search.php?mov=${serieName}`;
-    const foundSeries = await axios.get(url);
+export async function obtainDataByMovieKind(): Promise<void> {
+  spinner.start(`Fetching subtitle details...`);
 
-    return foundSeries.data.map((s: { tv: string; slug: string }) => new SeriesModel(s.tv, s.slug));
-  }
+  const subtitles = await API.fetchSubtitles(
+    state.getMovieDetails()?.id!,
+    state.selectedSeason!,
+    state.selectedEpisode?.epNumber.toString()!,
+  );
+
+  state.saveSubtitlesAndLanguages(subtitles);
+
+  await spinner.succeed('Subtitles obtained');
 }
