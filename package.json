@@ -1,7 +1,7 @@
 {
   "name": "sub-tv",
   "version": "2.0.0",
-  "description": "Download subtitle for your favorite series via terminal",
+  "description": "Download Movies and Series subtitles via a intuitive node CLI",
   "license": "MIT",
   "bin": {
     "subtv": "./dist/sub-tv.js"
