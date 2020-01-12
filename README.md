@@ -13,7 +13,7 @@
 
 ## Motivation
 
-Search subtitles may be a easy task, but it can be better. We are used to access our favorite subtitles website, fill fields, click on links, buttons, etc... But wait! Look below how easy it can be:
+Search subtitles might be an easy task but also a boring one. So what if we can do that just using our favorite tool?
 
 <p align="center">
   <img src="media/demo.gif" alt="CLI Demo">
