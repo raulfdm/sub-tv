@@ -19,20 +19,29 @@ Search subtitles may be a easy task, but it can be better. We are used to access
   <img src="media/cli-demo.gif" alt="CLI Demo">
 </p>
 
+> GIF recorded using [terminalizer](https://terminalizer.com/)!
+
 ## Subtitles Provider
 
 This CLI uses [`open-subtitles`](https://www.opensubtitles.org/) as provider. They have [an API](https://trac.opensubtitles.org/projects/opensubtitles/wiki/XMLRPC) to help us (devs) to create apps on top of they resource.
 
-Because their API is protected by user Token they provide you via requirement, I had to create a server (to hold my personal key) and be a middleware for this CLI.
+It means whatever subtitle you can find in the website, you'll be able to find using this CLI!
+
+## Server API
+
+Because their API is protected by user Token they provide you via requirement, I had to create a server (to hold my personal key) and to be a middleware for this CLI, which unfortunately is not open-source but hopefully soon I'll merge it into this repo.
+
+Behind the scenes my server uses [`opensubtitles-api`](https://www.npmjs.com/package/opensubtitles-api) package which provides a very good abstraction for this XMLRPC API.
 
 ## How use
 
-I'd suggest you install globally, since the idea is to reuse more than once:
+Since it's a NodeJS CLI, you **do** need to have it installed.
+
+> For more info: https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+
+Also, I'd suggest you install it globally since the idea is to reuse more than once:
 
 ```bash
-yarn global add sub-tv
-
-# Of if you're npm person
 npm i -g sub-tv
 ```
 
