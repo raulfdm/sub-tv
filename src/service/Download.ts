@@ -1,33 +1,27 @@
-import axios, { AxiosResponse } from 'axios';
 import unzipper from 'unzipper';
 
-import { SubtitleModel } from '../models';
+import { state } from '../state';
+import { API } from './Api';
+import { spinner, config } from '../instances';
 
-const rootPath = process.cwd();
-
-export type DownloadReturn = {
-  subtitle: SubtitleModel;
-  outDir: string;
-};
-
-function extractFile(response: AxiosResponse) {
-  response.data.pipe(
+function extractFile(fileStream: NodeJS.ReadWriteStream): void {
+  fileStream.pipe(
     unzipper.Extract({
-      path: rootPath,
+      path: config.distPath,
     }),
   );
 }
 
-function download({ subtitle }: { subtitle: SubtitleModel }): Promise<DownloadReturn> {
-  return axios
-    .get(subtitle.link, { responseType: 'stream' })
-    .then(extractFile)
-    .then(() => ({
-      subtitle,
-      outDir: rootPath,
-    }));
-}
+export async function downloadSubtitles(): Promise<void> {
+  spinner.start('Downloading and extracting your subtitles');
 
-export const DownloadService = {
-  download,
-};
+  await Promise.all(
+    state.getSelectedSubtitles()?.map(sub => {
+      return (API.downloadSingleSubtitle(sub.zipLink) as Promise<NodeJS.ReadWriteStream>).then(
+        extractFile,
+      );
+    }),
+  );
+
+  spinner.stop();
+}
