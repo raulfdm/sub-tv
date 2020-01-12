@@ -16,7 +16,7 @@ export async function SubtitlesPrompt(): Promise<unknown> {
   return new PromptFactory<PromptCheckboxQuestion>({
     choices,
     name: 'subtitle',
-    message: 'Choose subtitles to download',
+    message: 'Choose all subtitles you want to download',
     filter,
     type: 'checkbox',
   }).ask();
