@@ -1,6 +1,6 @@
 {
   "name": "sub-tv",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Download Movies and Series subtitles via a intuitive node CLI",
   "license": "MIT",
   "bin": {
