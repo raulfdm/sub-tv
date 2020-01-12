@@ -16,7 +16,7 @@
 Search subtitles may be a easy task, but it can be better. We are used to access our favorite subtitles website, fill fields, click on links, buttons, etc... But wait! Look below how easy it can be:
 
 <p align="center">
-  <img src="media/cli-demo.gif" alt="CLI Demo">
+  <img src="media/demo.gif" alt="CLI Demo">
 </p>
 
 > GIF recorded using [terminalizer](https://terminalizer.com/)!
