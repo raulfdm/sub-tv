@@ -10,7 +10,9 @@ export function generateApiUrl(uri: string): string {
 }
 
 export function successMessage(): void {
-  spinner.succeed('All subtitles were download successfully! :)');
+  spinner.succeed(
+    `All subtitles were download successfully. \nYou can find them in the folder "${config.distPath}"`,
+  );
 }
 
 export function errorHandling(err: Error): never {
