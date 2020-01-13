@@ -7,6 +7,7 @@ export type PromptBaseQuestion = {
   type: PromptType;
   message: string;
   filter: PromptFilterFn;
+  validate?: (userSelection: any) => boolean | string;
 };
 
 export type ChoiceType = {
