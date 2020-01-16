@@ -5,9 +5,6 @@ on: push
 jobs:
   install_deps:
     runs-on: ubuntu-latest
-    paths:
-      - .yarn-cache/
-      - node_modules
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -15,7 +12,7 @@ jobs:
         run: yarn --frozen-lockfile --cache-folder=.yarn-cache
       - name: Get yarn cache --cache-folder .yarn-cache
         id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "::set-output name=dir::$(.yarn-cache/)"
       - uses: actions/cache@v1
         with:
           path: ${{ steps.yarn-cache.outputs.dir }}
