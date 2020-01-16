@@ -1,28 +1,10 @@
-# jobs:
-#   lint:
-#     name: ESLINT
-#     runs-on: ubuntu-latest
-#     steps:
-#       run: |
-#         yarn
-#         cd cli
-#         yarn lint
-
-#   build_cli:
-#     needs: lint
-#     name: Build CLI
-#     steps:
-#       run: |
-#         yarn
-#         cd cli
-#         yarn build
-
 name: Node CI
 
 on: push
 
 jobs:
   lint:
+    name: Linting
     env:
       CI: true
     runs-on: ubuntu-latest
@@ -35,6 +17,8 @@ jobs:
         run: yarn lint
 
   build_cli:
+    name: Building CLI
+    needs: lint
     env:
       CI: true
     runs-on: ubuntu-latest
