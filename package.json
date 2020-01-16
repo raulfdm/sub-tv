@@ -1,0 +1,11 @@
+{
+  "name": "sub-tv",
+  "private": true,
+  "repository": "git@github.com:raulfdm/sub-tv.git",
+  "author": "Raul <melo.raulf@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "cli",
+    "server"
+  ]
+}
