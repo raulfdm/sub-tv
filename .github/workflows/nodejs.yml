@@ -1,7 +1,3 @@
-# name: Node CI
-
-# on: push
-
 # jobs:
 #   lint:
 #     name: ESLINT
@@ -26,7 +22,7 @@ name: Node CI
 on: push
 
 jobs:
-  build:
+  lint:
     name: Lint
     runs-on: ubuntu-latest
     steps:
@@ -38,24 +34,12 @@ jobs:
           yarn lint
         env:
           CI: true
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     strategy:
-#       matrix:
-#         node-version: [12.x]
-
-#     steps:
-#
-#       - name: Use Node.js ${{ matrix.node-version }}
-
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - name: Install, lint, build and release check
-#         run: |
-#           yarn
-#           yarn lint
-#           yarn build
-#           GH_TOKEN=${{ secrets.GH_TOKEN }} NPM_TOKEN=${{ secrets.NPM_TOKEN }} yarn release --branch=${GITHUB_REF##*/}
-
+  build_cli:
+    needs: lint
+    name: Build CLI
+    steps:
+      run: |
+        cd cli
+        yarn build
+      env:
+        CI: true
