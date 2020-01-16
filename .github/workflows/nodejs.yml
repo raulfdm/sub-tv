@@ -6,13 +6,20 @@ jobs:
   lint:
     name: ESLINT
     runs-on: ubuntu-latest
+    steps:
+      run: |
+        yarn
+        cd cli
+        yarn lint
+
   build_cli:
     needs: lint
     name: Build CLI
-    run: |
-      yarn
-      cd cli
-      yarn build
+    steps:
+      run: |
+        yarn
+        cd cli
+        yarn build
 
 # jobs:
 #   build:
