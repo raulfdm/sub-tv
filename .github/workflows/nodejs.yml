@@ -1,25 +1,43 @@
-name: Node CI
+# name: Node CI
 
-on: [push]
+# on: push
+
+# jobs:
+#   lint:
+#     name: ESLINT
+#     runs-on: ubuntu-latest
+#     steps:
+#       run: |
+#         yarn
+#         cd cli
+#         yarn lint
+
+#   build_cli:
+#     needs: lint
+#     name: Build CLI
+#     steps:
+#       run: |
+#         yarn
+#         cd cli
+#         yarn build
+
+name: Greeting from Mona
+
+on: push
 
 jobs:
-  lint:
-    name: ESLINT
+  my-job:
+    name: My Job
     runs-on: ubuntu-latest
     steps:
-      run: |
-        yarn
-        cd cli
-        yarn lint
-
-  build_cli:
-    needs: lint
-    name: Build CLI
-    steps:
-      run: |
-        yarn
-        cd cli
-        yarn build
+      - name: Print a greeting
+        env:
+          MY_VAR: Hi there! My name is
+          FIRST_NAME: Mona
+          MIDDLE_NAME: The
+          LAST_NAME: Octocat
+        run: |
+          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
 
 # jobs:
 #   build:
