@@ -26,8 +26,8 @@ name: Greeting from Mona
 on: push
 
 jobs:
-  my-job:
-    name: My Job
+  build:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - name: Print a greeting
@@ -37,7 +37,8 @@ jobs:
           MIDDLE_NAME: The
           LAST_NAME: Octocat
         run: |
-          echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
+          yarn install
+          yarn lint
 
 # jobs:
 #   build:
