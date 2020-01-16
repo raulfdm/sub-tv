@@ -23,13 +23,22 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.19.1",
     "debounce-promise": "^3.1.2",
     "figlet": "^1.2.4",
-    "inquirer": "^7.0.1",
+    "inquirer": "^7.0.3",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "ora": "^4.0.3",
     "pretty-error": "^2.1.1",
     "unzipper": "^0.10.5"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/git": "^8.0.0",
+    "@types/debounce-promise": "^3.1.1",
+    "@types/figlet": "^1.2.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/unzipper": "^0.10.1",
+    "semantic-release": "^16.0.2"
   }
 }
