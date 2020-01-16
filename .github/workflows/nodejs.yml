@@ -21,7 +21,7 @@
 #         cd cli
 #         yarn build
 
-name: Greeting from Mona
+name: Node CI
 
 on: push
 
@@ -31,11 +31,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check code lint
+        uses: actions/setup-node@v1
         run: |
           ls -a
           yarn install
           yarn lint
-
+        env:
+          CI: true
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
@@ -47,7 +49,7 @@ jobs:
 #     steps:
 #       - uses: actions/checkout@v1
 #       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v1
+
 #         with:
 #           node-version: ${{ matrix.node-version }}
 #       - name: Install, lint, build and release check
@@ -56,5 +58,4 @@ jobs:
 #           yarn lint
 #           yarn build
 #           GH_TOKEN=${{ secrets.GH_TOKEN }} NPM_TOKEN=${{ secrets.NPM_TOKEN }} yarn release --branch=${GITHUB_REF##*/}
-#         env:
-#           CI: true
+
