@@ -1,0 +1,35 @@
+{
+  "name": "sub-tv",
+  "version": "0.0.0-development",
+  "description": "Download Movies and Series subtitles via a intuitive node CLI",
+  "license": "MIT",
+  "bin": {
+    "subtv": "./dist/sub-tv.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "author": "Raul de Melo <melo.raulf@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raulfdm/sub-tv/"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "rollup -c --sourcemap",
+    "dev": "yarn build --watch",
+    "prepack": "yarn build",
+    "lint": "yarn eslint ./src/ --ext .js,.jsx,.ts,.tsx",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "debounce-promise": "^3.1.2",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.1",
+    "inquirer-autocomplete-prompt": "^1.0.1",
+    "ora": "^4.0.3",
+    "pretty-error": "^2.1.1",
+    "unzipper": "^0.10.5"
+  }
+}
