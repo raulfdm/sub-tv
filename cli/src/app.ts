@@ -7,7 +7,11 @@ import {
   NamePrompt,
   LanguagePrompt,
 } from './prompts';
-import { downloadSubtitles, obtainDataByMovieKind, obtainMovieDetails } from './service';
+import {
+  downloadSubtitles,
+  obtainDataByMovieKind,
+  obtainMovieDetails,
+} from './service';
 import { showAppTitle, errorHandling, successMessage } from './helpers';
 
 showAppTitle()
