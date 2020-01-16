@@ -24,26 +24,26 @@ on: push
 jobs:
   lint:
     name: Lint
+    env:
+      CI: true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - name: Check code lint
-        run: |
-          yarn install
-          yarn lint
-        env:
-          CI: true
-  build_cli:
-    needs: lint
-    name: Build CLI
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - name: Check code lint
-        run: |
-          yarn install
-          yarn lint
-        env:
-          CI: true
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Run Lint
+        run: yarn lint
+  # build_cli:
+  #   name: Build CLI
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v1
+  #     - run:
+  #     - name: Check code lint
+  #       run: |
+  #         yarn --frozen-lockfile
+  #         yarn lint
+  #       env:
+  #         CI: true
