@@ -8,7 +8,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-      - name: Get yarn cache
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Get yarn cache --cache-folder .yarn-cache
         id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - uses: actions/cache@v1
