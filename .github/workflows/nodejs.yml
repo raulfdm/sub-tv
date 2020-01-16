@@ -44,19 +44,6 @@ jobs:
       - uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn --frozen-lockfile
-      - run: cd cli/
+      - run: ls -a
       - name: Build
         run: yarn build
-  # build_cli:
-  #   name: Build CLI
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - uses: actions/setup-node@v1
-  #     - run:
-  #     - name: Check code lint
-  #       run: |
-  #         yarn --frozen-lockfile
-  #         yarn lint
-  #       env:
-  #         CI: true
