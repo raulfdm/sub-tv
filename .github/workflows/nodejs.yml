@@ -37,9 +37,13 @@ jobs:
   build_cli:
     needs: lint
     name: Build CLI
+    runs-on: ubuntu-latest
     steps:
-      run: |
-        cd cli
-        yarn build
-      env:
-        CI: true
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Check code lint
+        run: |
+          yarn install
+          yarn lint
+        env:
+          CI: true
