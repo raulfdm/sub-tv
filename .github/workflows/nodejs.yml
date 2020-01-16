@@ -4,6 +4,7 @@ on: push
 
 jobs:
   cache:
+    runs-on: ubuntu-latest
     steps:
       - name: Get yarn cache
         id: yarn-cache
@@ -20,18 +21,17 @@ jobs:
         run: yarn --frozen-lockfile
       - name: Run Lint
         run: yarn lint
-
-  build_cli:
-    name: Building CLI
-    needs: lint
-    env:
-      CI: true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - name: Build
-        working-directory: ./cli
-        run: yarn build
+  # build_cli:
+  #   name: Building CLI
+  #   needs: lint
+  #   env:
+  #     CI: true
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: actions/setup-node@v1
+  #     - name: Install dependencies
+  #       run: yarn --frozen-lockfile
+  #     - name: Build
+  #       working-directory: ./cli
+  #       run: yarn build
