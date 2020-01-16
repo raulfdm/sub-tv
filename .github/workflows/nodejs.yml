@@ -5,6 +5,9 @@ on: push
 jobs:
   install_deps:
     runs-on: ubuntu-latest
+    paths:
+      - .yarn-cache/
+      - node_modules
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
