@@ -16,6 +16,7 @@ jobs:
       - name: Run Lint
         run: yarn lint
   build_cli:
+    if: contains(github.ref, 'development') || contains(github.ref, 'master')
     name: Building CLI
     needs: lint
     env:
