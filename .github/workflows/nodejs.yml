@@ -1,26 +1,48 @@
 name: Node CI
 
-on: [push]
+on: push
 
 jobs:
-  build:
+  lint_and_test:
+    name: Linting and Test
+    env:
+      CI: true
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install, lint, build and release check
-        run: |
-          yarn
-          yarn lint
-          yarn build
-          GH_TOKEN=${{ secrets.GH_TOKEN }} NPM_TOKEN=${{ secrets.NPM_TOKEN }} yarn release --branch=${GITHUB_REF##*/}
-        env:
-          CI: true
+      - uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Run Lint
+        run: yarn lint
+      - name: Run tests
+        run: yarn test
+
+  build:
+    name: Building CLI
+    env:
+      CI: true
+    needs: lint_and_test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+
+  release:
+    name: Release new version
+    if: contains(github.ref, 'master')
+    needs: [lint_and_test, build]
+    env:
+      CI: true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Release
+        run: GH_TOKEN=${{ secrets.GH_TOKEN }} NPM_TOKEN=${{ secrets.NPM_TOKEN }} yarn release --branch=${GITHUB_REF##*/}
