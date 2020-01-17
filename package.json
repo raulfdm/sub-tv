@@ -20,7 +20,9 @@
     "dev": "yarn build --watch",
     "prepack": "yarn build",
     "lint": "yarn eslint ./src/ --ext .js,.jsx,.ts,.tsx",
-    "release": "semantic-release"
+    "prerelease": "yarn build",
+    "release": "semantic-release",
+    "test": "echo not yet, but soon, I promise!"
   },
   "dependencies": {
     "axios": "^0.19.0",
