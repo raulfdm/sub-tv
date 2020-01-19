@@ -9,7 +9,10 @@ export async function EpisodesPrompt(): Promise<unknown> {
 
   spinner.start('Fetching available Episodes');
 
-  const episodes = await API.fetchEpisodes(state.getMovieDetails()?.id!, state.selectedSeason!);
+  const episodes = await API.fetchEpisodes(
+    state.getMovieDetails()?.id!,
+    state.selectedSeason!,
+  );
 
   spinner.stop();
 

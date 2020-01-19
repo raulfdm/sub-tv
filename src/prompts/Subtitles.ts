@@ -3,10 +3,12 @@ import { PromptFactory } from '../model/PromptFactory';
 import { SubtitleApiObject, PromptCheckboxQuestion } from '../types';
 
 export async function SubtitlesPrompt(): Promise<unknown> {
-  const choices = state.getSubtitlesByLanguage(state.selectedLanguage!).map(sub => ({
-    name: sub.fileName,
-    value: sub,
-  }));
+  const choices = state
+    .getSubtitlesByLanguage(state.selectedLanguage!)
+    .map((sub) => ({
+      name: sub.fileName,
+      value: sub,
+    }));
 
   function filter(subtitles: SubtitleApiObject[]): SubtitleApiObject[] {
     state.saveSelectSubtitltes(subtitles);

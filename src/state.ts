@@ -64,7 +64,7 @@ class State {
 
   getMovieByTitle(title: string): SearchApiObject {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.moviesFromApi.find(movie => movie.title === title)!;
+    return this.moviesFromApi.find((movie) => movie.title === title)!;
   }
 
   getAvailableSubtitles(): SubtitleApiResponse {

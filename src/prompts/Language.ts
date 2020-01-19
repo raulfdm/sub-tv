@@ -13,7 +13,9 @@ export function LanguagePrompt(): Promise<unknown> {
       return lang.toLowerCase().includes(userInput.toLocaleLowerCase());
     }
 
-    return Promise.resolve(state.getAvailableLanguages().filter(filterUserChoice));
+    return Promise.resolve(
+      state.getAvailableLanguages().filter(filterUserChoice),
+    );
   }
 
   return new PromptFactory<PromptAutocompleteQuestion>({

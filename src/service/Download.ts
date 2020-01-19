@@ -16,10 +16,10 @@ export async function downloadSubtitles(): Promise<void> {
   spinner.start('Downloading and extracting your subtitles');
 
   await Promise.all(
-    state.getSelectedSubtitles()?.map(sub => {
-      return (API.downloadSingleSubtitle(sub.zipLink) as Promise<NodeJS.ReadWriteStream>).then(
-        extractFile,
-      );
+    state.getSelectedSubtitles()?.map((sub) => {
+      return (API.downloadSingleSubtitle(sub.zipLink) as Promise<
+        NodeJS.ReadWriteStream
+      >).then(extractFile);
     }),
   );
 

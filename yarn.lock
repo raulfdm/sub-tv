@@ -246,6 +246,11 @@
     lodash "^4.17.4"
     read-pkg-up "^7.0.0"
 
+"@sub-tv/prettier-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sub-tv/prettier-config/-/prettier-config-1.0.0.tgz#0255e6359a0a99d33fe10af7a103ef31b35bf1a1"
+  integrity sha512-4oHlPWH23LpERBPEcl5wLWQigD1xC4LyJaP5Wxm5Yh3Xu4e2EO/w1f/dEkqS/atdVbn5+pt3RPoKpgq4DbyM1w==
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
