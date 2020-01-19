@@ -4,8 +4,27 @@ import { PromptFactory } from '../model/PromptFactory';
 import { spinner } from '../instances';
 import { EpisodeApiObject, PromptListQuestion } from '../types';
 
+type EpisodeChoice = { name: string; value: EpisodeApiObject };
+
+export function createChoices(episodes: EpisodeApiObject[]): EpisodeChoice[] {
+  return episodes.map((ep) => ({
+    name: `Episode ${ep.epNumber}: ${ep.title}`,
+    value: ep,
+  }));
+}
+
+export function filter(userEpisode: EpisodeApiObject): EpisodeApiObject {
+  state.saveSelectedEpisode(userEpisode);
+
+  return userEpisode;
+}
+
 export async function EpisodesPrompt(): Promise<unknown> {
   if (!state.isSeries) return;
+
+  if (!state.getMovieDetails()) {
+    throw new Error('No season details found');
+  }
 
   spinner.start('Fetching available Episodes');
 
@@ -16,24 +35,9 @@ export async function EpisodesPrompt(): Promise<unknown> {
 
   spinner.stop();
 
-  const choices = episodes.map((e: EpisodeApiObject) => ({
-    name: `Episode ${e.epNumber}: ${e.title}`,
-    value: e,
-  }));
-
-  function filter(userEpisode: EpisodeApiObject): EpisodeApiObject {
-    state.saveSelectedEpisode(userEpisode);
-
-    return userEpisode;
-  }
-
-  if (!state.getMovieDetails()) {
-    throw new Error('No season details found');
-  }
-
   return new PromptFactory<PromptListQuestion>({
     type: 'list',
-    choices,
+    choices: createChoices(episodes),
     name: 'episode',
     filter,
     message: 'Which episode?',
