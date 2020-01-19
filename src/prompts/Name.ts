@@ -14,7 +14,7 @@ export async function NamePrompt(): Promise<unknown> {
     const movies = await API.fetchMovies(userInput);
 
     state.saveMovies(movies);
-    return movies.map(m => m.title);
+    return movies.map((m) => m.title);
   }
 
   function filter(userSelection: string): SearchApiObject {

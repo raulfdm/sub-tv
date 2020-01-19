@@ -1,7 +1,14 @@
 import { inquirer } from '../instances';
-import { PromptListQuestion, PromptCheckboxQuestion, PromptAutocompleteQuestion } from '../types';
+import {
+  PromptListQuestion,
+  PromptCheckboxQuestion,
+  PromptAutocompleteQuestion,
+} from '../types';
 
-type PromptFactoryType = PromptListQuestion | PromptCheckboxQuestion | PromptAutocompleteQuestion;
+type PromptFactoryType =
+  | PromptListQuestion
+  | PromptCheckboxQuestion
+  | PromptAutocompleteQuestion;
 
 export class PromptFactory<T extends PromptFactoryType> {
   private question: PromptFactoryType | null;

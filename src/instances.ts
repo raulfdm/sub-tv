@@ -2,7 +2,10 @@ import ora from 'ora';
 import inquirerLocal from 'inquirer';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-inquirerLocal.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'));
+inquirerLocal.registerPrompt(
+  'autocomplete',
+  require('inquirer-autocomplete-prompt'),
+);
 
 export const inquirer = inquirerLocal;
 

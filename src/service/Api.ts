@@ -11,7 +11,7 @@ import { generateApiUrl, errorHandling } from '../helpers';
 function fetch<T>(url: string, opts?: AxiosRequestConfig): Promise<T> {
   return axios
     .get(url, opts)
-    .then(res => res.data)
+    .then((res) => res.data)
     .catch(errorHandling);
 }
 
@@ -24,7 +24,10 @@ export class API {
     return fetch(generateApiUrl(`/search?movieName=${movieName}`));
   }
 
-  static fetchEpisodes(movieId: string, season: string): Promise<EpisodeApiResponse> {
+  static fetchEpisodes(
+    movieId: string,
+    season: string,
+  ): Promise<EpisodeApiResponse> {
     return fetch(generateApiUrl(`/${movieId}/${season}/episodes`));
   }
 

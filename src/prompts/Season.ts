@@ -15,7 +15,9 @@ export async function SeasonPrompt(): Promise<unknown> {
     throw new Error('No season details found');
   }
 
-  const choices: ChoiceType[] = Object.keys(state.getMovieDetails()!.seasons).map(seasonNumber => ({
+  const choices: ChoiceType[] = Object.keys(
+    state.getMovieDetails()!.seasons,
+  ).map((seasonNumber) => ({
     name: `Season ${seasonNumber}`,
     value: seasonNumber,
   }));

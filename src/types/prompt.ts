@@ -17,7 +17,8 @@ export type ChoiceType = {
 
 export type Choices = { choices: ChoiceType[] | string[] };
 
-export type PromptListQuestion = PromptBaseQuestion & Choices & { type: 'list' };
+export type PromptListQuestion = PromptBaseQuestion &
+  Choices & { type: 'list' };
 
 export type PromptCheckboxQuestion = PromptBaseQuestion &
   Choices & {
