@@ -8,6 +8,8 @@
     <img src="https://github.com/raulfdm/subtv/workflows/Node%20CI/badge.svg" alt="Build bagde">
     <a href="https://david-dm.org/raulfdm/sub-tv" title="dependencies status">
     <img src="https://david-dm.org/raulfdm/sub-tv/status.svg"/></a>
+    <img src="https://img.shields.io/npm/dt/sub-tv" alt="Total downloads">
+    <img src="https://img.shields.io/npm/v/sub-tv" alt="Version">
   </p>
 </p>
 
