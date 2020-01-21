@@ -5,7 +5,7 @@
 <p align="center">
   <img src="media/logo.png" height="100" width="100" alt="Logo">
   <p align="center">
-    <img src="https://github.com/raulfdm/subtv/workflows/Node%20CI/badge.svg" alt="Build bagde">
+    <img src="https://github.com/sub-tv/sub-tv-cli/workflows/Node%20CI/badge.svg" alt="Build bagde">
     <a href="https://david-dm.org/raulfdm/sub-tv" title="dependencies status">
     <img src="https://david-dm.org/raulfdm/sub-tv/status.svg"/></a>
     <img src="https://img.shields.io/npm/dt/sub-tv" alt="Total downloads">
