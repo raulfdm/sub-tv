@@ -5,11 +5,18 @@
 <p align="center">
   <img src="media/logo.png" height="100" width="100" alt="Logo">
   <p align="center">
-    <img src="https://github.com/sub-tv/sub-tv-cli/workflows/Node%20CI/badge.svg" alt="Build bagde">
-    <a href="https://david-dm.org/raulfdm/sub-tv" title="dependencies status">
-    <img src="https://david-dm.org/raulfdm/sub-tv/status.svg"/></a>
-    <img src="https://img.shields.io/npm/dt/sub-tv" alt="Total downloads">
-    <img src="https://img.shields.io/npm/v/sub-tv" alt="Version">
+    <a href="https://github.com/sub-tv/sub-tv-cli/actions" title="Github Actions">
+      <img src="https://github.com/sub-tv/sub-tv-cli/workflows/Node%20CI/badge.svg" alt="Build bagde">
+    </a>
+    <a href="https://david-dm.org/sub-tv/sub-tv-cli" title="dependencies status">
+      <img src="https://david-dm.org/sub-tv/sub-tv-cli/status.svg" />
+    </a>
+    <a href="https://www.npmjs.com/package/sub-tv" title="NPM Downloads">
+      <img src="https://img.shields.io/npm/dt/sub-tv" alt="Total downloads">
+    </a>
+    <a href="https://www.npmjs.com/package/sub-tv" title="NPM Versions">
+      <img src="https://img.shields.io/npm/v/sub-tv" alt="Version">
+    </a>
   </p>
 </p>
 
