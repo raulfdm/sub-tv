@@ -32,7 +32,7 @@ export default {
     replace({
       __SERVER_URL__: process.env.ROLLUP_WATCH
         ? 'http://localhost:3000'
-        : 'http://service.subtvapi.app',
+        : 'https://subtv-api-server.herokuapp.com',
     }),
   ],
 };
