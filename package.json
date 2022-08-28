@@ -2,5 +2,8 @@
   "name": "sub-tv",
   "private": true,
   "description": "",
-  "scripts": {}
+  "scripts": {},
+  "devDependencies": {
+    "turbo": "1.4.3"
+  }
 }
