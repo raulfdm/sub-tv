@@ -1,0 +1,82 @@
+{
+  "name": "sub-tv",
+  "version": "0.0.0-development",
+  "description": "Download Movies and Series subtitles via a intuitive node CLI",
+  "license": "MIT",
+  "bin": {
+    "subtv": "./dist/sub-tv.js"
+  },
+  "files": [
+    "dist/"
+  ],
+  "author": "Raul de Melo <melo.raulf@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raulfdm/sub-tv/"
+  },
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "rollup -c --sourcemap",
+    "dev": "yarn build --watch",
+    "prepack": "yarn build",
+    "lint:typescript": "yarn tsc --build tsconfig.json",
+    "lint:eslint": "yarn eslint ./src/ --ext .js,.jsx,.ts,.tsx",
+    "lint": "npm-run-all lint:typescript lint:eslint --parallel",
+    "prerelease": "yarn build",
+    "release": "semantic-release",
+    "test": "jest",
+    "test:watch": "yarn test --watch"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "debounce-promise": "^3.1.2",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.1",
+    "inquirer-autocomplete-prompt": "^1.0.1",
+    "ora": "^4.0.3",
+    "pretty-error": "^2.1.1",
+    "unzipper": "^0.10.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@rollup/plugin-node-resolve": "^6.0.0",
+    "@rollup/plugin-replace": "^2.3.0",
+    "@semantic-release/changelog": "^3.0.6",
+    "@semantic-release/git": "^8.0.0",
+    "@sub-tv/eslint-config": "^1.1.0",
+    "@sub-tv/prettier-config": "^1.1.0",
+    "@types/debounce-promise": "^3.1.1",
+    "@types/figlet": "^1.2.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/jest": "^24.9.0",
+    "@types/unzipper": "^0.10.1",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
+    "babel-jest": "^24.9.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.27.14",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.1.3",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "semantic-release": "^16.0.1",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.4"
+  },
+  "prettier": "@sub-tv/prettier-config",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}

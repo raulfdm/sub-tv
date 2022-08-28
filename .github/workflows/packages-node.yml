@@ -1,0 +1,20 @@
+name: Node CI
+
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Create npmrc
+        run: touch ~/.npmrc | echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      - name: Install dependencies
+        run: |
+          yarn --frozen-lockfile
+          yarn lerna bootstrap
+      - name: Publish
+        run: yarn release
+        env:
+          CI: true
