@@ -1,0 +1,23 @@
+{
+  "name": "@sub-tv/prettier-config",
+  "version": "1.1.0",
+  "description": "sub-tv Sharable prettier Config",
+  "author": "Raul <melo.raulf@gmail.com>",
+  "homepage": "https://github.com/sub-tv/javascript#readme",
+  "license": "MIT",
+  "main": "prettier.config.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "files": [
+    "prettier.config.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sub-tv/javascript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sub-tv/javascript/issues"
+  }
+}
