@@ -163,9 +163,34 @@ importers:
   apps/cli-v2:
     specifiers:
       '@sub-tv/eslint-config': workspace:*
+      '@types/debounce-promise': 3.1.1
+      '@types/figlet': 1.2.0
+      '@types/inquirer': 6.5.0
+      '@types/unzipper': 0.10.1
+      axios: 0.27.2
+      debounce-promise: 3.1.2
+      figlet: 1.2.4
+      inquirer: 7.0.1
+      inquirer-autocomplete-prompt: 1.0.1
+      ora: 4.0.3
+      pretty-error: 4.0.0
+      unzipper: 0.10.5
       vite: 3.0.9
+    dependencies:
+      '@types/unzipper': 0.10.1
+      axios: 0.27.2
+      debounce-promise: 3.1.2
+      figlet: 1.2.4
+      inquirer: 7.0.1
+      inquirer-autocomplete-prompt: 1.0.1_inquirer@7.0.1
+      ora: 4.0.3
+      pretty-error: 4.0.0
+      unzipper: 0.10.5
     devDependencies:
       '@sub-tv/eslint-config': link:../../packages/eslint-config
+      '@types/debounce-promise': 3.1.1
+      '@types/figlet': 1.2.0
+      '@types/inquirer': 6.5.0
       vite: 3.0.9
 
   packages/eslint-config:
@@ -2010,7 +2035,6 @@ packages:
 
   /@types/node/18.7.13:
     resolution: {integrity: sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2095,7 +2119,6 @@ packages:
     resolution: {integrity: sha512-I53zUuPGMR/ry/s61qdlk/NkJHwhekycCqI7IXWFcJHOK+oIFUhnCPT26Wbf4UYNLpFjeujFioXGH+SWY4yUUQ==}
     dependencies:
       '@types/node': 18.7.13
-    dev: true
 
   /@types/yargs-parser/21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
@@ -2636,6 +2659,15 @@ packages:
       follow-redirects: 1.5.10
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /axios/0.27.2:
+    resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
+    dependencies:
+      follow-redirects: 1.15.1
+      form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /babel-jest/24.9.0_@babel+core@7.18.13:
@@ -4458,6 +4490,16 @@ packages:
     resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
     dev: true
 
+  /follow-redirects/1.15.1:
+    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
   /follow-redirects/1.5.10:
     resolution: {integrity: sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==}
     engines: {node: '>=4.0'}
@@ -4488,6 +4530,15 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+
+  /form-data/4.0.0:
+    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
+    engines: {node: '>= 6'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
+    dev: false
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -7299,6 +7350,13 @@ packages:
       utila: 0.4.0
     dev: false
 
+  /pretty-error/4.0.0:
+    resolution: {integrity: sha512-AoJ5YMAcXKYxKhuJGdcvse+Voc6v1RgnsR3nWcYU7q4t6z0Q6T86sv5Zq8VIRbOWWFpvdGE83LtdSMNd+6Y0xw==}
+    dependencies:
+      lodash: 4.17.21
+      renderkid: 3.0.0
+    dev: false
+
   /pretty-format/24.9.0:
     resolution: {integrity: sha512-00ZMZUiHaJrNfk33guavqgvfJS30sLYf0f8+Srklv0AMPodGGHcoHgksZ3OThYnIvOd+8yMCn0YiEOogjlgsnA==}
     engines: {node: '>= 6'}
@@ -7591,6 +7649,16 @@ packages:
       htmlparser2: 6.1.0
       lodash: 4.17.21
       strip-ansi: 3.0.1
+    dev: false
+
+  /renderkid/3.0.0:
+    resolution: {integrity: sha512-q/7VIQA8lmM1hF+jn+sFSPWGlMkSAeNYcPLmDQx2zzuiDfaLrOmumR8iaUKlenFgh0XRPIUeSPlH3A+AW3Z5pg==}
+    dependencies:
+      css-select: 4.3.0
+      dom-converter: 0.2.0
+      htmlparser2: 6.1.0
+      lodash: 4.17.21
+      strip-ansi: 6.0.1
     dev: false
 
   /repeat-element/1.1.4:
