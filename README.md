@@ -3,7 +3,7 @@
 > Download Movies and Series subtitles via a intuitive node CLI.
 
 <p align="center">
-  <img src="media/logo.png" height="100" width="100" alt="Logo">
+  <img src="docs/media/logo.png" height="100" width="100" alt="Logo">
   <p align="center">
     <a href="https://github.com/sub-tv/sub-tv-cli/actions" title="Github Actions">
       <img src="https://github.com/sub-tv/sub-tv-cli/workflows/Node%20CI/badge.svg" alt="Build bagde">
@@ -25,7 +25,7 @@
 Search subtitles might be an easy task but also a boring one. So what if we can do that just using our favorite tool?
 
 <p align="center">
-  <img src="media/demo.gif" alt="CLI Demo">
+  <img src="docs/media/demo.gif" alt="CLI Demo">
 </p>
 
 > GIF recorded using [terminalizer](https://terminalizer.com/)!
