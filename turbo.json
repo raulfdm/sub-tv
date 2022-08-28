@@ -1,3 +1,8 @@
 {
-  "$schema": "https://turborepo.org/schema.json"
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "build": {},
+    "lint": {},
+    "test": {}
+  }
 }
