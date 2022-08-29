@@ -1,53 +1,43 @@
-import { config } from "dotenv";
-config();
-import * as cron from "node-cron";
-import { OpenSubtitles } from "./config/service";
-import * as Sentry from "@sentry/node";
-import pino from "express-pino-logger";
-import express, { Request, NextFunction, Response } from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
+import cors from "cors";
+import * as dotEnv from "dotenv";
+import express from "express";
 
-import apiRoutes from "./routes/api";
+dotEnv.config();
 
-cron.schedule("* */10 * * *", async function() {
-  await (await OpenSubtitles).wakeUp();
-  // await (await OpenSubtitles).resetTokens();
-});
+// import * as Sentry from "@sentry/node";
+// import pino from "express-pino-logger";
 
-Sentry.init({
-  dsn: process.env.SENTRY_DNS
-});
+// import { OpenSubtitles } from "./config/service";
+// import apiRoutes from "./routes/api";
 
-const port = 3000;
+// // Sentry.init({
+// //   dsn: process.env.SENTRY_DNS
+// // });
+
+const PORT = 5001;
 const app = express();
 
-// The request handler must be the first middleware on the app
-app.use(Sentry.Handlers.requestHandler());
+// // The request handler must be the first middleware on the app
+// app.use(Sentry.Handlers.requestHandler());
 app.use(cors());
-app.use(pino());
+// app.use(pino());
 app.use(bodyParser.json());
 
-app.use("/api", apiRoutes);
+// app.use("/api", apiRoutes);
 
 app.get("/", (_, res) => {
   res.status(200).json({ health: "ok" });
 });
 
 // The error handler must be before any other error middleware and after all controllers
-app.use(Sentry.Handlers.errorHandler());
+// app.use(Sentry.Handlers.errorHandler());
 
-// @ts-ignore
-app.use(function onError(
-  _err: Error,
-  _req_: Request,
-  res: Response & { sentry: string },
-  _next: NextFunction
-) {
+app.use(function onError(_, res) {
   res.status(500).json({
     message: "Something get wrong in the server.",
-    extra: `You can open an issue by clicking here: https://github.com/sub-tv/sub-tv-api/issues/new?assignees=raulfdm&labels=bug&template=unexpected_error.md&title=%5BError%20ID%5D:%20${res.sentry}`
+    extra: `You can open an issue by clicking here: https://github.com/sub-tv/sub-tv-api/issues/new?assignees=raulfdm&labels=bug&template=unexpected_error.md&title=%5BError%20ID%5D:%20`
   });
 });
 
-app.listen(port, () => console.log(`Sub-tv API running on port: ${port}!`));
+app.listen(PORT, () => console.log(`Sub-tv API running on port: ${PORT}!`));

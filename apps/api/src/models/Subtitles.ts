@@ -1,6 +1,8 @@
-import { pick, groupBy } from "lodash";
+/* TODO: double check this file */
+// @ts-nocheck
+import { groupBy, pick } from "lodash";
 
-import { SubtitleApiResponse, NormalizedSubtitle } from "../types";
+import { NormalizedSubtitle, SubtitleApiResponse } from "../types";
 
 export class Subtitles {
   static filterFields(sub: SubtitleApiResponse): NormalizedSubtitle {

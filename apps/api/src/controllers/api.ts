@@ -2,8 +2,8 @@ import { RequestHandler } from "express";
 
 import { OpenSubtitles } from "../config/service";
 import { Movie, Subtitles } from "../models";
-import { fetchSeason } from "../services/season";
 import { fetchEpisodes } from "../services/episodes";
+import { fetchSeason } from "../services/season";
 
 export const search: RequestHandler = async (req, res) => {
   const service = await OpenSubtitles;
