@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@sub-tv/eslint-config": "workspace:*",
+    "@sub-tv/types": "workspace:*",
     "@types/body-parser": "1.19.2",
     "@types/cors": "2.8.12",
     "@types/express": "4.17.13",
