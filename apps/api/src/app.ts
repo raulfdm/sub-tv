@@ -1,38 +1,45 @@
-import bodyParser from "body-parser";
-import cors from "cors";
 import * as dotEnv from "dotenv";
-import express from "express";
-
 dotEnv.config();
 
+import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
+import pinoExpress from "express-pino-logger";
+
+import apiRoutes from "./routes/api";
+
 // import * as Sentry from "@sentry/node";
-// import pino from "express-pino-logger";
 
 // import { OpenSubtitles } from "./config/service";
-// import apiRoutes from "./routes/api";
 
-// // Sentry.init({
-// //   dsn: process.env.SENTRY_DNS
-// // });
+// Sentry.init({
+//   dsn: process.env.SENTRY_DNS
+// });
 
 const PORT = 5001;
 const app = express();
 
 // // The request handler must be the first middleware on the app
 // app.use(Sentry.Handlers.requestHandler());
+/**
+ * Handlers
+ */
 app.use(cors());
-// app.use(pino());
+app.use(pinoExpress({ prettifier: true, enabled: false }));
 app.use(bodyParser.json());
 
-// app.use("/api", apiRoutes);
-
+/**
+ * Routes
+ */
 app.get("/", (_, res) => {
   res.status(200).json({ health: "ok" });
 });
+app.use("/api", apiRoutes);
 
-// The error handler must be before any other error middleware and after all controllers
+/**
+ * The error handler must be before any other error middleware and after all Routes
+ */
 // app.use(Sentry.Handlers.errorHandler());
-
 app.use(function onError(_, res) {
   res.status(500).json({
     message: "Something get wrong in the server.",

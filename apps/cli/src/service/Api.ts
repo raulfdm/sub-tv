@@ -1,17 +1,13 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from "axios";
 
-import {
-  SearchApiResponse,
-  DetailsApiResponse,
-  EpisodeApiResponse,
-  SubtitleApiResponse,
-} from '../types';
-import { generateApiUrl, errorHandling } from '../helpers';
+import { DetailsApiResponse, EpisodeApiResponse, SubtitleApiResponse } from "../types";
+import { generateApiUrl, errorHandling } from "../helpers";
+import { OpenSubtitleFeatureApiResponse } from "@sub-tv/types";
 
 function fetch<T>(url: string, opts?: AxiosRequestConfig): Promise<T> {
   return axios
     .get(url, opts)
-    .then((res) => res.data)
+    .then(res => res.data)
     .catch(errorHandling);
 }
 
@@ -20,26 +16,19 @@ export class API {
     return fetch(generateApiUrl(`/${movieId}/details`));
   }
 
-  static fetchMovies(movieName = ''): Promise<SearchApiResponse> {
-    return fetch(generateApiUrl(`/search?movieName=${movieName}`));
+  static fetchFeatures(query = ""): Promise<OpenSubtitleFeatureApiResponse> {
+    return fetch(generateApiUrl(`/search?q=${query}`));
   }
 
-  static fetchEpisodes(
-    movieId: string,
-    season: string,
-  ): Promise<EpisodeApiResponse> {
+  static fetchEpisodes(movieId: string, season: string): Promise<EpisodeApiResponse> {
     return fetch(generateApiUrl(`/${movieId}/${season}/episodes`));
   }
 
-  static fetchSubtitles(
-    movieId: string,
-    season?: string,
-    episode?: string,
-  ): Promise<SubtitleApiResponse> {
+  static fetchSubtitles(movieId: string, season?: string, episode?: string): Promise<SubtitleApiResponse> {
     let urlResult = generateApiUrl(`/${movieId}/subtitles`);
 
     if (season && !episode) {
-      throw new Error('Episode is required');
+      throw new Error("Episode is required");
     }
 
     if (season && episode) {
@@ -50,6 +39,6 @@ export class API {
   }
 
   static downloadSingleSubtitle(zipLink: string): Promise<unknown> {
-    return fetch(zipLink, { responseType: 'stream' });
+    return fetch(zipLink, { responseType: "stream" });
   }
 }
