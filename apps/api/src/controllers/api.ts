@@ -12,7 +12,7 @@ export const search: RequestHandler = async (req, res) => {
     res.json([]);
   }
 
-  const result = await service.searchMoviesOnIMDB(req.query.movieName);
+  const result = await service.searchMoviesOnIMDB(req.query.movieName as string);
 
   res.json(result);
 };
@@ -32,7 +32,9 @@ export const getDetails: RequestHandler = async (req, res) => {
 
     res.json(movie.apiResponse);
   } catch (error) {
-    if (error.includes("not found")) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    if ("message" in error && error.message.includes("not found")) {
       /* TODO: Add a scrapper to get from website */
       movie.details = { kind: "unknown", title: "unknown" };
       return res.json(movie.apiResponse);
@@ -54,7 +56,7 @@ export const getSubtitles: RequestHandler = async (req, res) => {
   const { imdbId } = req.params;
   const { season, ep } = req.query;
 
-  const result = await service.searchSubtitle(imdbId, season, ep);
+  const result = await service.searchSubtitle(imdbId, season as string, ep as string);
   const normalizedData = Subtitles.fromApi(result);
 
   res.json(normalizedData);
