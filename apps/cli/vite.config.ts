@@ -6,6 +6,9 @@ function isExternal(id: string) {
 }
 
 export default defineConfig({
+  define: {
+    __SERVER_URL__: process.env.SERVER_URL || "http://localhost:5001"
+  },
   build: {
     lib: {
       entry: resolve(__dirname, "src/app.ts"),
