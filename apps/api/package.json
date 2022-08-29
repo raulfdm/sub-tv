@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "12.x"
+    "node": "16.x"
   },
   "scripts": {
     "dev": "tsc --watch & nodemon dist/app.js",
@@ -16,8 +16,6 @@
   },
   "dependencies": {
     "@sentry/node": "5.11.1",
-    "@types/express-pino-logger": "4.0.2",
-    "@types/lodash": "4.14.149",
     "axios": "0.19.0",
     "body-parser": "1.19.0",
     "cors": "2.8.5",
@@ -34,12 +32,16 @@
     "rimraf": "3.0.0"
   },
   "devDependencies": {
+    "@sub-tv/eslint-config": "workspace:*",
+    "@types/body-parser": "1.19.2",
     "@types/cors": "2.8.6",
+    "@types/express-pino-logger": "4.0.2",
     "@types/express": "4.17.2",
     "@types/jsdom": "12.2.4",
-    "@types/node": "13.1.6",
+    "@types/lodash": "4.14.149",
     "@types/node-cron": "2.0.2",
+    "@types/node": "13.1.6",
     "ts-node": "8.6.1",
-    "typescript": "3.7.4"
+    "typescript": "4.8.2"
   }
 }
