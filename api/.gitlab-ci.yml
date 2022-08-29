@@ -1,0 +1,14 @@
+image: centos
+
+before_script:
+  - yum -y install epel-release
+  - yum -y install sshpass openssh-clients
+
+stages:
+  - deploy
+
+reload-on-server:
+  stage: deploy
+  script:
+    - eval $(ssh-agent -s) && ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - ssh -o "StrictHostKeyChecking no" hacker@arch-beta.science.net "cd /dados/sub-tv-api/ && git pull && sudo rm .env && echo OPEN_SUB_USER_AGENT="$OPEN_SUB_USER_AGENT" >> .env && echo OPEN_SUB_USERNAME="$OPEN_SUB_USERNAME" >> .env && echo OPEN_SUB_USERNAME="$OPEN_SUB_USERNAME" >> .env && echo OPEN_SUB_PASSWORD="$OPEN_SUB_PASSWORD" >> .env && echo OPEN_SUB_TOKEN="$OPEN_SUB_TOKEN" >> .env && sudo systemctl restart sub-tv"

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo OPEN_SUB_USER_AGENT="$OPEN_SUB_USER_AGENT" >>.env
+echo OPEN_SUB_USERNAME="$OPEN_SUB_USERNAME" >>.env
+echo OPEN_SUB_USERNAME="$OPEN_SUB_USERNAME" >>.env
+echo OPEN_SUB_PASSWORD="$OPEN_SUB_PASSWORD" >>.env
+echo OPEN_SUB_TOKEN="$OPEN_SUB_TOKEN" >>.env
+
+npm start

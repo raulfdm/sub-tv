@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
+    "module": "commonjs", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+    "lib": [
+      "ESNext",
+    ], /* Specify library files to be included in the compilation. */
+    "sourceMap": true, /* Generates corresponding '.map' file. */
+    "outDir": "./dist", /* Redirect output structure to the directory. */
+    "rootDir": "./src", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "removeComments": true, /* Do not emit comments to output. */
+    "noEmitOnError": true,
+    "strict": true, /* Enable all strict type-checking options. */
+    /* Additional Checks */
+    "noUnusedLocals": true, /* Report errors on unused locals. */
+    "noUnusedParameters": true, /* Report errors on unused parameters. */
+    /* Module Resolution Options */
+    "allowSyntheticDefaultImports": true, /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+  },
+  "include": [
+    "./src/**/*.ts"
+  ]
+}
