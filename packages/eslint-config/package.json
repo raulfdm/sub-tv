@@ -1,5 +1,9 @@
 {
   "name": "@sub-tv/eslint-config",
   "version": "0.0.0-development",
-  "main": "index.js"
+  "main": "index.js",
+  "dependencies": {
+    "eslint": "8.23.0",
+    "eslint-plugin-simple-import-sort": "7.0.0"
+  }
 }
