@@ -53,6 +53,7 @@ function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
     };
 
     const response = await fetch(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeURI(query)}`, options);
+    console.log('IS OK',response.ok)
     const result = (await response.json()) as OpenSubtitleFeatureApiResponse;
 
     return result;

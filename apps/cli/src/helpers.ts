@@ -1,8 +1,8 @@
-import figlet from 'figlet';
-import { config, spinner } from './instances';
+import figlet from "figlet";
+import { config, spinner } from "./instances";
 
-export function showAppTitle(): Promise<void> {
-  return Promise.resolve(console.log(figlet.textSync('Sub - TV')));
+export function showAppTitle(): void {
+  console.log(figlet.textSync("Sub - TV"));
 }
 
 export function generateApiUrl(uri: string): string {
@@ -10,20 +10,18 @@ export function generateApiUrl(uri: string): string {
 }
 
 export function successMessage(): void {
-  spinner.succeed(
-    `All subtitles were download successfully. \nYou can find them in the folder "${config.distPath}"`,
-  );
+  spinner.succeed(`All subtitles were download successfully. \nYou can find them in the folder "${config.distPath}"`);
 }
 
 export function errorHandling(err: Error): never {
-  let message = 'Something went wrong';
+  let message = "Something went wrong";
 
-  if (err.message.includes('404')) {
-    message = 'The API might be not available. Please try later';
-  } else if (err.message.includes('supported')) {
+  if (err.message.includes("404")) {
+    message = "The API might be not available. Please try later";
+  } else if (err.message.includes("supported")) {
     message = err.message;
   } else {
-    message = 'Unknow Error';
+    message = "Unknow Error";
     console.error(err);
   }
 

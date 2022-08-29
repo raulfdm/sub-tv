@@ -1,1 +1,3 @@
-export * from "./index";
+type Foo = any;
+
+export default Foo;

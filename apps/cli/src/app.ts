@@ -16,29 +16,28 @@
 // .then(successMessage)
 // .catch(errorHandling);
 
-import inquirer, { Question } from "inquirer";
 import { createMachine, interpret, assign } from "xstate";
+import { showAppTitle } from "./helpers";
+import { inquirer } from "./config/inquirer";
+import { featureNamePrompt } from "./new-prompts/featureName";
 
 const subtitlesMachine = createMachine(
   {
     predictableActionArguments: true,
-    initial: "getName",
+    initial: "initial",
     context: {
       name: null
     },
     states: {
+      initial: {
+        entry: [showAppTitle],
+        after: {
+          300: "getName"
+        }
+      },
       getName: {
         invoke: {
-          src: () => {
-            const nameModule = inquirer.createPromptModule();
-            return nameModule([
-              {
-                type: "input",
-                name: "name",
-                message: "What's the media name?"
-              }
-            ]);
-          },
+          src: featureNamePrompt,
           onDone: {
             target: "getFeature",
             actions: ["setName"]
@@ -73,43 +72,3 @@ const subtitlesMachine = createMachine(
 );
 
 interpret(subtitlesMachine).start();
-
-// const prompt = inquirer.createPromptModule();
-
-// const questions: Question[] = [
-//   {
-//     type: "input",
-//     name: "first_name",
-//     message: "What's your first name"
-//   },
-//   {
-//     type: "input",
-//     name: "last_name",
-//     message: "What's your last name",
-//     default() {
-//       return "Doe";
-//     },
-//     when: answers => {
-//       console.log(answers);
-//       return false;
-//     }
-//   },
-//   {
-//     type: "input",
-//     name: "phone",
-//     message: "What's your phone number"
-//   }
-// ];
-
-// inquirer.prompt(questions).then(answers => {
-//   console.log(JSON.stringify(answers, null, "  "));
-//   return prompt([
-//     {
-//       type: "input",
-//       name: "first_name",
-//       message: "Chupa um cu?"
-//     }
-//   ]).then(answers => {
-//     console.log(JSON.stringify(answers, null, "  "));
-//   });
-// });

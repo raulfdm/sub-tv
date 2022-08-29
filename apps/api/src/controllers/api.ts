@@ -6,13 +6,13 @@ import { openSubtitleApiClient } from "../config/openSubtitle";
 // import { fetchSeason } from "../services/season";
 
 export const search: RequestHandler = async (req, res) => {
-  console.log(req.query);
   if (!req.query.movieName) {
     return res.json([]);
   }
 
   const result = await openSubtitleApiClient.searchFeature(req.query.movieName as string);
 
+  console.log(result);
   res.json(result);
 };
 

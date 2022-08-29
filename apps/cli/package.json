@@ -24,13 +24,20 @@
     "lint:ts": "tsc"
   },
   "dependencies": {
+    "@sub-tv/inquirer-autocomplete-prompt": "workspace:*",
+    "axios": "0.27.2",
+    "debounce-promise": "3.1.2",
     "inquirer": "9.0.0",
-    "xstate": "4.33.4"
+    "figlet": "1.5.2",
+    "xstate": "4.33.4",
+    "ora": "6.1.2"
   },
   "devDependencies": {
     "@sub-tv/types": "workspace:*",
     "@sub-tv/eslint-config": "workspace:*",
+    "@types/debounce-promise": "3.1.4",
     "@types/inquirer": "6.5.0",
+    "@types/figlet": "1.5.5",
     "vite": "3.0.9"
   }
 }
