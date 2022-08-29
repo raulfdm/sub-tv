@@ -1,0 +1,18 @@
+{
+  "name": "@sub-tv/open-subtitle-client",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "postinstall": "pnpm run build"
+  },
+  "dependencies": {
+    "got": "12.3.1"
+  },
+  "devDependencies": {
+    "@sub-tv/types": "workspace:*",
+    "@sub-tv/eslint-config": "workspace:*",
+    "@sub-tv/prettier-config": "workspace:*",
+    "prettier": "2.7.1",
+    "vite": "3.0.9"
+  }
+}
