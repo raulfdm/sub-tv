@@ -1,0 +1,20 @@
+{
+  "name": "@sub-tv/inquirer-autocomplete-prompt",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "ansi-escapes": "4.3.2",
+    "figures": "3.2.0",
+    "picocolors": "1.0.0",
+    "run-async": "2.4.1",
+    "rxjs": "7.5.4"
+  },
+  "devDependencies": {
+    "inquirer": "9.0.0",
+    "@types/inquirer": "9.0.1"
+  },
+  "peerDependencies": {
+    "inquirer": "^9.0.0"
+  }
+}
