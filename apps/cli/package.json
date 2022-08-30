@@ -17,7 +17,9 @@
   "scripts": {
     "prepack": "pnpm run build",
     "build": "vite build",
-    "dev": "vite build --watch",
+    "dev": "concurrently \"pnpm run dev:lib\" \"dev:xstate\"",
+    "dev:lib": "vite build --watch",
+    "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\"",
     "dev:cli": "node dist/sub-tv.mjs",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
@@ -38,6 +40,8 @@
     "@types/debounce-promise": "3.1.4",
     "@types/inquirer": "6.5.0",
     "@types/figlet": "1.5.5",
-    "vite": "3.0.9"
+    "@xstate/cli": "0.3.2",
+    "vite": "3.0.9",
+    "prettier": "2.7.1"
   }
 }
