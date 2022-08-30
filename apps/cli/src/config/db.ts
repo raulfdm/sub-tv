@@ -1,3 +1,4 @@
+import type { UserCredentials } from '@sub-tv/open-subtitle';
 import { JSONFileSync, LowSync } from 'lowdb';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -8,9 +9,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const file = join(__dirname, '../db.json');
 const adapter = new JSONFileSync<DatabaseSchema>(file);
 
-type DatabaseSchema = {
-  userToken: string | null;
-  userApiKey: string | null;
+export type DatabaseSchema = {
+  credentials: UserCredentials | null;
   preferredLanguages: string[];
 };
 
@@ -21,8 +21,7 @@ function initializeDB() {
   database.read();
 
   database.data ||= {
-    userToken: null,
-    userApiKey: null,
+    credentials: null,
     preferredLanguages: ['en'],
   };
 
@@ -36,18 +35,14 @@ function createSubTvDB() {
   const databaseData = database.data!;
 
   return {
-    get userToken() {
-      return databaseData.userToken;
+    get userCredentials() {
+      return databaseData.credentials;
     },
-    setUserToken(token: NonNullable<DatabaseSchema['userToken']>): void {
-      databaseData.userToken = token;
-      database.write();
+    hasCredentials() {
+      return databaseData.credentials !== null;
     },
-    get apiKey() {
-      return databaseData.userApiKey;
-    },
-    setApiKey(apiKey: NonNullable<DatabaseSchema['userApiKey']>): void {
-      databaseData.userApiKey = apiKey;
+    setUserCredentials(credentials: NonNullable<DatabaseSchema['credentials']>): void {
+      databaseData.credentials = credentials;
       database.write();
     },
     get preferredLanguages() {

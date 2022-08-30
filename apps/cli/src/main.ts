@@ -1,8 +1,8 @@
 import { assign, createMachine, interpret } from 'xstate';
-import { featuresPrompt } from './modules/features';
 
+import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
-import { hasPersistedCredentials, loginPrompt, saveUserToken, updateApiClientCredentials } from './modules/login';
+import { hasPersistedCredentials, loginPrompt, refreshSection } from './modules/login';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { clearConsoleWithAppTitle } from './modules/welcome';
 
@@ -35,7 +35,7 @@ const subTvMachine = createMachine(
         after: {
           600: [
             {
-              target: 'updateCredentials',
+              target: 'refreshSection',
               cond: hasPersistedCredentials,
             },
             {
@@ -44,10 +44,10 @@ const subTvMachine = createMachine(
           ],
         },
       },
-      updateCredentials: {
+      refreshSection: {
         always: {
           target: 'app',
-          actions: [updateApiClientCredentials],
+          actions: [refreshSection],
         },
       },
       login: {
@@ -55,7 +55,10 @@ const subTvMachine = createMachine(
           src: 'loginPrompt',
           onDone: {
             target: 'app',
-            actions: [(_, event) => saveUserToken(event.data)],
+          },
+          onError: {
+            target: 'login',
+            actions: [() => console.error('Invalid Credentials')],
           },
         },
       },

@@ -1,11 +1,13 @@
+import type { UserCredentials } from '@sub-tv/open-subtitle';
+
 import { apiClient } from '../config/apiClient';
 import { db } from '../config/db';
 import { createPromptModule } from '../config/inquirer';
 
-export async function loginPrompt(): Promise<string> {
+export async function loginPrompt(): Promise<void> {
   const prompt = createPromptModule();
 
-  const answers = await prompt([
+  const credentials = await prompt<UserCredentials>([
     {
       type: 'input',
       name: 'username',
@@ -26,17 +28,19 @@ export async function loginPrompt(): Promise<string> {
     },
   ]);
 
-  return apiClient.login(answers.username, answers.password, answers.apiKey);
+  await apiClient.login(credentials);
+
+  saveCredentials(credentials);
 }
 
-export function saveUserToken(token: string): void {
-  db.setUserToken(token);
+function saveCredentials(credentials: UserCredentials): void {
+  db.setUserCredentials(credentials);
 }
 
-export function hasPersistedCredentials(): boolean {
-  return db.userToken !== null;
+export function hasPersistedCredentials() {
+  return db.hasCredentials();
 }
 
-export function updateApiClientCredentials() {
-  apiClient.setCredentials(db.userToken, db.apiKey);
+export function refreshSection() {
+  apiClient.login(db.userCredentials!);
 }

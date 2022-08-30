@@ -12,3 +12,9 @@ export type OpenSubtitleLoginReturnType = {
   token: Token;
   status: number;
 };
+
+export type UserCredentials = {
+  username: string;
+  password: string;
+  apiKey: string;
+};

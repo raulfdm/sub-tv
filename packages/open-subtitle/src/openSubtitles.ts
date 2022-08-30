@@ -2,15 +2,14 @@ import type {
   OpenSubtitleFeatureApiResponse,
   OpenSubtitleLanguagesApiResponse,
   OpenSubtitleLoginReturnType,
-  Token,
+  UserCredentials,
 } from './types';
 import got from 'got';
 
 type OpenSubtitleApiClientReturnType = {
-  login: (username: string, password: string, apiKey: string) => Promise<Token>;
+  login: (credentials: UserCredentials) => Promise<void>;
   searchFeature: (query: string) => Promise<OpenSubtitleFeatureApiResponse>;
   fetchLanguages: () => Promise<OpenSubtitleLanguagesApiResponse['data']>;
-  setCredentials: (token: Token, apiKey: string) => void;
 };
 
 export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
@@ -21,32 +20,24 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
     login,
     searchFeature,
     fetchLanguages,
-    setCredentials,
   };
 
-  function setCredentials(token: string, apiKey: string) {
-    _token = token;
-    _apiKey = apiKey;
-  }
-
-  async function login(username: string, password: string, apiKey: string): Promise<Token> {
-    _apiKey = apiKey;
+  async function login(credentials: UserCredentials): Promise<void> {
+    _apiKey = credentials.apiKey;
 
     if (_token === null) {
       const { token } = await got
         .post('https://api.opensubtitles.com/api/v1/login', {
           headers: getCommonHeaders(),
           json: {
-            username,
-            password,
+            username: credentials.username,
+            password: credentials.password,
           },
         })
         .json<OpenSubtitleLoginReturnType>();
 
       _token = token;
     }
-
-    return _token;
   }
 
   async function searchFeature(query: string): Promise<OpenSubtitleFeatureApiResponse> {
