@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    /* Emit */
+    "declaration": true, /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
+    "emitDeclarationOnly": true, /* Only output d.ts files and not JavaScript files. */
+    "outDir": "dist", /* Specify an output folder for all emitted files. */
+    "declarationMap": true, /* Create sourcemaps for d.ts files. */
+    "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
+    "forceConsistentCasingInFileNames": true, /* Ensure that casing is correct in imports. */
+    "strict": true, /* Enable all strict type-checking options. */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "isolatedModules": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

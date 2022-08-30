@@ -1,8 +1,15 @@
 {
-  "name": "@sub-tv/open-subtitle-client",
+  "name": "@sub-tv/open-subtitle",
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "scripts": {
-    "build": "vite build",
+    "dev": "concurrently \"pnpm run dev:lib\" \"pnpm run dev:types\"",
+    "dev:lib": "vite build --watch",
+    "dev:types": "tsc --watch",
+    "build": "run-s build:*",
+    "build:lib": "vite build",
+    "build:types": "tsc",
     "postinstall": "pnpm run build"
   },
   "dependencies": {
