@@ -5,8 +5,6 @@ import { createPromptModule } from '../config/inquirer';
 export async function loginPrompt(): Promise<string> {
   const prompt = createPromptModule();
 
-  console.log(db.userToken);
-
   const answers = await prompt([
     {
       type: 'input',
