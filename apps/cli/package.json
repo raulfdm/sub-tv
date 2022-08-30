@@ -17,9 +17,9 @@
   "scripts": {
     "prepack": "pnpm run build",
     "build": "vite build",
-    "dev": "concurrently \"pnpm run dev:lib\" \"dev:xstate\"",
+    "dev": "concurrently \"pnpm run dev:lib\" \"pnpm run dev:xstate\"",
     "dev:lib": "vite build --watch",
-    "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\"",
+    "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\" --watch",
     "dev:cli": "node dist/sub-tv.mjs",
     "lint": "npm-run-all lint:*",
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
