@@ -11,6 +11,7 @@ export async function mainAppPrompt(): Promise<AppOptions> {
     {
       type: 'list',
       name: 'option',
+      message: 'Main Menu. Select an option:',
       choices: [{ name: '1. Select preferred languages', value: AppOptions.SelectLanguage }],
     },
   ]);

@@ -21,7 +21,7 @@ function initializeDB() {
 
   database.data ||= {
     userToken: null,
-    langs: [],
+    langs: ['en'],
   };
 
   database.write();
@@ -41,7 +41,7 @@ function createSubTvDB() {
       databaseData.userToken = token;
       database.write();
     },
-    get langs() {
+    get preferredLanguages() {
       return databaseData.langs;
     },
     setLangs(langs: DatabaseSchema['langs']) {

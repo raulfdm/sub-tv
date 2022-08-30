@@ -1,9 +1,15 @@
-import type { OpenSubtitleFeatureApiResponse, OpenSubtitleLoginReturnType } from './types';
+import type {
+  OpenSubtitleFeatureApiResponse,
+  OpenSubtitleLanguagesApiResponse,
+  OpenSubtitleLoginReturnType,
+  Token,
+} from './types';
 import got from 'got';
 
 type OpenSubtitleApiClientReturnType = {
-  login: (username: string, password: string, apiKey: string) => Promise<string>;
+  login: (username: string, password: string, apiKey: string) => Promise<Token>;
   searchFeature: (query: string) => Promise<OpenSubtitleFeatureApiResponse>;
+  fetchLanguages: () => Promise<OpenSubtitleLanguagesApiResponse['data']>;
 };
 
 export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
@@ -13,11 +19,12 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
   const api: OpenSubtitleApiClientReturnType = {
     login,
     searchFeature,
+    fetchLanguages,
   };
 
   return api;
 
-  async function login(username: string, password: string, apiKey: string): Promise<string> {
+  async function login(username: string, password: string, apiKey: string): Promise<Token> {
     _apiKey = apiKey;
 
     if (_token === null) {
@@ -45,6 +52,19 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
       .json<{ data: OpenSubtitleFeatureApiResponse }>();
 
     return data;
+  }
+
+  async function fetchLanguages() {
+    const { data } = await got
+      .get('https://api.opensubtitles.com/api/v1/infos/languages', {
+        headers: getCommonHeaders(),
+      })
+      .json<OpenSubtitleLanguagesApiResponse>();
+
+    /**
+     * Open Subtitle API returns an array of languages not properly sorted.
+     */
+    return data.sort((a, b) => a.language_name.localeCompare(b.language_name));
   }
 
   function getCommonHeaders() {

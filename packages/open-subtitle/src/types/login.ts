@@ -1,3 +1,5 @@
+export type Token = string;
+
 export type OpenSubtitleLoginReturnType = {
   user: {
     allowed_translations: number;
@@ -7,6 +9,6 @@ export type OpenSubtitleLoginReturnType = {
     ext_installed: boolean;
     vip: boolean;
   };
-  token: string;
+  token: Token;
   status: number;
 };

@@ -1,8 +1,9 @@
 import { assign, createMachine, interpret } from 'xstate';
 
+import { languagesPrompt } from './modules/languages';
 import { isLoggedIn, loginPrompt, saveUserToken } from './modules/login';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
-import { showAppTitle } from './modules/welcome';
+import { clearConsoleWithAppTitle } from './modules/welcome';
 
 type SubTvMachineContext = {
   selectedOption: AppOptions | null;
@@ -29,7 +30,7 @@ const subTvMachine = createMachine(
     tsTypes: {} as import('./main.typegen').Typegen0,
     states: {
       welcome: {
-        entry: [showAppTitle],
+        entry: [clearConsoleWithAppTitle],
         after: {
           600: [
             {
@@ -56,6 +57,7 @@ const subTvMachine = createMachine(
         initial: 'options',
         states: {
           options: {
+            entry: [clearConsoleWithAppTitle],
             invoke: {
               src: 'mainAppPrompt',
               onDone: {
@@ -65,6 +67,7 @@ const subTvMachine = createMachine(
             },
           },
           optionsMiddleman: {
+            entry: [clearConsoleWithAppTitle],
             always: [
               {
                 target: 'selectLanguage',
@@ -73,7 +76,12 @@ const subTvMachine = createMachine(
             ],
           },
           selectLanguage: {
-            entry: [() => console.log('MEntiroso sem vergonha vai pro inferno')],
+            invoke: {
+              src: languagesPrompt,
+              onDone: {
+                target: 'options',
+              },
+            },
           },
         },
       },

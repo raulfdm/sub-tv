@@ -1,6 +1,10 @@
 import figlet from 'figlet';
 
-export function showAppTitle(): void {
+function showAppTitle(): void {
   console.log(figlet.textSync('Sub - TV'));
-  console.log('Welcome!\n');
+}
+
+export function clearConsoleWithAppTitle(): void {
+  console.clear();
+  showAppTitle();
 }
