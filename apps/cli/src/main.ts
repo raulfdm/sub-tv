@@ -1,27 +1,39 @@
-import { createMachine, interpret } from 'xstate';
+import { assign, createMachine, interpret } from 'xstate';
 
+import { isLoggedIn, loginPrompt, saveUserToken } from './modules/login';
 import { showAppTitle } from './modules/welcome';
-
-type SubTvContext = {};
 
 const subTvMachine = createMachine({
   predictableActionArguments: true,
   id: 'sub-tv',
   initial: 'welcome',
-  context: {
-    loggedIn: false,
-  },
-  schema: {
-    context: {} as SubTvContext,
-  },
   states: {
     welcome: {
       entry: [showAppTitle],
       after: {
-        600: 'login',
+        600: [
+          {
+            target: 'app',
+            cond: isLoggedIn,
+          },
+          {
+            target: 'login',
+          },
+        ],
       },
     },
-    login: {},
+    login: {
+      invoke: {
+        src: loginPrompt,
+        onDone: {
+          target: 'app',
+          actions: [(_, event) => saveUserToken(event.data)],
+        },
+      },
+    },
+    app: {
+      entry: [() => console.log('App')],
+    },
   },
 });
 

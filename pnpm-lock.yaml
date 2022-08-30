@@ -28,6 +28,7 @@ importers:
     specifiers:
       '@sub-tv/eslint-config': workspace:*
       '@sub-tv/inquirer-autocomplete-prompt': workspace:*
+      '@sub-tv/open-subtitle': workspace:*
       '@sub-tv/types': workspace:*
       '@types/debounce-promise': 3.1.4
       '@types/figlet': 1.5.5
@@ -37,16 +38,19 @@ importers:
       debounce-promise: 3.1.2
       figlet: 1.5.2
       inquirer: 9.0.0
+      lowdb: 3.0.0
       ora: 6.1.2
       prettier: 2.7.1
       vite: 3.0.9
       xstate: 4.33.4
     dependencies:
       '@sub-tv/inquirer-autocomplete-prompt': link:../../packages/inquirer-autocomplete-prompt
+      '@sub-tv/open-subtitle': link:../../packages/open-subtitle
       axios: 0.27.2
       debounce-promise: 3.1.2
       figlet: 1.5.2
       inquirer: 9.0.0
+      lowdb: 3.0.0
       ora: 6.1.2
       xstate: 4.33.4
     devDependencies:
@@ -2004,6 +2008,13 @@ packages:
       chalk: 5.0.1
       is-unicode-supported: 1.2.0
 
+  /lowdb/3.0.0:
+    resolution: {integrity: sha512-9KZRulmIcU8fZuWiaM0d5e2/nPnrFyXkeXVpqT+MJS+vgbgOf1EbtvgQmba8HwUFgDl1oeZR6XqEJnkJmQdKmg==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    dependencies:
+      steno: 2.1.0
+    dev: false
+
   /lowercase-keys/2.0.0:
     resolution: {integrity: sha512-tqNXrS78oMOE73NMxK4EMLQsQowWf8jKooH9g7xPavRT706R6bkQJ6DY2Te7QukaZsulxa30wQ7bk0pm4XiHmA==}
     engines: {node: '>=8'}
@@ -2514,6 +2525,11 @@ packages:
   /spdx-license-ids/3.0.12:
     resolution: {integrity: sha512-rr+VVSXtRhO4OHbXUiAF7xW3Bo9DuuF6C5jH+q/x15j2jniycgKbxU09Hr0WqlSLUs4i4ltHGXqTe7VHclYWyA==}
     dev: true
+
+  /steno/2.1.0:
+    resolution: {integrity: sha512-mauOsiaqTNGFkWqIfwcm3y/fq+qKKaIWf1vf3ocOuTdco9XoHCO2AGF1gFYXuZFSWuP38Q8LBHBGJv2KnJSXyA==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /string-width/4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}

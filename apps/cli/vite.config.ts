@@ -7,6 +7,7 @@ function isExternal(id: string) {
 
 export default defineConfig({
   build: {
+    target: 'node16',
     minify: false,
     lib: {
       entry: resolve(__dirname, 'src/main.ts'),
