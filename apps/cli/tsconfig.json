@@ -2,7 +2,10 @@
   "compilerOptions": {
     "moduleResolution": "node",
     /* Language and Environment */
-    "target": "ES2020", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "lib": [
+      "es2021"
+    ],
+    "target": "es2021", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     /* Modules */
     "module": "Node16", /* Specify what module code is generated. */
     /* Emit */

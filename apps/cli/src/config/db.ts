@@ -10,7 +10,8 @@ const adapter = new JSONFileSync<DatabaseSchema>(file);
 
 type DatabaseSchema = {
   userToken: string | null;
-  langs: string[];
+  userApiKey: string | null;
+  preferredLanguages: string[];
 };
 
 function initializeDB() {
@@ -21,7 +22,8 @@ function initializeDB() {
 
   database.data ||= {
     userToken: null,
-    langs: ['en'],
+    userApiKey: null,
+    preferredLanguages: ['en'],
   };
 
   database.write();
@@ -41,11 +43,18 @@ function createSubTvDB() {
       databaseData.userToken = token;
       database.write();
     },
-    get preferredLanguages() {
-      return databaseData.langs;
+    get apiKey() {
+      return databaseData.userApiKey;
     },
-    setLangs(langs: DatabaseSchema['langs']) {
-      databaseData.langs = langs;
+    setApiKey(apiKey: NonNullable<DatabaseSchema['userApiKey']>): void {
+      databaseData.userApiKey = apiKey;
+      database.write();
+    },
+    get preferredLanguages() {
+      return databaseData.preferredLanguages;
+    },
+    setLangs(langs: DatabaseSchema['preferredLanguages']) {
+      databaseData.preferredLanguages = langs;
       database.write();
     },
   };

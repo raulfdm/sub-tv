@@ -10,19 +10,24 @@ type OpenSubtitleApiClientReturnType = {
   login: (username: string, password: string, apiKey: string) => Promise<Token>;
   searchFeature: (query: string) => Promise<OpenSubtitleFeatureApiResponse>;
   fetchLanguages: () => Promise<OpenSubtitleLanguagesApiResponse['data']>;
+  setCredentials: (token: Token, apiKey: string) => void;
 };
 
 export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
   let _token: string | null = null;
   let _apiKey: string | null = null;
 
-  const api: OpenSubtitleApiClientReturnType = {
+  return {
     login,
     searchFeature,
     fetchLanguages,
+    setCredentials,
   };
 
-  return api;
+  function setCredentials(token: string, apiKey: string) {
+    _token = token;
+    _apiKey = apiKey;
+  }
 
   async function login(username: string, password: string, apiKey: string): Promise<Token> {
     _apiKey = apiKey;
@@ -45,8 +50,10 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
   }
 
   async function searchFeature(query: string): Promise<OpenSubtitleFeatureApiResponse> {
+    canFetch();
+
     const { data } = await got
-      .get(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeURI(query)}`, {
+      .get(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeQuery(query)}`, {
         headers: getCommonHeaders(),
       })
       .json<{ data: OpenSubtitleFeatureApiResponse }>();
@@ -55,6 +62,8 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
   }
 
   async function fetchLanguages() {
+    canFetch();
+
     const { data } = await got
       .get('https://api.opensubtitles.com/api/v1/infos/languages', {
         headers: getCommonHeaders(),
@@ -74,4 +83,14 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
       Authorization: _token !== null ? `Bearer ${_token}` : '',
     };
   }
+
+  function canFetch() {
+    if (_token === null && _apiKey === null) {
+      throw new Error('Cannot fetch without token and apiKey');
+    }
+  }
+}
+
+function encodeQuery(query: string) {
+  return encodeURI(query).replaceAll('%20', '+');
 }

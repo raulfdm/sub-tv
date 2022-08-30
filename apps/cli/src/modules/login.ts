@@ -33,6 +33,10 @@ export function saveUserToken(token: string): void {
   db.setUserToken(token);
 }
 
-export function isLoggedIn(): boolean {
+export function hasPersistedCredentials(): boolean {
   return db.userToken !== null;
+}
+
+export function updateApiClientCredentials() {
+  apiClient.setCredentials(db.userToken, db.apiKey);
 }

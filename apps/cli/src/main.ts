@@ -1,7 +1,8 @@
 import { assign, createMachine, interpret } from 'xstate';
+import { featuresPrompt } from './modules/features';
 
 import { languagesPrompt } from './modules/languages';
-import { isLoggedIn, loginPrompt, saveUserToken } from './modules/login';
+import { hasPersistedCredentials, loginPrompt, saveUserToken, updateApiClientCredentials } from './modules/login';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { clearConsoleWithAppTitle } from './modules/welcome';
 
@@ -34,13 +35,19 @@ const subTvMachine = createMachine(
         after: {
           600: [
             {
-              target: 'app',
-              cond: isLoggedIn,
+              target: 'updateCredentials',
+              cond: hasPersistedCredentials,
             },
             {
               target: 'login',
             },
           ],
+        },
+      },
+      updateCredentials: {
+        always: {
+          target: 'app',
+          actions: [updateApiClientCredentials],
         },
       },
       login: {
@@ -73,6 +80,10 @@ const subTvMachine = createMachine(
                 target: 'selectLanguage',
                 cond: 'goToSelectLanguage',
               },
+              {
+                target: 'selectFeature',
+                cond: 'goToSelectFeature',
+              },
             ],
           },
           selectLanguage: {
@@ -81,6 +92,11 @@ const subTvMachine = createMachine(
               onDone: {
                 target: 'options',
               },
+            },
+          },
+          selectFeature: {
+            invoke: {
+              src: featuresPrompt,
             },
           },
         },
@@ -99,6 +115,7 @@ const subTvMachine = createMachine(
     },
     guards: {
       goToSelectLanguage: (context) => context.selectedOption === AppOptions.SelectLanguage,
+      goToSelectFeature: (context) => context.selectedOption === AppOptions.SearchMovies,
     },
   },
 );
