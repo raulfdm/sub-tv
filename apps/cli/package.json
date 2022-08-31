@@ -34,14 +34,15 @@
     "figlet": "1.5.2",
     "xstate": "4.33.4",
     "ora": "6.1.2",
-    "lowdb": "3.0.0"
+    "lowdb": "3.0.0",
+    "lodash.groupby": "4.6.0"
   },
   "devDependencies": {
-    "@sub-tv/types": "workspace:*",
     "@sub-tv/eslint-config": "workspace:*",
     "@types/debounce-promise": "3.1.4",
     "@types/inquirer": "6.5.0",
     "@types/figlet": "1.5.5",
+    "@types/lodash.groupby": "4.6.7",
     "@xstate/cli": "0.3.2",
     "vite": "3.0.9",
     "prettier": "2.7.1"

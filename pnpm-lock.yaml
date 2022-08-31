@@ -29,15 +29,16 @@ importers:
       '@sub-tv/eslint-config': workspace:*
       '@sub-tv/inquirer-autocomplete-prompt': workspace:*
       '@sub-tv/open-subtitle': workspace:*
-      '@sub-tv/types': workspace:*
       '@types/debounce-promise': 3.1.4
       '@types/figlet': 1.5.5
       '@types/inquirer': 6.5.0
+      '@types/lodash.groupby': 4.6.7
       '@xstate/cli': 0.3.2
       axios: 0.27.2
       debounce-promise: 3.1.2
       figlet: 1.5.2
       inquirer: 9.0.0
+      lodash.groupby: 4.6.0
       lowdb: 3.0.0
       ora: 6.1.2
       prettier: 2.7.1
@@ -50,15 +51,16 @@ importers:
       debounce-promise: 3.1.2
       figlet: 1.5.2
       inquirer: 9.0.0
+      lodash.groupby: 4.6.0
       lowdb: 3.0.0
       ora: 6.1.2
       xstate: 4.33.4
     devDependencies:
       '@sub-tv/eslint-config': link:../../packages/eslint-config
-      '@sub-tv/types': link:../../packages/types
       '@types/debounce-promise': 3.1.4
       '@types/figlet': 1.5.5
       '@types/inquirer': 6.5.0
+      '@types/lodash.groupby': 4.6.7
       '@xstate/cli': 0.3.2_prettier@2.7.1
       prettier: 2.7.1
       vite: 3.0.9
@@ -99,7 +101,6 @@ importers:
   packages/open-subtitle:
     specifiers:
       '@sub-tv/eslint-config': workspace:*
-      '@sub-tv/types': workspace:*
       got: 12.3.1
       prettier: 2.7.1
       vite: 3.0.9
@@ -107,12 +108,8 @@ importers:
       got: 12.3.1
     devDependencies:
       '@sub-tv/eslint-config': link:../eslint-config
-      '@sub-tv/types': link:../types
       prettier: 2.7.1
       vite: 3.0.9
-
-  packages/types:
-    specifiers: {}
 
 packages:
 
@@ -477,6 +474,16 @@ packages:
     dependencies:
       '@types/node': 18.7.13
     dev: false
+
+  /@types/lodash.groupby/4.6.7:
+    resolution: {integrity: sha512-dFUR1pqdMgjIBbgPJ/8axJX6M1C7zsL+HF4qdYMQeJ7XOp0Qbf37I3zh9gpXr/ks6tgEYPDRqyZRAnFYvewYHQ==}
+    dependencies:
+      '@types/lodash': 4.14.184
+    dev: true
+
+  /@types/lodash/4.14.184:
+    resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
+    dev: true
 
   /@types/node/18.7.13:
     resolution: {integrity: sha512-46yIhxSe5xEaJZXWdIBP7GU4HDTG8/eo0qd9atdiL+lFpA03y8KS+lkTN834TWJj5767GbWv4n/P6efyTFt1Dw==}
@@ -1994,6 +2001,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: 5.0.0
+
+  /lodash.groupby/4.6.0:
+    resolution: {integrity: sha512-5dcWxm23+VAoz+awKmBaiBvzox8+RqMgFhi7UvX9DHZr2HdxHXM/Wrf8cfKpsW37RNrvtPn6hSwNqurSILbmJw==}
+    dev: false
 
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
