@@ -16,7 +16,6 @@
     "got": "12.3.1"
   },
   "devDependencies": {
-    "@sub-tv/types": "workspace:*",
     "@sub-tv/eslint-config": "workspace:*",
     "prettier": "2.7.1",
     "vite": "3.0.9"
