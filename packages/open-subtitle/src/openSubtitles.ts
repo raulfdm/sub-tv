@@ -6,13 +6,7 @@ import type {
 } from './types';
 import got from 'got';
 
-type OpenSubtitleApiClientReturnType = {
-  login: (credentials: UserCredentials) => Promise<void>;
-  searchFeature: (query: string) => Promise<OpenSubtitleFeatureApiResponse>;
-  fetchLanguages: () => Promise<OpenSubtitleLanguagesApiResponse['data']>;
-};
-
-export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
+export function createOpenSubtitleApiClient() {
   let _token: string | null = null;
   let _apiKey: string | null = null;
 
@@ -40,14 +34,14 @@ export function createOpenSubtitleApiClient(): OpenSubtitleApiClientReturnType {
     }
   }
 
-  async function searchFeature(query: string): Promise<OpenSubtitleFeatureApiResponse> {
+  async function searchFeature(query: string): Promise<OpenSubtitleFeatureApiResponse['data']> {
     canFetch();
 
     const { data } = await got
-      .get(`https://api.opensubtitles.com/api/v1/subtitles?query=${encodeQuery(query)}`, {
+      .get(`https://api.opensubtitles.com/api/v1/features?query=${encodeQuery(query)}`, {
         headers: getCommonHeaders(),
       })
-      .json<{ data: OpenSubtitleFeatureApiResponse }>();
+      .json<OpenSubtitleFeatureApiResponse>();
 
     return data;
   }
