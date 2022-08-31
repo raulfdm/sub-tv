@@ -1,10 +1,10 @@
-import type { ApiResponseType, FeatureType } from "./base";
+import type { ApiResponseType, FeatureType } from './base';
 
 export interface OpenSubtitleFeatureApiResponse {
   data: Feature[];
 }
 
-interface Feature {
+export interface Feature {
   id: string;
   type: ApiResponseType.Feature;
   attributes: Attributes;
