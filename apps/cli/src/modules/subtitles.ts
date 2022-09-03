@@ -11,21 +11,22 @@ export async function subtitlesPrompt(context: SubTvMachineContext) {
 
   const prompt = createPromptModule();
 
-  const subtitles = await apiClient.searchSubtitle(context.feature.id, db.preferredLanguages);
+  for await (const featureId of context.subtitlesIdToDownload) {
+    const subtitles = await apiClient.searchSubtitle(featureId, db.preferredLanguages);
 
-  const { subtitle } = await prompt<{ subtitle: Subtitle }>([
-    {
-      name: 'subtitle',
-      type: 'checkbox',
-      message: `What's the tv-series or movie name you're looking for? (The result can take a while, be patient)`,
-      choices: subtitles.map((subtitle) => ({
-        name: `(${subtitle.attributes.language} - ${subtitle.attributes.download_count} downloads) ${subtitle.attributes.release}`,
-        value: subtitle.id,
-      })),
+    const { subtitle } = await prompt<{ subtitle: Subtitle }>([
+      {
+        name: 'subtitle',
+        type: 'checkbox',
+        message: `Select the subtitle you want to download.`,
+        choices: subtitles.map((subtitle) => ({
+          name: `(${subtitle.attributes.language} - ${subtitle.attributes.download_count} downloads) ${subtitle.attributes.release}`,
+          value: subtitle.id,
+        })),
 
-      pageSize: 30,
-    },
-  ]);
-
-  console.log(subtitle);
+        pageSize: 30,
+      },
+    ]);
+    console.log(subtitle);
+  }
 }

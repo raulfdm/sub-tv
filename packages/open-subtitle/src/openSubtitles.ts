@@ -107,6 +107,7 @@ export function createOpenSubtitleApiClient() {
   }
 
   function canFetch() {
+    console.log(_token);
     if (_token === null && _apiKey === null) {
       throw new Error('Cannot fetch without token and apiKey');
     }

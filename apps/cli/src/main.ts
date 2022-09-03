@@ -17,6 +17,8 @@ const subTvMachine = createMachine(
     id: 'sub-tv',
     initial: 'welcome',
     context: {
+      featureIdsToSearchFor: [],
+      subtitlesIdToDownload: [],
       selectedOption: null,
       feature: null,
     },
@@ -106,11 +108,15 @@ const subTvMachine = createMachine(
                 },
               ],
             },
-            exit: ['saveFeature'],
+            exit: ['saveFeature', 'saveFeaturesToSearchFor'],
           },
           selectTvShow: {
             invoke: {
               src: 'tvShowPrompt',
+              onDone: {
+                target: 'selectSubtitle',
+                actions: ['saveTvShowsToSearch'],
+              },
             },
           },
           selectSubtitle: {
@@ -118,6 +124,7 @@ const subTvMachine = createMachine(
               src: 'subtitlesPrompt',
             },
           },
+          download: {},
         },
       },
     },
@@ -133,6 +140,14 @@ const subTvMachine = createMachine(
             return event.data;
           }
           return null;
+        },
+      }),
+      saveTvShowsToSearch: assign({
+        featureIdsToSearchFor: (context, event) => [...context.subtitlesIdToDownload, ...event.data],
+      }),
+      saveFeaturesToSearchFor: assign({
+        featureIdsToSearchFor: ({ subtitlesIdToDownload }, event) => {
+          return [...subtitlesIdToDownload, event.data.id];
         },
       }),
     },

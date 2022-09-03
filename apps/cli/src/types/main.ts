@@ -4,6 +4,8 @@ import type { AppOptions } from '../modules/mainApp';
 
 export type SubTvMachineContext = {
   selectedOption: AppOptions | null;
+  subtitlesIdToDownload: string[];
+  featureIdsToSearchFor: string[];
   feature: Feature | null;
 };
 
