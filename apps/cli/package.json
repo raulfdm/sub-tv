@@ -17,7 +17,7 @@
   "scripts": {
     "prepack": "pnpm run build",
     "build": "vite build",
-    "dev": "concurrently \"pnpm run dev:lib\" \"pnpm run dev:xstate\"",
+    "dev": "concurrently \"pnpm run dev:xstate\" \"pnpm run dev:lib\"",
     "dev:lib": "vite build --watch",
     "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\" --watch",
     "dev:cli": "node dist/sub-tv.mjs",
@@ -35,7 +35,8 @@
     "xstate": "4.33.4",
     "ora": "6.1.2",
     "lowdb": "3.0.0",
-    "lodash.groupby": "4.6.0"
+    "lodash.groupby": "4.6.0",
+    "tiny-invariant": "1.2.0"
   },
   "devDependencies": {
     "@sub-tv/eslint-config": "workspace:*",

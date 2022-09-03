@@ -42,6 +42,7 @@ importers:
       lowdb: 3.0.0
       ora: 6.1.2
       prettier: 2.7.1
+      tiny-invariant: 1.2.0
       vite: 3.0.9
       xstate: 4.33.4
     dependencies:
@@ -54,6 +55,7 @@ importers:
       lodash.groupby: 4.6.0
       lowdb: 3.0.0
       ora: 6.1.2
+      tiny-invariant: 1.2.0
       xstate: 4.33.4
     devDependencies:
       '@sub-tv/eslint-config': link:../../packages/eslint-config
@@ -103,9 +105,11 @@ importers:
       '@sub-tv/eslint-config': workspace:*
       got: 12.3.1
       prettier: 2.7.1
+      tiny-invariant: 1.2.0
       vite: 3.0.9
     dependencies:
       got: 12.3.1
+      tiny-invariant: 1.2.0
     devDependencies:
       '@sub-tv/eslint-config': link:../eslint-config
       prettier: 2.7.1
@@ -2640,6 +2644,10 @@ packages:
 
   /through/2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
+
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
 
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}

@@ -1,28 +1,24 @@
+import { FeatureType } from '@sub-tv/open-subtitle';
 import { assign, createMachine, interpret } from 'xstate';
 
 import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
 import { hasPersistedCredentials, loginPrompt, refreshSection } from './modules/login';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
+import { subtitlesPrompt } from './modules/subtitles';
+import { tvShowPrompt } from './modules/tvShows';
 import { clearConsoleWithAppTitle } from './modules/welcome';
-
-type SubTvMachineContext = {
-  selectedOption: AppOptions | null;
-};
-
-type SubTvMachineServices = {
-  mainAppPrompt: {
-    data: AppOptions;
-  };
-};
+import type { SubTvMachineContext, SubTvMachineServices } from './types/main';
 
 const subTvMachine = createMachine(
   {
     predictableActionArguments: true,
+    preserveActionOrder: true,
     id: 'sub-tv',
     initial: 'welcome',
     context: {
       selectedOption: null,
+      feature: null,
     },
     schema: {
       context: {} as SubTvMachineContext,
@@ -99,7 +95,27 @@ const subTvMachine = createMachine(
           },
           selectFeature: {
             invoke: {
-              src: featuresPrompt,
+              src: 'featuresPrompt',
+              onDone: [
+                {
+                  target: 'selectTvShow',
+                  cond: 'isTvShow',
+                },
+                {
+                  target: 'selectSubtitle',
+                },
+              ],
+            },
+            exit: ['saveFeature'],
+          },
+          selectTvShow: {
+            invoke: {
+              src: 'tvShowPrompt',
+            },
+          },
+          selectSubtitle: {
+            invoke: {
+              src: 'subtitlesPrompt',
             },
           },
         },
@@ -111,14 +127,26 @@ const subTvMachine = createMachine(
       selectOptionFromMainMenu: assign({
         selectedOption: (_, event) => event.data,
       }),
+      saveFeature: assign({
+        feature: (_, event) => {
+          if ('data' in event) {
+            return event.data;
+          }
+          return null;
+        },
+      }),
     },
     services: {
       loginPrompt,
       mainAppPrompt,
+      featuresPrompt,
+      subtitlesPrompt,
+      tvShowPrompt,
     },
     guards: {
       goToSelectLanguage: (context) => context.selectedOption === AppOptions.SelectLanguage,
       goToSelectFeature: (context) => context.selectedOption === AppOptions.SearchMovies,
+      isTvShow: (_, event) => event.data.attributes.feature_type === FeatureType.Tvshow,
     },
   },
 );
