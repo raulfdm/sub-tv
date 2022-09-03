@@ -9,8 +9,6 @@ import type { SubTvMachineContext } from '../types/main';
 export async function downloadSubtitles(context: SubTvMachineContext): Promise<{
   remainingDownloads: OpenSubtitleDownloadApiResponse['remaining'] | null;
 }> {
-  console.log(context);
-
   let remainingDownloads: number | null = null;
 
   for await (const subtitleId of context.subtitlesIdToDownload) {

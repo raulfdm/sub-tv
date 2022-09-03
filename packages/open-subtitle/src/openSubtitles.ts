@@ -116,7 +116,6 @@ export function createOpenSubtitleApiClient() {
   }
 
   async function getUserInfo(): Promise<OpenSubtitleUserInfoApiResponse['data']> {
-    console.log(getCommonHeaders());
     const { data } = await got
       .get(`https://api.opensubtitles.com/api/v1/infos/user`, {
         headers: getCommonHeaders(),
