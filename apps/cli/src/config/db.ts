@@ -1,4 +1,4 @@
-import type { UserCredentials } from '@sub-tv/open-subtitle';
+import type { OpenSubtitleDownloadApiResponse, UserCredentials } from '@sub-tv/open-subtitle';
 import { JSONFileSync, LowSync } from 'lowdb';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -13,6 +13,12 @@ export type DatabaseSchema = {
   credentials: UserCredentials | null;
   preferredLanguages: string[];
   remainingDownloads: number | null;
+  downloads: {
+    [id: string]: {
+      link: string;
+      fileName: string;
+    };
+  };
 };
 
 function initializeDB() {
@@ -25,6 +31,7 @@ function initializeDB() {
     credentials: null,
     preferredLanguages: ['en'],
     remainingDownloads: null,
+    downloads: {},
   };
 
   database.write();
@@ -59,6 +66,16 @@ function createSubTvDB() {
     },
     setLangs(langs: DatabaseSchema['preferredLanguages']) {
       databaseData.preferredLanguages = langs;
+      database.write();
+    },
+    getDownloadByFileName(fileName: string): DatabaseSchema['downloads'][string] | null {
+      return databaseData.downloads[fileName] ?? null;
+    },
+    setDownloads(downloadInfo: OpenSubtitleDownloadApiResponse) {
+      databaseData.downloads[downloadInfo.file_name] = {
+        link: downloadInfo.link,
+        fileName: downloadInfo.file_name,
+      };
       database.write();
     },
   };

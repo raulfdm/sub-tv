@@ -7,6 +7,6 @@ function showAppTitle(): void {
 }
 
 export function clearConsoleWithAppTitle(): void {
-  console.clear();
+  // console.clear();
   showAppTitle();
 }

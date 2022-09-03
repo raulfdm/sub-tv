@@ -149,6 +149,7 @@ const subTvMachine = createMachine(
               src: 'subtitlesPrompt',
               onDone: {
                 target: 'downloadAllSubtitles',
+                actions: ['saveSubtitlesIdToDownload'],
               },
             },
           },
@@ -185,8 +186,14 @@ const subTvMachine = createMachine(
       }),
       saveFeaturesToSearchFor: assign({
         featureIdsToSearchFor: ({ featureIdsToSearchFor }, event) => {
-          return [...featureIdsToSearchFor, event.data.id];
+          if ('data' in event) {
+            return [...featureIdsToSearchFor, event.data.id];
+          }
+          return featureIdsToSearchFor;
         },
+      }),
+      saveSubtitlesIdToDownload: assign({
+        subtitlesIdToDownload: (_, event) => event.data,
       }),
       updateUserInfo: assign({
         userInfo: (_, event) => event.data,
@@ -198,14 +205,14 @@ const subTvMachine = createMachine(
       },
     },
     services: {
+      downloadSubtitles,
+      featuresPrompt,
+      getUserInfo,
       loginPrompt,
       mainAppPrompt,
-      featuresPrompt,
+      refreshSection,
       subtitlesPrompt,
       tvShowPrompt,
-      downloadSubtitles,
-      getUserInfo,
-      refreshSection,
     },
     guards: {
       goToSelectLanguage: (context) => context.selectedOption === AppOptions.SelectLanguage,
@@ -217,4 +224,8 @@ const subTvMachine = createMachine(
   },
 );
 
-interpret(subTvMachine).start();
+const service = interpret(subTvMachine).start();
+
+// service.subscribe(({ event, nextEvents }) => {
+//   console.log('EVENT', nextEvents.join(','));
+// });
