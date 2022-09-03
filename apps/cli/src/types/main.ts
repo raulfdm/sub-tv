@@ -11,16 +11,30 @@ export type SubTvMachineContext = {
 };
 
 export type SubTvMachineServices = {
-  mainAppPrompt: {
-    data: AppOptions;
+  downloadSubtitles: {
+    data: {
+      remainingDownloads: number | null;
+    };
   };
   featuresPrompt: {
     data: Feature;
   };
+  getUserInfo: {
+    data: OpenSubtitleUserInfoApiResponse['data'];
+  };
+  loginPrompt: {
+    data: void;
+  };
+  mainAppPrompt: {
+    data: AppOptions;
+  };
   refreshSection: {
     data: void;
   };
-  getUserInfo: {
-    data: OpenSubtitleUserInfoApiResponse['data'];
+  subtitlesPrompt: {
+    data: string[];
+  };
+  tvShowPrompt: {
+    data: string[];
   };
 };
