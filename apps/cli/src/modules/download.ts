@@ -12,21 +12,25 @@ export async function downloadSubtitles(context: SubTvMachineContext): Promise<{
   remainingDownloads: OpenSubtitleDownloadApiResponse['remaining'] | null;
 }> {
   let remainingDownloads: number | null = null;
-  // TODO: continue from here
-  const downloadedSubtitlesIds = [];
+  const downloadedSubtitlesIds = new Map();
+  const errorSubtitles = new Map();
 
-  for await (const subtitleId of context.subtitlesIdToDownload) {
+  const downloads = context.subtitlesIdToDownload.map(async (subtitleId) => {
     try {
       const downloadInfo = await apiClient.download(subtitleId);
       await download(downloadInfo.link, downloadInfo.file_name);
       remainingDownloads = downloadInfo.remaining;
       db.setDownloads(downloadInfo);
-    } catch (error) {
+      downloadedSubtitlesIds.set(subtitleId, downloadInfo);
+    } catch (error: any) {
+      errorSubtitles.set(subtitleId, error);
       console.error(error.message);
     }
-  }
+  });
 
-  inquirerUi.updateBottomBar(`All subtitles downloaded. Remaining downloads: ${remainingDownloads}`);
+  await Promise.all(downloads);
+
+  inquirerUi.updateBottomBar(`All subtitles downloaded. Remaining downloads: ${remainingDownloads}\n\n`);
 
   return {
     remainingDownloads,

@@ -18,7 +18,7 @@ export async function subtitlesPrompt(context: SubTvMachineContext): Promise<str
         message: `Select the subtitle you want to download.`,
         choices: subtitles.map((subtitle) => ({
           name: `(${subtitle.attributes.language} - ${subtitle.attributes.download_count} downloads) ${subtitle.attributes.release}`,
-          value: subtitle.attributes.subtitle_id,
+          value: subtitle.attributes.files[0].file_id,
         })),
 
         pageSize: 30,
