@@ -13,7 +13,8 @@
     "postinstall": "pnpm run build"
   },
   "dependencies": {
-    "got": "12.3.1"
+    "got": "12.3.1",
+    "tiny-invariant": "1.2.0"
   },
   "devDependencies": {
     "@sub-tv/eslint-config": "workspace:*",

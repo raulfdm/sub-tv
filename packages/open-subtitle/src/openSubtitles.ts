@@ -1,3 +1,5 @@
+import invariant from 'tiny-invariant';
+
 import type {
   OpenSubtitleFeatureApiResponse,
   OpenSubtitleLanguagesApiResponse,
@@ -5,6 +7,7 @@ import type {
   UserCredentials,
 } from './types';
 import got from 'got';
+import { OpenSubtitlesSubtitleApiResponse } from './types/subtitles';
 
 export function createOpenSubtitleApiClient() {
   let _token: string | null = null;
@@ -14,6 +17,7 @@ export function createOpenSubtitleApiClient() {
     login,
     searchFeature,
     fetchLanguages,
+    searchSubtitle,
   };
 
   async function login(credentials: UserCredentials): Promise<void> {
@@ -34,14 +38,47 @@ export function createOpenSubtitleApiClient() {
     }
   }
 
-  async function searchFeature(query: string): Promise<OpenSubtitleFeatureApiResponse['data']> {
+  async function searchFeature({
+    query,
+    featureId,
+  }: {
+    query?: string;
+    featureId?: string;
+  }): Promise<OpenSubtitleFeatureApiResponse['data']> {
     canFetch();
 
+    const searchParams = new URLSearchParams();
+
+    if (featureId) {
+      searchParams.set('feature_id', featureId);
+    } else if (query) {
+      searchParams.set('query', query);
+    } else {
+      invariant(query || featureId, 'Either "query" or "featureId" is required');
+    }
+
     const { data } = await got
-      .get(`https://api.opensubtitles.com/api/v1/features?query=${encodeQuery(query)}`, {
+      .get(`https://api.opensubtitles.com/api/v1/features?${searchParams.toString()}`, {
         headers: getCommonHeaders(),
       })
       .json<OpenSubtitleFeatureApiResponse>();
+
+    return data;
+  }
+
+  async function searchSubtitle(featureId: string, langs: string[]) {
+    canFetch();
+
+    const searchParams = new URLSearchParams();
+
+    searchParams.set('id', featureId);
+    searchParams.set('languages', langs.join(','));
+
+    const { data } = await got
+      .get(`https://api.opensubtitles.com/api/v1/subtitles?${searchParams.toString()}`, {
+        headers: getCommonHeaders(),
+      })
+      .json<OpenSubtitlesSubtitleApiResponse>();
 
     return data;
   }
@@ -74,8 +111,4 @@ export function createOpenSubtitleApiClient() {
       throw new Error('Cannot fetch without token and apiKey');
     }
   }
-}
-
-function encodeQuery(query: string) {
-  return encodeURI(query).replaceAll('%20', '+');
 }
