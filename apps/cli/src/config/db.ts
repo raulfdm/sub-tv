@@ -12,6 +12,7 @@ const adapter = new JSONFileSync<DatabaseSchema>(file);
 export type DatabaseSchema = {
   credentials: UserCredentials | null;
   preferredLanguages: string[];
+  remainingDownloads: number | null;
 };
 
 function initializeDB() {
@@ -23,6 +24,7 @@ function initializeDB() {
   database.data ||= {
     credentials: null,
     preferredLanguages: ['en'],
+    remainingDownloads: null,
   };
 
   database.write();
@@ -43,6 +45,13 @@ function createSubTvDB() {
     },
     setUserCredentials(credentials: NonNullable<DatabaseSchema['credentials']>): void {
       databaseData.credentials = credentials;
+      database.write();
+    },
+    get getRemainingDownloads() {
+      return databaseData.remainingDownloads;
+    },
+    set remainingDownloads(remainingDownloads: number) {
+      databaseData.remainingDownloads = remainingDownloads;
       database.write();
     },
     get preferredLanguages() {

@@ -1,12 +1,15 @@
 import { FeatureType } from '@sub-tv/open-subtitle';
 import { assign, createMachine, interpret } from 'xstate';
 
+import { inquirerUi } from './config/inquirer';
+import { downloadSubtitles } from './modules/download';
 import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
 import { hasPersistedCredentials, loginPrompt, refreshSection } from './modules/login';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { subtitlesPrompt } from './modules/subtitles';
 import { tvShowPrompt } from './modules/tvShows';
+import { getUserInfo } from './modules/userInfo';
 import { clearConsoleWithAppTitle } from './modules/welcome';
 import type { SubTvMachineContext, SubTvMachineServices } from './types/main';
 
@@ -21,6 +24,7 @@ const subTvMachine = createMachine(
       subtitlesIdToDownload: [],
       selectedOption: null,
       feature: null,
+      userInfo: null,
     },
     schema: {
       context: {} as SubTvMachineContext,
@@ -30,22 +34,26 @@ const subTvMachine = createMachine(
     states: {
       welcome: {
         entry: [clearConsoleWithAppTitle],
-        after: {
-          600: [
-            {
-              target: 'refreshSection',
-              cond: hasPersistedCredentials,
-            },
-            {
-              target: 'login',
-            },
-          ],
-        },
+        always: [
+          {
+            target: 'refreshSection',
+            cond: hasPersistedCredentials,
+          },
+          {
+            target: 'login',
+          },
+        ],
       },
       refreshSection: {
-        always: {
+        invoke: {
           target: 'app',
-          actions: [refreshSection],
+          src: 'refreshSection',
+          onDone: {
+            target: 'app',
+          },
+          onError: {
+            target: 'login',
+          },
         },
       },
       login: {
@@ -62,8 +70,17 @@ const subTvMachine = createMachine(
       },
       app: {
         id: 'app',
-        initial: 'options',
+        initial: 'refreshUserInfo',
         states: {
+          refreshUserInfo: {
+            invoke: {
+              src: 'getUserInfo',
+              onDone: {
+                target: 'options',
+                actions: ['printUserInfo', 'updateUserInfo'],
+              },
+            },
+          },
           options: {
             entry: [clearConsoleWithAppTitle],
             invoke: {
@@ -84,6 +101,14 @@ const subTvMachine = createMachine(
               {
                 target: 'selectFeature',
                 cond: 'goToSelectFeature',
+              },
+              {
+                target: 'downloadAllSubtitles',
+                cond: 'goToTest',
+              },
+              {
+                target: 'exit',
+                cond: 'goToExit',
               },
             ],
           },
@@ -122,9 +147,22 @@ const subTvMachine = createMachine(
           selectSubtitle: {
             invoke: {
               src: 'subtitlesPrompt',
+              onDone: {
+                target: 'downloadAllSubtitles',
+              },
             },
           },
-          download: {},
+          downloadAllSubtitles: {
+            invoke: {
+              src: 'downloadSubtitles',
+              onDone: {
+                target: 'options',
+              },
+            },
+          },
+          exit: {
+            type: 'final',
+          },
         },
       },
     },
@@ -143,13 +181,21 @@ const subTvMachine = createMachine(
         },
       }),
       saveTvShowsToSearch: assign({
-        featureIdsToSearchFor: (context, event) => [...context.subtitlesIdToDownload, ...event.data],
+        featureIdsToSearchFor: (context, event) => [...context.featureIdsToSearchFor, ...event.data],
       }),
       saveFeaturesToSearchFor: assign({
-        featureIdsToSearchFor: ({ subtitlesIdToDownload }, event) => {
-          return [...subtitlesIdToDownload, event.data.id];
+        featureIdsToSearchFor: ({ featureIdsToSearchFor }, event) => {
+          return [...featureIdsToSearchFor, event.data.id];
         },
       }),
+      updateUserInfo: assign({
+        userInfo: (_, event) => event.data,
+      }),
+      printUserInfo: (_, event) => {
+        if ('data' in event) {
+          inquirerUi.updateBottomBar(`You can still download ${event.data.remaining_downloads} subtitles\n\n`);
+        }
+      },
     },
     services: {
       loginPrompt,
@@ -157,10 +203,15 @@ const subTvMachine = createMachine(
       featuresPrompt,
       subtitlesPrompt,
       tvShowPrompt,
+      downloadSubtitles,
+      getUserInfo,
+      refreshSection,
     },
     guards: {
       goToSelectLanguage: (context) => context.selectedOption === AppOptions.SelectLanguage,
       goToSelectFeature: (context) => context.selectedOption === AppOptions.SearchMovies,
+      goToTest: (context) => context.selectedOption === AppOptions.TestDownload,
+      goToExit: (context) => context.selectedOption === AppOptions.Exit,
       isTvShow: (_, event) => event.data.attributes.feature_type === FeatureType.Tvshow,
     },
   },

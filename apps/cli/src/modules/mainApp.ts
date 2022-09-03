@@ -3,6 +3,8 @@ import { createPromptModule } from '../config/inquirer';
 export const enum AppOptions {
   SelectLanguage = 'select_language',
   SearchMovies = 'search_movies',
+  TestDownload = 'test_download',
+  Exit = 'exit',
 }
 
 export async function mainAppPrompt(): Promise<AppOptions> {
@@ -18,6 +20,10 @@ export async function mainAppPrompt(): Promise<AppOptions> {
         {
           name: '2. Search for movies',
           value: AppOptions.SearchMovies,
+        },
+        {
+          name: '0. Exit',
+          value: AppOptions.Exit,
         },
       ],
     },

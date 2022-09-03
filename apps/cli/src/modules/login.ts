@@ -41,6 +41,6 @@ export function hasPersistedCredentials() {
   return db.hasCredentials();
 }
 
-export function refreshSection() {
-  apiClient.login(db.userCredentials!);
+export async function refreshSection() {
+  return apiClient.login(db.userCredentials!);
 }

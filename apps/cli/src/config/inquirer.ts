@@ -3,7 +3,9 @@ import inquirerLocal from 'inquirer';
 
 inquirerLocal.registerPrompt('autocomplete', inquirerAutoComplete);
 
-export const inquirer = inquirerLocal;
+const inquirer = inquirerLocal;
+
+export const inquirerUi = new inquirer.ui.BottomBar();
 
 export function createPromptModule() {
   const prompt = inquirer.createPromptModule();

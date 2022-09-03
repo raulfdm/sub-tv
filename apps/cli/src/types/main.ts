@@ -1,4 +1,4 @@
-import type { Feature } from '@sub-tv/open-subtitle';
+import type { Feature, OpenSubtitleUserInfoApiResponse } from '@sub-tv/open-subtitle';
 
 import type { AppOptions } from '../modules/mainApp';
 
@@ -7,6 +7,7 @@ export type SubTvMachineContext = {
   subtitlesIdToDownload: string[];
   featureIdsToSearchFor: string[];
   feature: Feature | null;
+  userInfo: OpenSubtitleUserInfoApiResponse['data'] | null;
 };
 
 export type SubTvMachineServices = {
@@ -15,5 +16,11 @@ export type SubTvMachineServices = {
   };
   featuresPrompt: {
     data: Feature;
+  };
+  refreshSection: {
+    data: void;
+  };
+  getUserInfo: {
+    data: OpenSubtitleUserInfoApiResponse['data'];
   };
 };

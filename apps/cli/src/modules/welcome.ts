@@ -1,7 +1,9 @@
 import figlet from 'figlet';
 
+import { inquirerUi } from '../config/inquirer';
+
 function showAppTitle(): void {
-  console.log(figlet.textSync('Sub - TV'));
+  inquirerUi.log.write(figlet.textSync('Sub - TV'));
 }
 
 export function clearConsoleWithAppTitle(): void {

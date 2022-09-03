@@ -4,10 +4,12 @@ import type {
   OpenSubtitleFeatureApiResponse,
   OpenSubtitleLanguagesApiResponse,
   OpenSubtitleLoginReturnType,
+  OpenSubtitleUserInfoApiResponse,
   UserCredentials,
 } from './types';
 import got from 'got';
 import { OpenSubtitlesSubtitleApiResponse } from './types/subtitles';
+import { OpenSubtitleDownloadApiResponse } from './types/download';
 
 export function createOpenSubtitleApiClient() {
   let _token: string | null = null;
@@ -18,6 +20,8 @@ export function createOpenSubtitleApiClient() {
     searchFeature,
     fetchLanguages,
     searchSubtitle,
+    download,
+    getUserInfo,
   };
 
   async function login(credentials: UserCredentials): Promise<void> {
@@ -98,6 +102,30 @@ export function createOpenSubtitleApiClient() {
     return data.sort((a, b) => a.language_name.localeCompare(b.language_name));
   }
 
+  async function download(subtitleId: string) {
+    canFetch();
+
+    return got
+      .post('https://api.opensubtitles.com/api/v1/download', {
+        headers: getCommonHeaders(),
+        json: {
+          file_id: subtitleId,
+        },
+      })
+      .json<OpenSubtitleDownloadApiResponse>();
+  }
+
+  async function getUserInfo(): Promise<OpenSubtitleUserInfoApiResponse['data']> {
+    console.log(getCommonHeaders());
+    const { data } = await got
+      .get(`https://api.opensubtitles.com/api/v1/infos/user`, {
+        headers: getCommonHeaders(),
+      })
+      .json<OpenSubtitleUserInfoApiResponse>();
+
+    return data;
+  }
+
   function getCommonHeaders() {
     return {
       'Content-Type': 'application/json',
@@ -107,7 +135,6 @@ export function createOpenSubtitleApiClient() {
   }
 
   function canFetch() {
-    console.log(_token);
     if (_token === null && _apiKey === null) {
       throw new Error('Cannot fetch without token and apiKey');
     }
