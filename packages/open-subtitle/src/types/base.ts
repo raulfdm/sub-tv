@@ -1,9 +1,9 @@
 export enum ApiResponseType {
-  Feature = "feature"
+  Feature = 'feature',
 }
 
-export enum FeatureType {
-  Episode = "Episode",
-  Movie = "Movie",
-  Tvshow = "Tvshow"
+export const enum FeatureType {
+  Episode = 'Episode',
+  Movie = 'Movie',
+  Tvshow = 'Tvshow',
 }
