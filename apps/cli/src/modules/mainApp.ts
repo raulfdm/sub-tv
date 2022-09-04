@@ -1,4 +1,4 @@
-import { createPromptModule } from '../config/inquirer';
+import prompts from 'prompts';
 
 export const enum AppOptions {
   SelectLanguage = 'select_language',
@@ -8,26 +8,22 @@ export const enum AppOptions {
 }
 
 export async function mainAppPrompt(): Promise<AppOptions> {
-  const prompt = createPromptModule();
+  const { option } = await prompts({
+    type: 'select',
+    name: 'option',
+    message: 'Main Menu. Select an option:',
+    choices: [
+      { title: 'Select Preferred Languages', value: AppOptions.SelectLanguage },
+      {
+        title: 'Search for movies, tv shows and episodes',
+        value: AppOptions.SearchMovies,
+      },
+      {
+        title: 'Exit',
+        value: AppOptions.Exit,
+      },
+    ],
+  });
 
-  const { option } = await prompt([
-    {
-      type: 'list',
-      name: 'option',
-      message: 'Main Menu. Select an option:',
-      choices: [
-        { name: '1. Select preferred languages', value: AppOptions.SelectLanguage },
-        {
-          name: '2. Search for movies',
-          value: AppOptions.SearchMovies,
-        },
-        {
-          name: '0. Exit',
-          value: AppOptions.Exit,
-        },
-      ],
-    },
-  ]);
-
-  return option as AppOptions;
+  return option;
 }
