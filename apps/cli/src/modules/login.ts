@@ -1,17 +1,15 @@
 import type { UserCredentials } from '@sub-tv/open-subtitle';
+import prompts from 'prompts';
 
 import { apiClient } from '../config/apiClient';
 import { db } from '../config/db';
-import { createPromptModule } from '../config/inquirer';
 
 export async function loginPrompt(): Promise<void> {
-  const prompt = createPromptModule();
-
-  const credentials = await prompt<UserCredentials>([
+  const credentials = await prompts([
     {
-      type: 'input',
+      type: 'text',
       name: 'username',
-      message: `OpenSubtitles username`,
+      message: 'OpenSubtitles username',
       validate: (input) => (input.length < 3 ? 'Username is too short' : true),
     },
     {
@@ -21,7 +19,7 @@ export async function loginPrompt(): Promise<void> {
       validate: (input) => (input.length < 1 ? 'Please type a password' : true),
     },
     {
-      type: 'input',
+      type: 'text',
       name: 'apiKey',
       message: `OpenSubtitles API key?`,
       validate: (input) => (input.length !== 32 ? 'Invalid API Key' : true),
