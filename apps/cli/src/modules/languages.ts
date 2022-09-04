@@ -1,21 +1,24 @@
+import prompts from 'prompts';
+
 import { apiClient } from '../config/apiClient';
 import { db } from '../config/db';
-import { createPromptModule } from '../config/inquirer';
 
 export async function languagesPrompt() {
-  const prompt = createPromptModule();
-
   const allLanguages = await apiClient.fetchLanguages();
 
-  const { languages } = await prompt([
+  const { languages } = await prompts([
     {
-      type: 'checkbox',
+      type: 'autocompleteMultiselect',
       name: 'languages',
       message: 'Select the languages you want to search subtitles for:',
-      default: db.preferredLanguages,
-      choices: allLanguages.map((lang) => ({ value: lang.language_code, name: lang.language_name })),
+      choices: allLanguages.map((lang) => ({
+        value: lang.language_code,
+        title: lang.language_name,
+        selected: db.preferredLanguages.includes(lang.language_code),
+      })),
     },
   ]);
 
+  // TODO: move this to an action
   db.setLangs(languages as string[]);
 }
