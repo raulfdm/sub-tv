@@ -1,7 +1,6 @@
 import { FeatureType } from '@sub-tv/open-subtitle';
 import { assign, createMachine, interpret } from 'xstate';
 
-import { inquirerUi } from './config/inquirer';
 import { downloadSubtitles } from './modules/download';
 import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
@@ -10,7 +9,7 @@ import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { subtitlesPrompt } from './modules/subtitles';
 import { tvShowPrompt } from './modules/tvShows';
 import { getUserInfo } from './modules/userInfo';
-import { clearConsoleWithAppTitle } from './modules/welcome';
+import { getAppTitle } from './modules/welcome';
 import type { SubTvMachineContext, SubTvMachineServices } from './types/main';
 
 const subTvMachine = createMachine(
@@ -33,7 +32,7 @@ const subTvMachine = createMachine(
     tsTypes: {} as import('./main.typegen').Typegen0,
     states: {
       welcome: {
-        entry: [clearConsoleWithAppTitle],
+        entry: ['showAppInfo'],
         always: [
           {
             target: 'refreshSection',
@@ -77,12 +76,12 @@ const subTvMachine = createMachine(
               src: 'getUserInfo',
               onDone: {
                 target: 'options',
-                actions: ['printUserInfo', 'updateUserInfo'],
+                actions: ['updateUserInfo'],
               },
             },
           },
           options: {
-            entry: [clearConsoleWithAppTitle],
+            entry: ['showAppInfo'],
             invoke: {
               src: 'mainAppPrompt',
               onDone: {
@@ -92,7 +91,7 @@ const subTvMachine = createMachine(
             },
           },
           optionsMiddleman: {
-            entry: [clearConsoleWithAppTitle],
+            // entry: [clearConsoleWithAppTitle],
             always: [
               {
                 target: 'selectLanguage',
@@ -111,6 +110,7 @@ const subTvMachine = createMachine(
                 cond: 'goToExit',
               },
             ],
+            // exit: ['showAppInfo'],
           },
           selectLanguage: {
             invoke: {
@@ -172,6 +172,10 @@ const subTvMachine = createMachine(
   },
   {
     actions: {
+      showAppInfo: () => {
+        console.clear();
+        console.log(getAppTitle());
+      },
       selectOptionFromMainMenu: assign({
         selectedOption: (_, event) => event.data,
       }),
@@ -204,11 +208,6 @@ const subTvMachine = createMachine(
         subtitlesIdToDownload: [] as string[],
         featureIdsToSearchFor: [] as string[],
       }),
-      printUserInfo: (_, event) => {
-        if ('data' in event) {
-          inquirerUi.updateBottomBar(`You can still download ${event.data.remaining_downloads} subtitles\n\n`);
-        }
-      },
     },
     services: {
       downloadSubtitles,
