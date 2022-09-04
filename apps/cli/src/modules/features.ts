@@ -1,65 +1,44 @@
 import type { Feature, OpenSubtitleFeatureApiResponse } from '@sub-tv/open-subtitle';
-import { FeatureType } from '@sub-tv/open-subtitle';
 import debouncePromise from 'debounce-promise';
-import inquirer from 'inquirer';
-import groupBy from 'lodash.groupby';
+import prompts from 'prompts';
 
 import { apiClient } from '../config/apiClient';
-import { createPromptModule } from '../config/inquirer';
 
 export async function featuresPrompt(): Promise<Feature> {
-  const prompt = createPromptModule();
-
-  const { feature } = await prompt<{ feature: Feature }>([
-    {
-      source: debouncePromise(fetchFeature, 400),
-      name: 'feature',
-      type: 'autocomplete',
-      message: `What's the tv-series or movie name you're looking for? (The result can take a while, be patient)`,
-      loop: false,
-      pageSize: 30,
+  const { feature } = await prompts({
+    name: 'feature',
+    type: 'autocomplete',
+    message: `Type the TvShow, Movie or Episode's name you're looking for:`,
+    choices: [],
+    onRender() {
+      /**
+       * This is the only possible way to update the choices based on a suggestion.
+       *
+       * Because the interface is not correct, we have to ignore the type error.
+       */
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.choices = this.suggestions;
     },
-  ]);
+    suggest: debouncePromise(async (input) => {
+      return input.length > 3 ? fetchFeature(input) : [];
+    }, 400),
+  } as prompts.PromptObject);
 
   return feature;
 }
 
-async function fetchFeature(_: any, input: string) {
-  if (!input) {
-    return [];
-  }
-
+async function fetchFeature(input: string) {
   const features = await apiClient.searchFeature({
     query: input,
   });
-  const group = groupBy(features, 'attributes.feature_type');
 
-  const result = [];
-
-  const tvShows = serializeFeatureList(group[FeatureType.Tvshow]);
-  if (tvShows.length > 0) {
-    result.push(new inquirer.Separator('________________TV Shows________________'));
-    result.push(...tvShows);
-  }
-
-  const movies = serializeFeatureList(group[FeatureType.Movie]);
-  if (movies.length > 0) {
-    result.push(new inquirer.Separator('________________Movies________________'));
-    result.push(...movies);
-  }
-
-  const episodes = serializeFeatureList(group[FeatureType.Episode]);
-  if (episodes.length > 0) {
-    result.push(new inquirer.Separator('________________Episodes________________'));
-    result.push(...episodes);
-  }
-
-  return result;
+  return serializeFeatureList(features);
 }
 
 function serializeFeatureList(features: OpenSubtitleFeatureApiResponse['data'] = []) {
   return features.map((feature) => ({
-    name: feature.attributes.title,
+    title: `(${feature.attributes.feature_type}) ${feature.attributes.title}`,
     value: feature,
   }));
 }
