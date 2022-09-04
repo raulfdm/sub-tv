@@ -130,10 +130,11 @@ const subTvMachine = createMachine(
                 },
                 {
                   target: 'selectSubtitle',
+                  actions: ['saveFeaturesToSearchFor'],
                 },
               ],
             },
-            exit: ['saveFeature', 'saveFeaturesToSearchFor'],
+            exit: ['saveFeature'],
           },
           selectTvShow: {
             invoke: {
@@ -158,6 +159,7 @@ const subTvMachine = createMachine(
               src: 'downloadSubtitles',
               onDone: {
                 target: 'options',
+                actions: ['clearSubtitlesIdToDownload'],
               },
             },
           },
@@ -197,6 +199,10 @@ const subTvMachine = createMachine(
       }),
       updateUserInfo: assign({
         userInfo: (_, event) => event.data,
+      }),
+      clearSubtitlesIdToDownload: assign({
+        subtitlesIdToDownload: [] as string[],
+        featureIdsToSearchFor: [] as string[],
       }),
       printUserInfo: (_, event) => {
         if ('data' in event) {
