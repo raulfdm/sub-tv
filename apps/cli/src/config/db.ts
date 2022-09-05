@@ -5,8 +5,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Use JSON file for storage
-const file = join(__dirname, '../db.json');
+const file = join(__dirname, '../subtv-db.json');
 const adapter = new JSONFileSync<DatabaseSchema>(file);
 
 export type DatabaseSchema = {
@@ -52,6 +51,10 @@ function createSubTvDB() {
     },
     setUserCredentials(credentials: NonNullable<DatabaseSchema['credentials']>): void {
       databaseData.credentials = credentials;
+      database.write();
+    },
+    removeCredentials(): void {
+      databaseData.credentials = null;
       database.write();
     },
     get getRemainingDownloads() {

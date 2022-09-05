@@ -5,9 +5,9 @@
     "lib": [
       "es2021"
     ],
-    "target": "es2021", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
+    "target": "ESNext", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     /* Modules */
-    "module": "Node16", /* Specify what module code is generated. */
+    "module": "ESNext", /* Specify what module code is generated. */
     /* Emit */
     "declaration": true, /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
     "declarationMap": true, /* Create sourcemaps for d.ts files. */

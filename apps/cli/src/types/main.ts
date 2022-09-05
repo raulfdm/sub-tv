@@ -1,6 +1,7 @@
 import type { Feature } from '@sub-tv/open-subtitle';
 
 import type { DownloadSubtitlesReturnType } from '../modules/download';
+import type { LoginPromptReturnType } from '../modules/login';
 import type { AppOptions } from '../modules/mainApp';
 
 export type SubTvMachineContext = {
@@ -18,7 +19,7 @@ export type SubTvMachineServices = {
     data: Feature;
   };
   loginPrompt: {
-    data: void;
+    data: LoginPromptReturnType;
   };
   mainAppPrompt: {
     data: AppOptions;

@@ -3,7 +3,7 @@ import prompts from 'prompts';
 export const enum AppOptions {
   SelectLanguage = 'select_language',
   SearchMovies = 'search_movies',
-  TestDownload = 'test_download',
+  Logout = 'logout',
   Exit = 'exit',
 }
 
@@ -18,6 +18,7 @@ export async function mainAppPrompt(): Promise<AppOptions> {
         title: 'Search for movies, tv shows and episodes',
         value: AppOptions.SearchMovies,
       },
+      { title: 'Logout', value: AppOptions.Logout },
       {
         title: 'Exit',
         value: AppOptions.Exit,

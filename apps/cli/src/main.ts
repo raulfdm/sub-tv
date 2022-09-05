@@ -5,7 +5,8 @@ import { db } from './config/db';
 import { downloadSubtitles } from './modules/download';
 import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
-import { hasPersistedCredentials, loginPrompt, refreshSection } from './modules/login';
+import { hasPersistedCredentials, loginPrompt, refreshSection, saveCredentials } from './modules/login';
+import { logoutPrompt, removeCredentials } from './modules/logout';
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { subtitlesPrompt } from './modules/subtitles';
 import { tvShowPrompt } from './modules/tvShows';
@@ -60,6 +61,7 @@ const subTvMachine = createMachine(
           src: 'loginPrompt',
           onDone: {
             target: 'app',
+            actions: ['saveCredentials'],
           },
           onError: {
             target: 'login',
@@ -92,8 +94,8 @@ const subTvMachine = createMachine(
                 cond: 'goToSelectFeature',
               },
               {
-                target: 'downloadAllSubtitles',
-                cond: 'goToTest',
+                target: 'logout',
+                cond: 'goToLogout',
               },
               {
                 target: 'exit',
@@ -153,6 +155,21 @@ const subTvMachine = createMachine(
               },
             },
           },
+          logout: {
+            invoke: {
+              src: 'logoutPrompt',
+              onDone: [
+                {
+                  target: 'exit',
+                  cond: (_, event) => event.data.logout === true,
+                  actions: [removeCredentials],
+                },
+                {
+                  target: 'mainMenu',
+                },
+              ],
+            },
+          },
           exit: {
             type: 'final',
           },
@@ -173,6 +190,10 @@ const subTvMachine = createMachine(
           return null;
         },
       }),
+      saveCredentials: (_, event) => {
+        saveCredentials(event.data);
+      },
+
       saveTvShowsToSearch: assign({
         featureIdsToSearchFor: (context, event) => [...context.featureIdsToSearchFor, ...event.data],
       }),
@@ -206,11 +227,12 @@ const subTvMachine = createMachine(
       refreshSection,
       subtitlesPrompt,
       tvShowPrompt,
+      logoutPrompt,
     },
     guards: {
       goToSelectLanguage: (context) => context.selectedOption === AppOptions.SelectLanguage,
       goToSelectFeature: (context) => context.selectedOption === AppOptions.SearchMovies,
-      goToTest: (context) => context.selectedOption === AppOptions.TestDownload,
+      goToLogout: (context) => context.selectedOption === AppOptions.Logout,
       goToExit: (context) => context.selectedOption === AppOptions.Exit,
       isTvShow: (_, event) => event.data.attributes.feature_type === FeatureType.Tvshow,
     },
