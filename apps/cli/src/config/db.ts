@@ -1,12 +1,13 @@
 import type { OpenSubtitleDownloadApiResponse, UserCredentials } from '@sub-tv/open-subtitle';
+import fs from 'fs';
 import { JSONFileSync, LowSync } from 'lowdb';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { homedir } from 'os';
+import { join } from 'path';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const HOME_DIR = join(homedir(), '.sub-tv');
+const DB_FILE_PATH = join(HOME_DIR, '/subtv-db.json');
 
-const file = join(__dirname, '../subtv-db.json');
-const adapter = new JSONFileSync<DatabaseSchema>(file);
+const adapter = new JSONFileSync<DatabaseSchema>(DB_FILE_PATH);
 
 export type DatabaseSchema = {
   credentials: UserCredentials | null;
@@ -21,6 +22,7 @@ export type DatabaseSchema = {
 };
 
 function initializeDB() {
+  createSubTvDir();
   const database = new LowSync(adapter);
 
   // Read data from JSON file, this will set db.data content
@@ -36,6 +38,12 @@ function initializeDB() {
   database.write();
 
   return database;
+}
+
+function createSubTvDir() {
+  if (!fs.existsSync(HOME_DIR)) {
+    fs.mkdirSync(HOME_DIR);
+  }
 }
 
 function createSubTvDB() {
