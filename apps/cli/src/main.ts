@@ -8,14 +8,17 @@ import { hasPersistedCredentials, loginPrompt, refreshSection } from './modules/
 import { AppOptions, mainAppPrompt } from './modules/mainApp';
 import { subtitlesPrompt } from './modules/subtitles';
 import { tvShowPrompt } from './modules/tvShows';
-import { getUserInfo } from './modules/userInfo';
-import { getAppTitle } from './modules/welcome';
+import { printAppTitle } from './modules/welcome';
 import type { SubTvMachineContext, SubTvMachineServices } from './types/main';
 
 const subTvMachine = createMachine(
   {
     predictableActionArguments: true,
     preserveActionOrder: true,
+    schema: {
+      context: {} as SubTvMachineContext,
+      services: {} as SubTvMachineServices,
+    },
     id: 'sub-tv',
     initial: 'welcome',
     context: {
@@ -23,16 +26,12 @@ const subTvMachine = createMachine(
       subtitlesIdToDownload: [],
       selectedOption: null,
       feature: null,
-      userInfo: null,
     },
-    schema: {
-      context: {} as SubTvMachineContext,
-      services: {} as SubTvMachineServices,
-    },
+
     tsTypes: {} as import('./main.typegen').Typegen0,
     states: {
       welcome: {
-        entry: ['showAppInfo'],
+        entry: [printAppTitle],
         always: [
           {
             target: 'refreshSection',
@@ -69,19 +68,10 @@ const subTvMachine = createMachine(
       },
       app: {
         id: 'app',
-        initial: 'refreshUserInfo',
+        initial: 'mainMenu',
         states: {
-          refreshUserInfo: {
-            invoke: {
-              src: 'getUserInfo',
-              onDone: {
-                target: 'options',
-                actions: ['updateUserInfo'],
-              },
-            },
-          },
-          options: {
-            entry: ['showAppInfo'],
+          mainMenu: {
+            entry: [printAppTitle],
             invoke: {
               src: 'mainAppPrompt',
               onDone: {
@@ -113,10 +103,11 @@ const subTvMachine = createMachine(
             // exit: ['showAppInfo'],
           },
           selectLanguage: {
+            entry: [printAppTitle],
             invoke: {
               src: languagesPrompt,
               onDone: {
-                target: 'options',
+                target: 'mainMenu',
               },
             },
           },
@@ -158,7 +149,7 @@ const subTvMachine = createMachine(
             invoke: {
               src: 'downloadSubtitles',
               onDone: {
-                target: 'options',
+                target: 'mainMenu',
                 actions: ['clearSubtitlesIdToDownload'],
               },
             },
@@ -172,10 +163,6 @@ const subTvMachine = createMachine(
   },
   {
     actions: {
-      showAppInfo: () => {
-        console.clear();
-        console.log(getAppTitle());
-      },
       selectOptionFromMainMenu: assign({
         selectedOption: (_, event) => event.data,
       }),
@@ -201,9 +188,6 @@ const subTvMachine = createMachine(
       saveSubtitlesIdToDownload: assign({
         subtitlesIdToDownload: (_, event) => event.data,
       }),
-      updateUserInfo: assign({
-        userInfo: (_, event) => event.data,
-      }),
       clearSubtitlesIdToDownload: assign({
         subtitlesIdToDownload: [] as string[],
         featureIdsToSearchFor: [] as string[],
@@ -212,7 +196,6 @@ const subTvMachine = createMachine(
     services: {
       downloadSubtitles,
       featuresPrompt,
-      getUserInfo,
       loginPrompt,
       mainAppPrompt,
       refreshSection,

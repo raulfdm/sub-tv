@@ -7,7 +7,6 @@ export type SubTvMachineContext = {
   subtitlesIdToDownload: string[];
   featureIdsToSearchFor: string[];
   feature: Feature | null;
-  userInfo: OpenSubtitleUserInfoApiResponse['data'] | null;
 };
 
 export type SubTvMachineServices = {
@@ -18,9 +17,6 @@ export type SubTvMachineServices = {
   };
   featuresPrompt: {
     data: Feature;
-  };
-  getUserInfo: {
-    data: OpenSubtitleUserInfoApiResponse['data'];
   };
   loginPrompt: {
     data: void;

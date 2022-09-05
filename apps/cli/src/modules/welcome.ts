@@ -1,5 +1,10 @@
 import figlet from 'figlet';
 
-export function getAppTitle(): string {
+function getAppTitle(): string {
   return figlet.textSync('Sub - TV');
+}
+
+export function printAppTitle(): void {
+  console.clear();
+  console.log(getAppTitle());
 }

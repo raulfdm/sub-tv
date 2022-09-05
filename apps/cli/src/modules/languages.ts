@@ -5,37 +5,40 @@ import { assign, createMachine, interpret } from 'xstate';
 import { apiClient } from '../config/apiClient';
 import { db } from '../config/db';
 
+type LanguagesContext = {
+  allLanguages: OpenSubtitleLanguagesApiResponse['data'];
+  selectedLanguage: string[];
+  initialLanguages: string[];
+};
+
+type LanguageServices = {
+  getLanguages: {
+    data: {
+      languages: string[];
+    };
+  };
+  confirmLanguages: {
+    data: {
+      confirm: boolean;
+    };
+  };
+};
+
 const languagesMachine = createMachine(
   {
+    predictableActionArguments: true,
+    preserveActionOrder: true,
     id: 'languages',
     initial: 'languages',
     schema: {
-      context: {} as {
-        allLanguages: OpenSubtitleLanguagesApiResponse['data'];
-        selectedLanguage: string[];
-        initialLanguages: string[];
-      },
+      context: {} as LanguagesContext,
+      services: {} as LanguageServices,
     },
-    on: {
-      CANCEL: {
-        target: 'finish',
-      },
-    },
+    tsTypes: {} as import('./languages.typegen').Typegen0,
     states: {
       languages: {
         invoke: {
-          src: async (context) => {
-            return prompts({
-              type: 'autocompleteMultiselect',
-              name: 'languages',
-              message: 'Select the languages you want to search subtitles for:',
-              choices: context.allLanguages.map((lang) => ({
-                value: lang.language_code,
-                title: lang.language_name,
-                selected: context.initialLanguages.includes(lang.language_code),
-              })),
-            });
-          },
+          src: 'getLanguages',
           onDone: [
             {
               target: 'finish',
@@ -54,16 +57,7 @@ const languagesMachine = createMachine(
       },
       confirm: {
         invoke: {
-          src: async (context) => {
-            return prompts({
-              type: 'confirm',
-              name: 'confirm',
-              initial: true,
-              message: `You selected the following languages: "${context.selectedLanguage.join(
-                ', ',
-              )}". Is this correct?`,
-            });
-          },
+          src: 'confirmLanguages',
           onDone: [
             {
               target: 'finish',
@@ -91,6 +85,28 @@ const languagesMachine = createMachine(
       }),
       saveLanguages: (context) => {
         db.setLangs(context.selectedLanguage);
+      },
+    },
+    services: {
+      getLanguages: async function (context) {
+        return prompts({
+          type: 'autocompleteMultiselect',
+          name: 'languages',
+          message: 'Select the languages you want to search subtitles for:',
+          choices: context.allLanguages.map((lang) => ({
+            value: lang.language_code,
+            title: lang.language_name,
+            selected: context.initialLanguages.includes(lang.language_code),
+          })),
+        });
+      },
+      confirmLanguages: async function (context) {
+        return prompts({
+          type: 'confirm',
+          name: 'confirm',
+          initial: true,
+          message: `You selected the following languages: "${context.selectedLanguage.join(', ')}". Is this correct?`,
+        });
       },
     },
   },
