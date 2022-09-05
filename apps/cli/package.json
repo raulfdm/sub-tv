@@ -1,13 +1,17 @@
 {
   "name": "@sub-tv/cli",
-  "version": "0.0.0-development",
+  "version": "3.0.8",
   "description": "Download Movies and Series subtitles via a intuitive node CLI",
   "license": "MIT",
   "bin": {
-    "subtv": "./dist/sub-tv.js"
+    "subtv": "./dist/sub-tv.mjs"
+  },
+  "engines": {
+    "node": ">=16.0.0 <17"
   },
   "files": [
-    "dist/"
+    "dist",
+    "bin"
   ],
   "author": "Raul de Melo <melo.raulf@gmail.com>",
   "repository": {
@@ -21,23 +25,23 @@
     "dev:lib": "vite build --watch",
     "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\" --watch",
     "dev:cli": "node dist/sub-tv.mjs",
-    "lint": "npm-run-all lint:*",
+    "lint": "npm-run-all lint:~",
     "lint:eslint": "eslint . --ext .js,.ts,.tsx",
     "lint:ts": "tsc"
   },
   "dependencies": {
-    "@sub-tv/open-subtitle": "workspace:*",
     "debounce-promise": "3.1.2",
     "figlet": "1.5.2",
+    "got": "12.3.1",
     "lodash.groupby": "4.6.0",
     "lowdb": "3.0.0",
-    "ora": "6.1.2",
     "prompts": "2.4.2",
     "terminal-link": "3.0.0",
     "tiny-invariant": "1.2.0",
     "xstate": "4.33.4"
   },
   "devDependencies": {
+    "@sub-tv/open-subtitle": "workspace:*",
     "@sub-tv/eslint-config": "workspace:*",
     "@types/debounce-promise": "3.1.4",
     "@types/figlet": "1.5.5",

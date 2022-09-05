@@ -1,7 +1,13 @@
 import { isAbsolute, resolve } from 'path';
 import { defineConfig } from 'vite';
 
+const libsToBundle = ['@sub-tv/open-subtitle'];
+
 function isExternal(id: string) {
+  if (libsToBundle.includes(id)) {
+    return false;
+  }
+
   return !id.startsWith('.') && !isAbsolute(id) && !id.startsWith('~/');
 }
 
