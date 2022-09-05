@@ -1,6 +1,7 @@
 import { FeatureType } from '@sub-tv/open-subtitle';
 import { assign, createMachine, interpret } from 'xstate';
 
+import { db } from './config/db';
 import { downloadSubtitles } from './modules/download';
 import { featuresPrompt } from './modules/features';
 import { languagesPrompt } from './modules/languages';
@@ -81,7 +82,6 @@ const subTvMachine = createMachine(
             },
           },
           optionsMiddleman: {
-            // entry: [clearConsoleWithAppTitle],
             always: [
               {
                 target: 'selectLanguage',
@@ -100,7 +100,6 @@ const subTvMachine = createMachine(
                 cond: 'goToExit',
               },
             ],
-            // exit: ['showAppInfo'],
           },
           selectLanguage: {
             entry: [printAppTitle],
@@ -150,7 +149,7 @@ const subTvMachine = createMachine(
               src: 'downloadSubtitles',
               onDone: {
                 target: 'mainMenu',
-                actions: ['clearSubtitlesIdToDownload'],
+                actions: ['clearSubtitlesIdToDownload', 'persistDownloadInfo'],
               },
             },
           },
@@ -191,7 +190,13 @@ const subTvMachine = createMachine(
       clearSubtitlesIdToDownload: assign({
         subtitlesIdToDownload: [] as string[],
         featureIdsToSearchFor: [] as string[],
-      }),
+      }) as any,
+      persistDownloadInfo: (_, event) => {
+        if (event.data.remainingDownloads) {
+          db.setRemainingDownloads(event.data.remainingDownloads);
+        }
+        db.setDownloads(event.data.allDownloads);
+      },
     },
     services: {
       downloadSubtitles,
@@ -212,8 +217,4 @@ const subTvMachine = createMachine(
   },
 );
 
-const service = interpret(subTvMachine).start();
-
-// service.subscribe(({ event, nextEvents }) => {
-//   console.log('EVENT', nextEvents.join(','));
-// });
+interpret(subTvMachine).start();

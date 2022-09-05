@@ -1,5 +1,6 @@
-import type { Feature, OpenSubtitleUserInfoApiResponse } from '@sub-tv/open-subtitle';
+import type { Feature } from '@sub-tv/open-subtitle';
 
+import type { DownloadSubtitlesReturnType } from '../modules/download';
 import type { AppOptions } from '../modules/mainApp';
 
 export type SubTvMachineContext = {
@@ -11,9 +12,7 @@ export type SubTvMachineContext = {
 
 export type SubTvMachineServices = {
   downloadSubtitles: {
-    data: {
-      remainingDownloads: number | null;
-    };
+    data: DownloadSubtitlesReturnType;
   };
   featuresPrompt: {
     data: Feature;

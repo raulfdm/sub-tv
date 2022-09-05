@@ -4,30 +4,34 @@ import https from 'https';
 import path from 'path';
 
 import { apiClient } from '../config/apiClient';
-import { db } from '../config/db';
 import type { SubTvMachineContext } from '../types/main';
 
-export async function downloadSubtitles(context: SubTvMachineContext): Promise<{
-  remainingDownloads: OpenSubtitleDownloadApiResponse['remaining'] | null;
-}> {
-  let remainingDownloads: number | null = null;
+export type DownloadSubtitlesReturnType = {
+  remainingDownloads: OpenSubtitleDownloadApiResponse['remaining'];
+  allDownloads: {
+    [fileName: string]: OpenSubtitleDownloadApiResponse;
+  };
+};
 
-  await Promise.all(
-    context.subtitlesIdToDownload.map(async (subtitleId) => {
-      try {
-        const downloadInfo = await apiClient.download(subtitleId);
+export async function downloadSubtitles(context: SubTvMachineContext): Promise<DownloadSubtitlesReturnType> {
+  let remainingDownloads = 0;
+  const allDownloads: DownloadSubtitlesReturnType['allDownloads'] = {};
 
-        await download(downloadInfo.link, downloadInfo.file_name);
-        remainingDownloads = downloadInfo.remaining;
-        db.setDownloads(downloadInfo);
-      } catch (error: any) {
-        console.error(error.message);
-      }
-    }),
-  );
+  for await (const subtitleId of context.subtitlesIdToDownload) {
+    try {
+      const downloadInfo = await apiClient.download(subtitleId);
+      await download(downloadInfo.link, downloadInfo.file_name);
+
+      remainingDownloads = downloadInfo.remaining;
+      allDownloads[downloadInfo.file_name] = downloadInfo;
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  }
 
   return {
     remainingDownloads,
+    allDownloads,
   };
 }
 

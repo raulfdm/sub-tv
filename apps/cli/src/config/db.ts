@@ -57,7 +57,7 @@ function createSubTvDB() {
     get getRemainingDownloads() {
       return databaseData.remainingDownloads;
     },
-    set remainingDownloads(remainingDownloads: number) {
+    setRemainingDownloads(remainingDownloads: number) {
       databaseData.remainingDownloads = remainingDownloads;
       database.write();
     },
@@ -71,11 +71,14 @@ function createSubTvDB() {
     getDownloadByFileName(fileName: string): DatabaseSchema['downloads'][string] | null {
       return databaseData.downloads[fileName] ?? null;
     },
-    setDownloads(downloadInfo: OpenSubtitleDownloadApiResponse) {
-      databaseData.downloads[downloadInfo.file_name] = {
-        link: downloadInfo.link,
-        fileName: downloadInfo.file_name,
-      };
+    setDownloads(allDownloads: { [fileName: string]: OpenSubtitleDownloadApiResponse }) {
+      Object.values(allDownloads).forEach((downloadInfo) => {
+        databaseData.downloads[downloadInfo.file_name] = {
+          link: downloadInfo.link,
+          fileName: downloadInfo.file_name,
+        };
+      });
+
       database.write();
     },
   };
