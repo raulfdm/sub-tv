@@ -1,3 +1,4 @@
+import got from 'got';
 import invariant from 'tiny-invariant';
 
 import type {
@@ -7,9 +8,8 @@ import type {
   OpenSubtitleUserInfoApiResponse,
   UserCredentials,
 } from './types';
-import got from 'got';
-import { OpenSubtitlesSubtitleApiResponse } from './types/subtitles';
-import { OpenSubtitleDownloadApiResponse } from './types/download';
+import type { OpenSubtitleDownloadApiResponse } from './types/download';
+import type { OpenSubtitlesSubtitleApiResponse } from './types/subtitles';
 
 export function createOpenSubtitleApiClient() {
   let _token: string | null = null;

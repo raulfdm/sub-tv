@@ -50,7 +50,9 @@ function download(fileUrl: string, fileName: string) {
 
     request.on('error', (err) => {
       file.close();
-      fs.unlink(destinationPath, () => {}); // Delete temp file
+      fs.unlink(destinationPath, () => {
+        console.log();
+      }); // Delete temp file
       reject(err.message);
     });
 
@@ -64,7 +66,9 @@ function download(fileUrl: string, fileName: string) {
       if (err.code === 'EEXIST') {
         reject('File already exists');
       } else {
-        fs.unlink(destinationPath, () => {}); // Delete temp file
+        fs.unlink(destinationPath, () => {
+          console.log();
+        }); // Delete temp file
         reject(err.message);
       }
     });
