@@ -5,7 +5,7 @@ import { homedir } from 'os';
 import { join } from 'path';
 
 const HOME_DIR = join(homedir(), '.sub-tv');
-const DB_FILE_PATH = join(HOME_DIR, '/subtv-db.json');
+const DB_FILE_PATH = join(HOME_DIR, '/db.json');
 
 const adapter = new JSONFileSync<DatabaseSchema>(DB_FILE_PATH);
 
