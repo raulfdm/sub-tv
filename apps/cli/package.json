@@ -25,8 +25,8 @@
     "dev:lib": "vite build --watch",
     "dev:xstate": "xstate typegen \"src/**/*.ts?(x)\" --watch",
     "dev:cli": "node dist/sub-tv.mjs",
-    "lint": "npm-run-all lint:~",
-    "lint:eslint": "eslint . --ext .js,.ts,.tsx",
+    "lint": "npm-run-all lint:*",
+    "lint:eslint": "eslint src --ext .js,.ts,.tsx",
     "lint:ts": "tsc"
   },
   "dependencies": {

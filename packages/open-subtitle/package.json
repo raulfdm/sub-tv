@@ -6,6 +6,9 @@
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "scripts": {
+    "lint": "npm-run-all lint:*",
+    "lint:eslint": "eslint src --ext .js,.ts,.tsx",
+    "lint:ts": "tsc",
     "dev": "concurrently \"pnpm run dev:lib\" \"pnpm run dev:types\"",
     "dev:lib": "DEV_MODE=true vite build --watch",
     "dev:types": "tsc --watch",
