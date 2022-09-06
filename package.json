@@ -2,7 +2,11 @@
   "name": "sub-tv",
   "private": true,
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.35.1",
     "@typescript-eslint/parser": "5.35.1",
